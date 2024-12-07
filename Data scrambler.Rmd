@@ -1,0 +1,142 @@
+---
+title: "Data scrambler 2.0"
+output: html_document
+date: "2024-07-12"
+---
+
+## Scramble
+```{r}
+scramble <- function(df) {
+  new_df <- df  # Initialize the new dataframe with the same structure
+  
+  for (col in colnames(df)) {
+    original_column <- df[[col]]
+    
+    if (is.numeric(original_column)) {
+      # Generate random numbers uniformly between min and max of the original column
+      min_value <- min(original_column, na.rm = TRUE)
+      max_value <- max(original_column, na.rm = TRUE)
+      new_values <- runif(length(original_column), min = min_value, max = max_value)
+      
+      # # Replace values, keeping NA positions intact
+      new_values[is.na(original_column)] <- NA
+      
+      new_df[[col]] <- new_values
+    
+    } else if (is.character(original_column)) {
+      # Generate random letters of the same length as original non-empty values
+      random_letters <- sapply(nchar(original_column[!is.na(original_column) & original_column != ""]), function(len) {
+        paste0(sample(letters, len, replace = TRUE), collapse = "")
+      })
+      
+      # Create new values array??
+      new_values <- rep(NA, length(original_column))
+      new_values[!is.na(original_column) & original_column != ""] <- sample(random_letters, sum(!is.na(original_column) & original_column != ""), replace = TRUE)
+      
+      # # Replace values, keeping NA and empty positions intact
+      new_values[original_column == ""] <- ""
+      new_values[is.na(original_column)] <- NA
+      
+      new_df[[col]] <- new_values
+    
+    } else if (is.factor(original_column)) {
+      # Randomly sample levels without maintaining original distribution
+      new_values <- sample(levels(original_column), length(original_column), replace = TRUE)
+      
+      # # Replace values, keeping NA positions intact
+      new_values[is.na(original_column)] <- NA
+      
+      new_df[[col]] <- factor(new_values, levels = levels(original_column))
+    
+    } else if (is.logical(original_column)) {
+      # Randomly assign TRUE or FALSE without maintaining any distribution
+      new_values <- sample(c(TRUE, FALSE), length(original_column), replace = TRUE)
+      
+      # # Replace values, keeping NA positions intact
+      new_values[is.na(original_column)] <- NA
+      
+      new_df[[col]] <- new_values
+    }
+  }
+  
+  return(new_df)
+}
+
+# Example usage:
+# Assuming 'df_crossectional' is your input dataframe
+filtered_df_crossectional_harmonized <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+
+# # Example dataframe with additional boolean and string columns
+# set.seed(156)  # Setting seed for reproducibility
+# df_crossectional <- data.frame(
+#   A = 1:5,
+#   B = letters[1:5],
+#   C = rnorm(5),
+#   D = c(FALSE, FALSE, FALSE, FALSE, NA),  # Boolean column
+#   E = c("apple", NA, "cherry", "date", "elderberry"),  # String column
+#   F = rnorm(5),
+#   G = c(FALSE, FALSE, FALSE, FALSE, NA)
+# )
+
+df_survey1_scrambled <- scramble(filtered_df_crossectional_harmonized)
+print(df_survey1_scrambled)
+
+# Save the scrambled dataframe as a CSV file
+df_survey1_scrambled_5_percent_of_random_rows <- df_survey1_scrambled[sample(1:nrow(df_survey1_scrambled), size = 0.0005 * nrow(df_survey1_scrambled)), ]
+
+write.csv(df_survey1_scrambled_5_percent_of_random_rows, "df_survey1_scrambled", row.names = FALSE)
+
+scrabled_csv <- read.csv("df_survey1_scrambled", header=TRUE, stringsAsFactors=FALSE)
+
+
+```
+
+## Test scramble function
+```{r}
+# Load necessary library
+library(dplyr)
+
+# Function to compare medians and standard deviations of columns with the same names
+compare_statistics <- function(df1, df2) {
+  # Ensure both dataframes have the same column names
+  common_columns <- intersect(names(df1), names(df2))
+  
+  # Initialize a list to store the results
+  statistics_comparison <- list()
+  
+  # Loop through the common columns
+  for (col in common_columns) {
+    # Check if the column is numeric in both dataframes
+    if (is.numeric(df1[[col]]) && is.numeric(df2[[col]])) {
+      # Calculate the medians
+      median_df1 <- median(df1[[col]], na.rm = TRUE)
+      median_df2 <- median(df2[[col]], na.rm = TRUE)
+      
+      # Calculate the standard deviations
+      sd_df1 <- sd(df1[[col]], na.rm = TRUE)
+      sd_df2 <- sd(df2[[col]], na.rm = TRUE)
+      
+      # Store the results in the list
+      statistics_comparison[[col]] <- list(median_df1 = median_df1, median_df2 = median_df2,
+                                           sd_df1 = sd_df1, sd_df2 = sd_df2)
+    }
+  }
+  print(statistics_comparison)
+  # Convert the results list to a dataframe for easier viewing
+  statistics_comparison_df <- do.call(rbind, lapply(statistics_comparison, as.data.frame))
+  rownames(statistics_comparison_df) <- names(statistics_comparison)
+  
+  return(statistics_comparison_df)
+}
+# 
+# # Example usage with sample dataframes
+# df1 <- data.frame(a = rnorm(100), b = runif(100), c = sample(c(TRUE, FALSE), 100, replace = TRUE), d = sample(letters, 100, replace = TRUE))
+# df2 <- data.frame(a = rnorm(100), b = runif(100), c = sample(c(TRUE, FALSE), 100, replace = TRUE), d = sample(letters, 100, replace = TRUE))
+
+# Compare medians
+df <- compare_statistics(survey1, scrabled_csv)
+
+# Print the results
+print(df)
+
+```

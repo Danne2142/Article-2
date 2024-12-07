@@ -1,0 +1,658 @@
+---
+title: "Master"
+output: html_document
+date: "2024-07-09"
+---
+### Import packages
+
+```{r}
+library(dplyr)
+
+# Load the necessary packages
+library(ggplot2)
+```
+
+### Import all data
+```{r}
+df_EPICv1_EPICv2_new <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+
+# #Remove unwated samples 
+# df_EPICv1_EPICv2_new<-remove_patient_case("206084850048_R07C01",df_EPICv1_EPICv2_new)
+# df_EPICv1_EPICv2_new<-remove_patient_case("206103060090_R03C01", df_EPICv1_EPICv2_new)
+
+# Rename collumn DunedinPoAm to DunedinPACE as it was misnamed according to Natalia
+names(df_EPICv1_EPICv2_new)[names(df_EPICv1_EPICv2_new) == "DunedinPoAm"] <- "DunedinPACE"
+
+write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv", row.names = FALSE)
+# df_EPICv1_old <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Data/EPICv1 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+
+```
+
+
+### Remove unnecessary text in searchword collumns
+```{r}
+
+#Remove unnecessary text in searchword collumns
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_unnecessary_strings().R")
+# Define the parameters
+remove_list <- c("Senolytic therapy (dasatinib, quercetin, rapamycin, etc.)", "Digestive support: probiotic, digestive enzymes, etc.", "Herbal supplements",
+                 "Fish oil/Omega fatty acids",
+                 "Antioxidants: coenzyme Q10, green tree extract, resveratrol, etc.", "Workout supplements",
+                 "Minerals, calcium, iron, etc.", "Antioxidants: coenzyme Q10, green tea extract, resveratrol, etc.")
+columns_to_process <- c("Anti.Aging.Interventions", "Supplements.Medication", "Nutritional.Supplements")
+
+df_EPICv1_EPICv2_new<-remove_unnecessary_strings(df_EPICv1_EPICv2_new, remove_list, columns_to_process)
+
+#Save as CSV
+
+```
+
+
+
+### Import functions
+
+```{r}
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/survey_version_functions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/process_supplement_data().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/process_diet().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/Users_without_searchwords().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/calc_AgeDev().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/replace_na_with_false().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/seperate_survey().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_other().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/convert_columns_to_numeric().R")
+
+
+```
+### Make a collumn that will seperate surveys
+### Add survey version collumn
+```{r}
+cols_survey2_3 <-c("Hours.Sedentary.Remaining.Awake", "Primary.Diet.Past.Year","Strictly.Followed.Main.Diet","Red.Meat.times.per.week","Processed.Food.times.per.week","Feel.Well.Rested.days.per.week","Screens.before.bed","Track.Sleep.Wearable.Device")
+#Remove rows with "other" in biological sex collumn
+
+cols_survey3_1 <-c("Height.in", "Weight", "Lab.Fasting", "Anti.Aging.Interventions", "Menopause", "Given.Birth", "Hours.of.sleep.per.night")
+
+df_EPICv1_EPICv2_new <- add_surv_version_col(df_EPICv1_EPICv2_new, cols_survey2_3, cols_survey3_1)
+
+# Create a histogram of survey classifications
+# ggplot2::ggplot(df_EPICv1_EPICv2_new, ggplot2::aes(x = factor(survey_version))) +
+#   ggplot2::geom_histogram(stat = "count", fill = "skyblue", color = "black") +
+#   ggplot2::labs(title = "Histogram of Survey Classifications", x = "Survey Version", y = "Count")
+```
+
+### Choose if you only want to see only one survey to check searchword results. Otherwise comment out
+
+```{r}
+
+# df_EPICv1_EPICv2_new <- filter(df_EPICv1_EPICv2_new, survey_version == 2)
+
+
+```
+
+
+
+### Make new df for harmonized data (ÄNDRAD PÅ KI)
+```{r}
+
+# new_collumns <- c("Patient.ID", "PID", "survey_version", "Hours.Sedentary.Remaining.Awake", "Primary.Diet.Past.Year","Strictly.Followed.Main.Diet","Red.Meat.times.per.week","Processed.Food.times.per.week","Feel.Well.Rested.days.per.week","Screens.before.bed","Track.Sleep.Wearable.Device", "Collection.Date", "Array", "Decimal.Chronological.Age","DunedinPACE","Hannum.PC","Horvath.PC","Telomere.Values.PC","GrimAge.PC","PhenoAge.PC","OMICmAge","SystemsAge.Blood","SystemsAge.Brain","SystemsAge.Inflammation","SystemsAge.Heart","SystemsAge.Hormone","SystemsAge.Immune","SystemsAge.Kidney","SystemsAge.Liver","SystemsAge.Metabolic","SystemsAge.Lung","SystemsAge.MusculoSkeletal","SystemsAge","Biological.Sex","Alcohol.per.week","Level.of.Education","Stress.Level","Tobacco.Use","Pack.Years.Smoker","Recreational.Drug.Use","Recreational.Drug.Frequency","Main.Diet","Exercise.per.week","Exercise.Type","Hours.of.sleep.per.night","Ethnicity","Cancer.Diagnosis.any","Cardiovascular.any","Respiratory.Disease.any","Endocrine.Disease.any","Skin.Hair.any","Gastrointestinal.any","Genito.Urinary.any","Musculoskeletal.any","Neuropsychological.any", "Reproductive.any","Immune.any", "Diabetes1", "Diabetes2", "Prediabetes", "Recreational.Drug.Use.any", "BMI")
+# 
+# 
+# filtered_df_crossectional_harmonized <- df_EPICv1_EPICv2_new[new_collumns]
+
+filtered_df_crossectional_harmonized <- df_EPICv1_EPICv2_new
+
+write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv", row.names = FALSE)
+
+
+
+```
+
+### Harmonize fasting
+
+```{r}
+result_fasting <- process_diet(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "fasting",
+  searchwords_case_unsensitive = "Fasting|Caloric restriction|Time-restricted eating|Time-restricted fasting|intermittent fast|calorie restrict",
+  searchwords_case_sensitive = "",
+  old_columns = c()
+)
+
+#add fasting to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_fasting$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_fasting$df_clean)[ncol(result_fasting$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "fasting")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", 0))
+print(paste("Number of extra users using searchwords:", sum(result_fasting$searchword_findings$fasting, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_fasting$df_clean1$fasting, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: fasting_searchword_findings"))
+fasting_searchword_findings<-result_fasting$searchword_findings
+
+```
+
+### Harmonize Main.Diet
+```{r}
+# Define the list of valid diet options
+valid_diets <- c("Mostly meat and fish", "Mostly vegetables", "Both meat and vegetables", "Ketogenic diet")
+
+# Apply the transformation to the Main.Diet column
+filtered_df_crossectional_harmonized$Main.Diet <- ifelse(is.na(filtered_df_crossectional_harmonized$Main.Diet) | filtered_df_crossectional_harmonized$Main.Diet == "",
+                       NA,
+                       ifelse(filtered_df_crossectional_harmonized$Main.Diet %in% valid_diets,
+                              filtered_df_crossectional_harmonized$Main.Diet,
+                              "Other"))
+
+# The Main.Diet column will now only contain valid values or "Other"
+
+```
+
+
+
+### Harmonize NAD
+
+```{r}
+result_nad <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "NAD",
+  searchwords_case_unsensitive = "NMN|nad|nicotinamide|B3|Niagen|Niacin|Elysium Signal|Elysium Health's Basis|Nuchido Time+|elysium Basis|Basis+",
+  searchwords_case_sensitive = "NR|NDA",
+  old_columns = c("NR.NAD", "Antiaging.NAD"),
+  rows_to_remove = c("207428030059_R06C01", "206693210178_R02C01", "205117390039_R05C01", "204229100144_R06C01")
+)
+
+#add NAD to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_nad$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_nad$df_clean)[ncol(result_nad$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized<-replace_na_with_false(filtered_df_crossectional_harmonized, "NAD")
+
+#Compare searchword method to not using searchwords
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv"
+no_searchword_results <- count_true_values(file_path, "NR.NAD", "Antiaging.NAD")
+# Print the result
+print(paste("Number of users without using searchwords:", no_searchword_results))
+print(paste("Number of extra users using searchwords:", sum(result_nad$searchword_findings$NAD, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_nad$df_clean1$NAD, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: NAD_searchword_findings"))
+NAD_searchword_findings<-result_nad$searchword_findings
+NAD_removed_rows<-result_nad$df_removed_rows
+```
+
+### Harmonize TA65
+
+```{r}
+result_TA65 <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "TA65",
+  searchwords_case_unsensitive = "TA.65|TA-65|TA65|TA 65|Astragalus|Astragaloside|Cycloastragenol",
+  searchwords_case_sensitive = "",
+  old_columns = c("TA.65")
+)
+
+#add TA65 to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_TA65$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_TA65$df_clean)[ncol(result_TA65$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized<-replace_na_with_false(filtered_df_crossectional_harmonized, "TA65")
+
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$TA.65, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_TA65$searchword_findings$TA65, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_TA65$df_clean1$TA65, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: TA65_searchword_findings"))
+TA65_searchword_findings<-result_TA65$searchword_findings
+```
+### Harmonize sulforaphane
+
+```{r}
+result_sulforaphane <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "sulforaphane",
+  searchwords_case_unsensitive = "Sulforaphane|Sulphoraphane|broccoli|brocoli|SFN|Avmacol|suphlorophane",
+  searchwords_case_sensitive = "",
+  old_columns = c("Sulphoraphane.broccoli.extract")
+)
+
+#add sulforaphane to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_sulforaphane$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_sulforaphane$df_clean)[ncol(result_sulforaphane$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized<-replace_na_with_false(filtered_df_crossectional_harmonized, "sulforaphane")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Sulphoraphane.broccoli.extract, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_sulforaphane$searchword_findings$sulforaphane, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_sulforaphane$df_clean1$sulforaphane, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: sulforaphane_searchword_findings"))
+sulforaphane_searchword_findings<-result_sulforaphane$searchword_findings
+```
+
+### Harmonize DHEA
+
+```{r}
+result_DHEA <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "DHEA_new",
+  searchwords_case_unsensitive = "DHEA|Dehydroepiandrosterone|Prasterone|Androstenolone",
+  searchwords_case_sensitive = "",
+  old_columns = c("DHEA"),
+  rows_to_remove = c("204229110168_R02C01")
+)
+
+#add DHEA to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_DHEA$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_DHEA$df_clean)[ncol(result_DHEA$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "DHEA_new")
+
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$DHEA, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_DHEA$searchword_findings$DHEA_new, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_DHEA$df_clean1$DHEA_new, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: DHEA_searchword_findings"))
+DHEA_searchword_findings<-result_DHEA$searchword_findings
+DHEA_removed_rows<-result_DHEA$df_removed_rows
+
+```
+
+
+### Harmonize Rapamycin
+
+```{r}
+result_Rapamycin <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "Rapamycin_new",
+  searchwords_case_unsensitive = "Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune",
+  searchwords_case_sensitive = "",
+  old_columns = c("Rapamycin")
+)
+
+#add Rapamycin to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_Rapamycin$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_Rapamycin$df_clean)[ncol(result_Rapamycin$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "Rapamycin_new")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Rapamycin, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_Rapamycin$searchword_findings$Rapamycin_new, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_Rapamycin$df_clean1$Rapamycin_new, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: Rapamycin_searchword_findings"))
+Rapamycin_searchword_findings<-result_Rapamycin$searchword_findings
+```
+
+### Harmonize SASP_supressors
+
+```{r}
+result_SASP_supressors <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "SASP_supressors",
+  searchwords_case_unsensitive = "Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune|Senolytic|quercetin|dasatanib|dasatinib|Fisetin|Senomorphic|SASP|MitoQ|Mito Q|apigenin|Curcumin|fisatine|TA.65|TA-65|TA 65|Astragalus|Astragaloside|Cycloastragenol|Metformin|Berberine|berbarine",
+  searchwords_case_sensitive = "",
+  old_columns = c("Rapamycin", "Antiaging.Senolytics", "Metformin", "TA.65"),
+  rows_to_remove = c("204930630030_R04C01", "205117390039_R05C01", "207343250042_R01C01", "206602840028_R04C01")
+)
+
+#add SASP_supressors to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_SASP_supressors$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_SASP_supressors$df_clean)[ncol(result_SASP_supressors$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "SASP_supressors")
+
+#Compare searchword method to not using searchwords
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv"
+no_searchword_results <- count_true_values(file_path, "Rapamycin", "Antiaging.Senolytics", "Metformin", "TA.65")
+# Print the result
+print(paste("Number of users without using searchwords:", no_searchword_results))
+print(paste("Number of extra users using searchwords:", sum(result_SASP_supressors$searchword_findings$SASP_supressors, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_SASP_supressors$df_clean1$SASP_supressors, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: SASP_supressors_searchword_findings"))
+SASP_supressors_searchword_findings<-result_SASP_supressors$searchword_findings
+SASP_supressors_removed_rows<-result_SASP_supressors$df_removed_rows
+
+```
+
+### Harmonize Metformin (includes berberine)
+
+```{r}
+result_Metformin <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "Metformin_new",
+  searchwords_case_unsensitive = "Metformin|Berberine|berbarine",
+  searchwords_case_sensitive = "",
+  old_columns = c("Metformin"),
+  rows_to_remove = c("206602840028_R04C01", "204930630030_R04C01", "207510060018_R06C01")
+)
+
+#add Metformin to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_Metformin$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_Metformin$df_clean)[ncol(result_Metformin$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "Metformin_new")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Metformin, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_Metformin$searchword_findings$Metformin_new, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_Metformin$df_clean1$Metformin_new, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: Metformin_searchword_findings"))
+Metformin_searchword_findings<-result_Metformin$searchword_findings
+Metformin_removed_rows<-result_Metformin$df_removed_rows
+
+```
+
+### Harmonize Resveratrol
+
+```{r}
+result_Resveratrol <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "Resveratrol_new",
+  searchwords_case_unsensitive = "Resveratrol|resveraCel|resverotrol",
+  searchwords_case_sensitive = "",
+  old_columns = c("Resveratrol"),
+  rows_to_remove = c("206602840028_R04C01")
+)
+
+#add Resveratrol to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_Resveratrol$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_Resveratrol$df_clean)[ncol(result_Resveratrol$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "Resveratrol_new")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Resveratrol, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_Resveratrol$searchword_findings$Resveratrol_new, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_Resveratrol$df_clean1$Resveratrol_new, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: Resveratrol_searchword_findings"))
+Resveratrol_searchword_findings<-result_Resveratrol$searchword_findings
+Resveratrol_removed_rows<-result_Resveratrol$df_removed_rows
+
+```
+### Harmonize Exosomes
+
+```{r}
+result_Exosomes <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "Exosomes",
+  searchwords_case_unsensitive = "Exosome|vesic",
+  searchwords_case_sensitive = "",
+  old_columns = c("Antiaging.Exosome")
+)
+
+#add Exosomes to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_Exosomes$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_Exosomes$df_clean)[ncol(result_Exosomes$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "Exosomes")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Antiaging.Exosome, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_Exosomes$searchword_findings$Exosomes, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_Exosomes$df_clean1$Exosomes, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: Exosomes_searchword_findings"))
+Exosomes_searchword_findings<-result_Exosomes$searchword_findings
+```
+
+### Harmonize Stem cells
+
+```{r}
+result_stem_cells <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "stem_cells",
+  searchwords_case_unsensitive = "CELULAS MADRES|Stem cell",
+  searchwords_case_sensitive = "",
+  old_columns = c("Antiaging.Stem.Cell"),
+  rows_to_remove = c("204229100139_R07C01","205676800104_R04C01", "206240670072_R05C01")
+)
+
+#add stem_cells to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_stem_cells$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_stem_cells$df_clean)[ncol(result_stem_cells$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "stem_cells")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", sum(df_EPICv1_EPICv2_new$Antiaging.Exosome, na.rm = TRUE)))
+print(paste("Number of extra users using searchwords:", sum(result_stem_cells$searchword_findings$stem_cells, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_stem_cells$df_clean1$stem_cells, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: stem_cells_searchword_findings"))
+stem_cells_searchword_findings<-result_stem_cells$searchword_findings
+stem_cells_removed_rows<-result_stem_cells$df_removed_rows
+
+```
+
+### Harmonize HRT
+
+```{r}
+result_HRT <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "HRT",
+  searchwords_case_unsensitive = "Hormone|testosterone|estrogen|estradiol|progesterone|DHEA|Dehydroepiandrosterone|HGH|Growth Hormone|GHRH|HCG|Pregnyl|Ipamorelin|Norditropin|Androforte|TRT|HCG|Pregnenolone|Cypionate|testosterone|Testorone|Tesamorelin|sermorelin|estriol|Estring|CJC",
+  searchwords_case_sensitive = "GH",
+  old_columns = c("Antiaging.Hormone.Replacement", "DHEA"),
+  rows_to_remove = c("204229100153_R06C01", "204229100143_R04C01")
+)
+
+#add HRT to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_HRT$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_HRT$df_clean)[ncol(result_HRT$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "HRT")
+
+#Compare searchword method to not using searchwords
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv"
+no_searchword_results <- count_true_values(file_path, "Antiaging.Hormone.Replacement", "DHEA")
+# Print the result
+print(paste("Number of users without using searchwords:", no_searchword_results))
+print(paste("Number of extra users using searchwords:", sum(result_HRT$searchword_findings$HRT, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_HRT$df_clean1$HRT, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: HRT_searchword_findings"))
+HRT_searchword_findings<-result_HRT$searchword_findings
+HRT_removed_rows<-result_HRT$df_removed_rows
+```
+
+
+### Harmonize spermidine
+
+```{r}
+result_spermidine <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "spermidine",
+  searchwords_case_unsensitive = "Spermidine|Primeadine|Spermedine",
+  searchwords_case_sensitive = "",
+  old_columns = c(),
+  rows_to_remove = c("205117390039_R05C01")
+)
+
+#add spermidine to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_spermidine$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_spermidine$df_clean)[ncol(result_spermidine$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "spermidine")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", 0))
+print(paste("Number of extra users using searchwords:", sum(result_spermidine$searchword_findings$spermidine, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_spermidine$df_clean1$spermidine, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: spermidine_searchword_findings"))
+spermidine_searchword_findings<-result_spermidine$searchword_findings
+spermidine_removed_rows<-result_spermidine$df_removed_rows
+
+```
+
+
+
+### Harmonize semaglutide
+
+```{r}
+result_semaglutide <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "semaglutide",
+  searchwords_case_unsensitive = "GLP|semaglutide|Ozempic|Wegovy|Saxenda|liraglutide|semautide|Ozemoic",
+  searchwords_case_sensitive = "",
+  old_columns = c()
+)
+
+#add semaglutide to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_semaglutide$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_semaglutide$df_clean)[ncol(result_semaglutide$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "semaglutide")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", 0))
+print(paste("Number of extra users using searchwords:", sum(result_semaglutide$searchword_findings$semaglutide, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_semaglutide$df_clean1$semaglutide, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: semaglutide_searchword_findings"))
+semaglutide_searchword_findings<-result_semaglutide$searchword_findings
+```
+
+### Harmonize vitaminD
+
+```{r}
+result_vitaminD <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "vitaminD",
+  searchwords_case_unsensitive = "Vit-D|Vitamin D|vit D|D3 |v itiam D|Vitamine D|Vitamins D",
+  searchwords_case_sensitive = "",
+  old_columns = c()
+)
+
+#add vitaminD to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_vitaminD$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_vitaminD$df_clean)[ncol(result_vitaminD$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "vitaminD")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", 0))
+print(paste("Number of extra users using searchwords:", sum(result_vitaminD$searchword_findings$vitaminD, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_vitaminD$df_clean1$vitaminD, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: vitaminD_searchword_findings"))
+vitaminD_searchword_findings<-result_vitaminD$searchword_findings
+
+```
+### Harmonize AKG
+
+```{r}
+result_AKG <- process_supplement_data(
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv",
+  supplement = "AKG",
+  searchwords_case_unsensitive = "AKG|Alfa-keto|Alpha-keto|Alpha keto|Alfa keto",
+  searchwords_case_sensitive = "",
+  old_columns = c()
+)
+
+#add AKG to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmonized, result_AKG$df_clean[, c("Patient.ID", "PID", "Array", "Collection.Date", names(result_AKG$df_clean)[ncol(result_AKG$df_clean)])], c("Patient.ID", "PID", "Array", "Collection.Date"), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "AKG")
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste("Number of users without using searchwords:", 0))
+print(paste("Number of extra users using searchwords:", sum(result_AKG$searchword_findings$AKG, na.rm = TRUE)))
+print(paste("Total number of users using searchwords and previous cathegorization method:", sum(result_AKG$df_clean1$AKG, na.rm = TRUE)))
+print(paste("To see text answers cathegorized as true see: AKG_searchword_findings"))
+AKG_searchword_findings<-result_AKG$searchword_findings
+```
+
+### Calculate AgeDev
+
+
+```{r}
+biological_age_markers <- c("Hannum.PC","Horvath.PC","Telomere.Values.PC",
+                  "GrimAge.PC","PhenoAge.PC","OMICmAge","SystemsAge.Blood","SystemsAge.Brain","SystemsAge.Inflammation",
+                  "SystemsAge.Heart","SystemsAge.Hormone","SystemsAge.Immune","SystemsAge.Kidney","SystemsAge.Liver","SystemsAge.Metabolic",
+                  "SystemsAge.Lung","SystemsAge.MusculoSkeletal","SystemsAge")
+for (variable in biological_age_markers) {
+filtered_df_crossectional_harmonized<- calc_AgeDev(filtered_df_crossectional_harmonized, variable)
+}
+
+```
+
+
+### Make new CSV with harmonized data
+```{r}
+
+#save data
+write.csv(filtered_df_crossectional_harmonized, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", row.names = FALSE)
+
+
+# Konvertera till Date-format
+filtered_df_crossectional_harmonized$Collection.Date <- as.Date(filtered_df_crossectional_harmonized$Collection.Date, format = "%m/%d/%Y")
+
+# Sortera dataframe efter en kollumn som bara finns i survey 2-3 för quality control
+filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(DHEA_new)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Primary.Diet.Past.Year)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Strictly.Followed.Main.Diet)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Red.Meat.times.per.week)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Processed.Food.times.per.week)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Feel.Well.Rested.days.per.week)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Screens.before.bed)
+# filtered_df_crossectional_harmonized <- filtered_df_crossectional_harmonized %>% arrange(Track.Sleep.Wearable.Device)
+
+```
+
+
+### True/false values need to på converted to 0/1 for stdReg package - Funkar ej just nu!
+```{r}
+# filtered_df_crossectional_harmonized <- convert_columns_to_numeric(filtered_df_crossectional_harmonized, c("NAD", "TA65", "sulforaphane", "DHEA_new", "Rapamycin_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "stem_cells", "HRT", "vitaminD"))
+
+
+```
+
+### Remove non binary biological sex 
+```{r}
+filtered_df_crossectional_harmonized<- remove_other(filtered_df_crossectional_harmonized, "Biological.Sex")
+
+```
+
+### Save results
+```{r}
+write.csv(filtered_df_crossectional_harmonized, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", row.names = FALSE)
+
+```
+
+
+
+### Seperate survey1
+
+```{r}
+# collumns_to_keep <- c("Decimal.Chronological.Age", "BMI", "Stress.Level", "Biological.Sex", "Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Exercise.per.week", "Exercise.Type", "Hours.of.sleep.per.night", "Ethnicity", "Cancer.Diagnosis.any", "Cardiovascular.any", "Respiratory.Disease.any", "Endocrine.Disease.any", "Skin.Hair.any", "Gastrointestinal.any", "Genito.Urinary.any", "Musculoskeletal.any", "Neuropsychological.any", "Reproductive.any", "Immune.any", "Diabetes1", "Diabetes2", "Prediabetes", "NAD", "TA65", "sulforaphane", "DHEA_new", "Rapamycin_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "stem_cells", "HRT", "vitaminD", "Main.Diet")
+# 
+# collumns_only_in_survey2_3 <-c("Hours.Sedentary.Remaining.Awake", "Primary.Diet.Past.Year","Strictly.Followed.Main.Diet","Red.Meat.times.per.week","Processed.Food.times.per.week","Feel.Well.Rested.days.per.week","Screens.before.bed","Track.Sleep.Wearable.Device")
+# #Remove rows with "other" in biological sex collumn
+# 
+# 
+# #Seperate survey1
+# survey1 <- seperate_survey(filtered_df_crossectional_harmonized, collumns_only_in_survey2_3)$survey_with_cols
+# survey2_3 <- seperate_survey(filtered_df_crossectional_harmonized, collumns_only_in_survey2_3)$survey_without_cols
+# 
+# #Remove emtpy collumns from survey1
+# 
+# survey1 <- survey1 %>% select(-all_of(collumns_only_in_survey2_3))
+# 
+# 
+# write.csv(survey1, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/survey1", row.names = FALSE)
+# 
+# write.csv(survey2_3, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/survey2_3", row.names = FALSE)
+```
+

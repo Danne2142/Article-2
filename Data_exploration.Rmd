@@ -1,0 +1,240 @@
+---
+title: "Table 1"
+output: html_document
+date: "2024-07-05"
+---
+
+## Table 1 code
+
+```{r}
+df_crossectional <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+
+df_crossectional <- df_crossectional[df_crossectional$Array == "EPICv1", ]
+
+```
+
+## See collumn names
+
+You can also embed plots, for example:
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+
+#Assume 'df' is your dataframe
+column_names <- names(df_crossectional)
+
+#Print the column names
+print(column_names)
+```
+
+
+Frequency table
+```{r}
+# frequency_table <- table(df_crossectional$Main.Diet)
+# print(frequency_table)
+
+
+```
+
+Return number of NA values
+
+```{r}
+
+# Calculate the number of NA values in the column
+na_count <- sum(is.na(df_crossectional$Main.Diet))
+
+# Print the number of NA values
+print(na_count)
+
+```
+Return non NA values
+
+```{r}
+# Calculate the number of non-NA values in the column
+non_na_count <- sum(!is.na(df_crossectional$Main.Diet))
+
+# Print the number of non-NA values
+print(non_na_count)
+```
+
+Function to see NA and Non NA values for a list of collumns
+
+```{r}
+count_na_non_na_empty <- function(df, columns) {
+  # Initialize an empty list to store results
+  results <- list()
+  
+  # Loop through each column name in the columns list
+  for (column in columns) {
+    # Check if the column exists in the data frame
+    if (column %in% names(df)) {
+      # Calculate the number of NA, non-NA values, and empty cells
+      na_count <- sum(is.na(df[[column]]))
+      non_na_count <- sum(!is.na(df[[column]]))
+      empty_count <- sum(df[[column]] == "" & !is.na(df[[column]]))
+      
+      # Adjust non_na_count to exclude empty cells
+      non_na_count <- non_na_count - empty_count
+      
+      # Store the results in the list
+      results[[column]] <- data.frame(
+        Column = column,
+        NA_Values = na_count,
+        Non_NA_Values = non_na_count,
+        Empty_Values = empty_count
+      )
+    } else {
+      # Handle the case where the column does not exist in the data frame
+      warning(paste("Column", column, "does not exist in the data frame"))
+    }
+  }
+  
+  # Combine the individual data frames into a single data frame
+  result_table <- do.call(rbind, results)
+  
+  return(result_table)
+}
+
+# List of columns to check
+columns_to_check <- c('Main.Diet', 'Primary.Diet.Past.Year', 'Strictly.Followed.Main.Diet', 'Main.Diet.Factor', "Red.Meat.times.per.week","Processed.Food.times.per.week", 'Lab.Fasting', 'Nutritional.Supplements', "Rapamycin", "Metformin", "Anti.Aging.Interventions", "Supplements.Medication", "GrimAge.PC", "PhenoAge.PC", "OMICmAge", "DNAmFitAge", "FitAgeAccel", "DNAmVO2max", "SystemsAge.Blood"
+                      ,"SystemsAge", "Ethnicity.Ancestry","Ethnicity", "Biological.Sex", "Alcohol.per.week", "Level.of.Education","Stress.Level","Feel.Well.Rested.days.per.week", "Tobacco.Use", "Pack.Years.Smoker", 
+                      "Recreational.Drug.Use", "Recreational.Drug.Frequency","Exercise.per.week", "Exercise.Type", "Hours.of.sleep.per.night", "Metformin"                                                                                          
+,"TA.65"                                                                                              
+,"NR.NAD"                                                                                             
+,"Sulphoraphane.broccoli.extract"                                                                     
+,"Rapamycin"                                                                                          
+,"DHEA"                                                                                               
+,"Resveratrol"                                                                                        
+,"Antiaging.Exosome"                                                                                  
+,"Antiaging.Hormone.Replacement"                                                                      
+,"Antiaging.Senolytics"                                                                               
+,"Antiaging.Stem.Cell"                                                                                
+,"Antiaging.NAD"                                                                                      
+,"Recreational.Drug.Use.any"                                                                          
+,"Amphetamines"                                                                                       
+,"Benzodiazepines"                                                                                    
+,"Marijuana"                                                                                          
+,"Hallucinogens"                                                                                      
+,"MDMA"                                                                                               
+,"Opioids"
+,"BMI"                                                                                                
+,"Main.Diet.Factor"
+, "Hours.Sedentary.Remaining.Awake")
+
+# Call the function and print the result
+result <- count_na_non_na_empty(df_crossectional, columns_to_check)
+print(result)
+
+
+```
+
+See what type of values we have in the first 3 Main Diet, primary diet pas uear and strictly followed main diet.
+
+### Main.Diet
+```{r}
+
+frequency_table <- table(df_crossectional$Biological.Sex)
+print(frequency_table)
+
+```
+
+### Primary.Diet.Past.Year	
+```{r}
+
+frequency_table <- table(df_crossectional$Primary.Diet.Past.Year	)
+print(frequency_table)
+
+```
+
+### Strictly.Followed.Main.Diet	
+```{r}
+
+frequency_table <- table(df_crossectional$Strictly.Followed.Main.Diet	)
+print(frequency_table)
+
+```
+
+### Lab.Fasting	
+```{r}
+
+frequency_table <- table(df_crossectional$Prediabetes	)
+print(frequency_table)
+
+```
+
+### Lab.Fasting	histograms - Glucose
+
+You can use the ggplot2 package in R to create histograms for the glucose values grouped by the fasting status and color them accordingly. Here’s how you can do it:
+
+First, ensure you have the ggplot2 package installed. If not, you can install it using install.packages("ggplot2").
+```{r}
+
+# Load the ggplot2 package
+library(ggplot2)
+
+# Remove NA values from the relevant columns
+df_crossectional <- df_crossectional[!is.na(df_crossectional$Clinical_EBP_Glucose) & !is.na(df_crossectional$Lab.Fasting), ]
+
+# Create the histogram
+ggplot(df_crossectional, aes(x = Clinical_EBP_Glucose, fill = Lab.Fasting)) +
+  geom_histogram(binwidth = 1, position = "dodge", alpha = 0.7) +
+  labs(title = "Histogram of Glucose Values by Fasting Status",
+       x = "Glucose Values",
+       y = "Frequency",
+       fill = "Fasting Status") +
+  theme_minimal() +
+  scale_fill_manual(values = c("Yes" = "blue", "No" = "red"))
+
+
+
+```
+
+
+### Lab.Fasting	histograms - HBA1c
+
+
+```{r}
+# Load the ggplot2 package
+library(ggplot2)
+
+# Remove NA values from the relevant columns
+df_crossectional <- df_crossectional[!is.na(df_crossectional$Clinical_EBP_HbA1c) & !is.na(df_crossectional$Lab.Fasting), ]
+
+# Create the histogram
+ggplot(df_crossectional, aes(x = Clinical_EBP_HbA1c, fill = Lab.Fasting)) +
+  geom_histogram(binwidth = 0.05, position = "dodge", alpha = 0.7) +
+  labs(title = "Histogram of Clinical_EBP_HbA1c by Fasting Status",
+       x = "Clinical_EBP_HbA1c",
+       y = "Frequency",
+       fill = "Fasting Status") +
+  theme_minimal() +
+  scale_fill_manual(values = c("Yes" = "blue", "No" = "red"))
+
+
+```
+
+
+
+### Lab.Fasting	histograms - triglycerides
+
+
+```{r}
+
+# Load the ggplot2 package
+library(ggplot2)
+
+# Remove NA values from the relevant columns
+df_crossectional <- df_crossectional[!is.na(df_crossectional$GrimAge.PC) & !is.na(df_crossectional$Lab.Fasting), ]
+
+# Create the histogram
+ggplot(df_crossectional, aes(x = DunedinPoAm, fill = Lab.Fasting)) +
+  geom_histogram(binwidth = 1, position = "dodge", alpha = 0.7) +
+  labs(title = "Histogram of Glucose Values by Fasting Status",
+       x = "Glucose Values",
+       y = "Frequency",
+       fill = "Fasting Status") +
+  theme_minimal() +
+  scale_fill_manual(values = c("Yes" = "blue", "No" = "red"))
+
+```
+

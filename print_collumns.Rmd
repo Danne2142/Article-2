@@ -1,0 +1,28 @@
+---
+title: "Collumn_names"
+output: html_document
+date: "2024-08-05"
+---
+
+
+# ```{r}
+# df_crossectional <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_old_with_all_collumns.csv", header=TRUE, stringsAsFactors=FALSE)
+# 
+# 
+# #Assume 'df' is your dataframe
+# column_names <- names(df_crossectional)
+# 
+# #Print the column names
+# print(column_names)
+# ```
+
+```{r}
+filtered_df_crossectional_harmonized <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+
+#Assume 'df' is your dataframe
+column_names <- names(filtered_df_crossectional_harmonized)
+
+#Print the column names
+print(column_names)
+```
+

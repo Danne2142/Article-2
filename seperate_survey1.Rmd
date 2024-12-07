@@ -1,0 +1,37 @@
+---
+title: "seperate surveys"
+output: html_document
+date: "2024-09-05"
+---
+
+```{r}
+df <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+
+```
+
+
+
+```{r}
+
+seperate_survey1 <- function(df, columns) {
+  # Check for non-empty strings in the specified columns, treating NA as invalid
+  valid_rows <- apply(df[columns], 1, function(row) all(nchar(as.character(row)) >= 1 & !is.na(row)))
+  
+  # Create the two dataframes
+  survey1 <- df[valid_rows, ]
+
+  # Return the two dataframes as a list
+  return(survey1)
+}
+
+  
+# Example usage:
+collumns_to_use <- c("Decimal.Chronological.Age", "BMI", "Stress.Level", "Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Exercise.per.week", "Exercise.Type", "Hours.of.sleep.per.night", "Ethnicity", "Cancer.Diagnosis.any", "Cardiovascular.any", "Respiratory.Disease.any", "Endocrine.Disease.any", "Skin.Hair.any", "Gastrointestinal.any", "Genito.Urinary.any", "Musculoskeletal.any", "Neuropsychological.any", "Reproductive.any", "Immune.any", "Diabetes1", "Diabetes2", "Prediabetes", "NAD", "TA65", "sulforaphane", "DHEA_new", "Rapamycin_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "stem_cells", "HRT", "vitaminD", "Main.Diet")
+
+survey1 <- seperate_survey1(df, collumns_to_use)
+
+
+
+
+```
+

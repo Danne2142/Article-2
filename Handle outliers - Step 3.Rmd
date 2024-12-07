@@ -1,0 +1,215 @@
+l---
+title: "Handle outliers"
+output: html_document
+date: "2024-10-28"
+---
+
+### Import data and functions
+```{r}
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_other().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/logical_to_numeric().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/convert_to_factors().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/convert_yes_no_to_logical().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/convert_to_binary().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/char_cols_to_factors().R")
+# 
+
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/count_outliers().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/get_Numeric_and_int_cols().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/plot_with_std_outliers().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/replace_zero_negatives().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/count_zero_and_negatives().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_na_rows().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_outliers_sd().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/create_histogram().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/handle_hours_sedentary_remaining_awake().R")
+
+
+
+
+
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_after_step2")
+
+# Rename dataframe in this new script
+data<-data_fixed_datatypes 
+rm(data_fixed_datatypes) # Remove old dataframe
+
+```
+
+### Count zeros and negatives before removal
+```{r}
+amount_zero_and_negatives_before_removal<-count_zero_and_negatives(data, exclude_cols=c("Patient.ID", "PID", "survey_version", "Array", 
+                                                      "Collection.Date", "Decimal.Chronological.Age", 
+                                                      "Stress.Level", "Pack.Years.Smoker", 
+                                                      "Age.mother.at.birth", "Age.father.at.birth", 
+                                                      "Hours.Sedentary.Remaining.Awake", "BMI", 
+                                                      "Hannum.PCAgeDev", "Horvath.PCAgeDev", 
+                                                      "Telomere.Values.PCAgeDev", "GrimAge.PCAgeDev", 
+                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev", 
+                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev", 
+                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev", 
+                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev", 
+                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev", 
+                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev", 
+                                                      "SystemsAgeAgeDev", "OMICmAgeAgeDev"))
+```
+
+
+### removal of zeroes and negatives
+```{r}
+
+data_with_outliers_removed <- replace_zero_negatives(data, cols=c("Hannum.PC", "Horvath.PC",
+  "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood",
+  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+  "SystemsAge.MusculoSkeletal", "SystemsAge", "OMICmAge", "DunedinPACE"))
+
+```
+
+
+### Test removal of zeroe and negative epigenetic ages
+```{r}
+
+amount_zero_and_negatives_after_removal<-count_zero_and_negatives(data_with_outliers_removed, exclude_cols=c("Patient.ID", "PID", "survey_version", "Array", 
+                                                      "Collection.Date", "Decimal.Chronological.Age", 
+                                                      "Stress.Level", "Pack.Years.Smoker", 
+                                                      "Age.mother.at.birth", "Age.father.at.birth", 
+                                                      "Hours.Sedentary.Remaining.Awake", "BMI", 
+                                                      "Hannum.PCAgeDev", "Horvath.PCAgeDev", 
+                                                      "Telomere.Values.PCAgeDev", "GrimAge.PCAgeDev", 
+                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev", 
+                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev", 
+                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev", 
+                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev", 
+                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev", 
+                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev", 
+                                                      "SystemsAgeAgeDev", "OMICmAgeAgeDev"))
+
+```
+
+
+
+### Add sedentary level based on fixed thresholds (objective)
+```{r}
+
+
+# Using dplyr and case_when
+library(dplyr)
+
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(sedentary_level_objective = case_when(
+    Hours.Sedentary.Remaining.Awake >= 1  & Hours.Sedentary.Remaining.Awake <= 6 ~ 3,
+    Hours.Sedentary.Remaining.Awake >= 7  & Hours.Sedentary.Remaining.Awake <= 12 ~ 2,
+    Hours.Sedentary.Remaining.Awake >= 13 & Hours.Sedentary.Remaining.Awake <= 18 ~ 1,
+    Hours.Sedentary.Remaining.Awake >= 19 & Hours.Sedentary.Remaining.Awake <= 24 ~ 0,
+    TRUE ~ NA_real_
+  ))
+
+```
+### Print colnames: can be removed later
+```{r}
+
+# # Using names() with seq_along()
+# column_names <- names(data_with_outliers_removed)
+# column_indices <- seq_along(data_with_outliers_removed)
+# 
+# print(column_names)
+```
+
+### Add sedentary level based on quartiles
+```{r}
+data_with_outliers_removed <- handle_hours_sedentary_remaining_awake(
+  data = data_with_outliers_removed,
+  column_name = "Hours.Sedentary.Remaining.Awake"
+)
+
+```
+
+### Compare different ways to codify hours sedentary
+```{r message=TRUE, warning=TRUE}
+count_frequencies <- function(data, column_name) {
+  # Ensure the column exists in the data frame
+  if (!column_name %in% names(data)) {
+    stop("The specified column does not exist in the data frame.")
+  }
+  
+  # Count frequencies using table and convert to a data frame
+  frequencies <- as.data.frame(table(data[[column_name]]))
+  
+  # Rename the columns for clarity
+  colnames(frequencies) <- c("Value", "Frequency")
+  
+  return(frequencies)
+}
+
+#See uncodified sedentary level
+# df <- data.frame(numbers = c(1, 2, 2, 3, 3, 3, 4))
+result <- count_frequencies(data_with_outliers_removed, "Hours.Sedentary.Remaining.Awake")
+print(result)
+
+#Compare sedentary level based on quartiles
+# df <- data.frame(numbers = c(1, 2, 2, 3, 3, 3, 4))
+result <- count_frequencies(data_with_outliers_removed, "sedentary_level")
+print(result)
+
+#Compare sedentary level based on fixed thresholds
+result <- count_frequencies(data_with_outliers_removed, "sedentary_level_objective")
+print(result)
+
+```
+
+### test linear relationships of hours sedentary
+```{r}
+# Plot the scatter plot
+plot(data_with_outliers_removed$sedentary_level, data_with_outliers_removed$DunedinPACE, main = "Scatter Plot with Regression Line",
+     xlab = "X-axis", ylab = "Y-axis",
+     pch = 19, col = "blue")
+
+# Add regression line
+abline(lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level), col = "red")
+
+lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level)
+
+```
+
+### Codify current smoking level numericaly
+```{r}
+
+```
+
+
+### Save data
+```{r}
+save(data_with_outliers_removed, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_after_step3")
+
+```
+
+# Plot outliers
+```{r}
+# exclude_columns= c("Patient.ID", "PID", "survey_version", "Array", "Collection.Date", "Decimal.Chronological.Age", "Hannum.PC", "Horvath.PC", 
+#   "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood", 
+#   "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart", 
+#   "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney", 
+#   "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung", 
+#   "SystemsAge.MusculoSkeletal", "SystemsAge", "OMICmAge", "DunedinPACE")
+
+exclude_columns= c("Patient.ID", "PID", "survey_version", "Array", "Collection.Date")
+
+# Assuming you have a dataframe `df` and you want to plot the 3rd column
+# plot_with_std_outliers(data, outliers_std_thresh = 4, col_num = 6)
+col_numbers<- get_Numeric_and_int_cols(data_with_outliers_removed, exclude_cols= exclude_columns)
+
+for (i in col_numbers) {
+
+  plot_with_std_outliers(data_with_outliers_removed, outliers_std_thresh = 5, col_num = i)
+
+}
+
+```
+
+
+
+
+
+

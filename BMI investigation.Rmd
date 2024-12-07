@@ -1,0 +1,192 @@
+---
+title: "BMI investigation"
+output: html_document
+date: "2024-11-15"
+---
+
+```{r}
+
+data <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/df_EPICv1_EPICv2_new.csv", header=TRUE, stringsAsFactors=FALSE)
+
+```
+
+
+
+### Plot weight and height
+```{r}
+# plot_with_std_outliers(df_EPICv1_EPICv2_new, outliers_std_thresh = 5, col_num = 147)
+# 
+# plot_with_std_outliers(df_EPICv1_EPICv2_new, outliers_std_thresh = 5, col_num = 148)
+
+```
+
+
+## Handle BMI
+```{r}
+
+new_columns <- c(
+  "Patient.ID", "BMI", "Height.in", "Weight", "survey_version" ,"Decimal.Chronological.Age", "Biological.Sex",
+  "Level.of.Education",
+  "Tobacco.Use", "Pack.Years.Smoker", "Main.Diet",
+   "Exercise.per.week",
+  "Exercise.Type","Hours.Sedentary.Remaining.Awake",
+  "Primary.Diet.Past.Year", "Strictly.Followed.Main.Diet", "Red.Meat.times.per.week",
+  "Processed.Food.times.per.week",
+  "Screens.before.bed", "Ethnicity",
+  "Prediabetes", "Diabetes2", "Hannum.PC", "Horvath.PC", 
+  "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood", 
+  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart", 
+  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney", 
+  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung", 
+  "SystemsAge.MusculoSkeletal", "SystemsAge", "OMICmAge", "DunedinPACE"
+)
+
+# filtered_df_crossectional_harmonized <- df_EPICv1_EPICv2_new
+
+
+data_BMI <- data[new_columns]
+
+
+```
+
+### Convert inches and lbs to kg and cm
+```{r}
+# Function to Replace Weight Column from Pounds to Kilograms
+replace_weight_lbs_with_kg <- function(data, column_name) {
+  # Check if the input is a data frame
+  if (!is.data.frame(data)) {
+    stop("The 'data' argument must be a data frame.")
+  }
+  
+  # Check if the specified column exists in the data frame
+  if (!column_name %in% names(data)) {
+    stop(paste("Column", column_name, "does not exist in the data frame."))
+  }
+  
+  # Check if the specified column is numeric
+  if (!is.numeric(data[[column_name]])) {
+    stop(paste("Column", column_name, "is not numeric. Please provide a numeric column."))
+  }
+  
+  # Conversion factor from pounds to kilograms
+  lbs_to_kg <- 0.453592
+  
+  # Perform the conversion
+  data[[column_name]] <- data[[column_name]] * lbs_to_kg
+  
+  names(data)[names(data) == column_name] <- paste0(column_name, "_kg")
+  
+  # Return the modified data frame
+  return(data)
+}
+
+data_BMI <- replace_weight_lbs_with_kg(data_BMI, "Weight")
+
+
+```
+
+
+```{r}
+# Function to Replace Height Column from Inches to Centimeters and Rename the Column
+replace_height_in_with_cm <- function(data, column_name) {
+  # Check if the input is a data frame
+  if (!is.data.frame(data)) {
+    stop("The 'data' argument must be a data frame.")
+  }
+  
+  # Check if the specified column exists in the data frame
+  if (!column_name %in% names(data)) {
+    stop(paste("Column", column_name, "does not exist in the data frame."))
+  }
+  
+  # Check if the specified column is numeric
+  if (!is.numeric(data[[column_name]])) {
+    stop(paste("Column", column_name, "is not numeric. Please provide a numeric column."))
+  }
+  
+  # Conversion factor from inches to centimeters
+  inches_to_cm <- 2.54
+  
+  # Perform the conversion
+  data[[column_name]] <- data[[column_name]] * inches_to_cm
+  
+  # Rename the column to include 'in_cm'
+  new_name <- paste0(column_name, "_cm")
+  names(data)[names(data) == column_name] <- new_name
+  
+  # Return the modified data frame
+  return(data)
+}
+
+data_BMI <- replace_height_in_with_cm(data_BMI, "Height.in")
+
+data_BMI <- data_BMI %>% arrange(BMI)
+write.xlsx(data_BMI, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_BMI.xlsx")
+
+```
+
+
+
+### Put  BMI outliers in a seperate DF
+```{r}
+# Load dplyr
+library(dplyr)
+
+# Function to Separate Outliers
+separate_outliers <- function(data, column, threshold = 2) {
+  mean_val <- mean(data[[column]], na.rm = TRUE)
+  sd_val <- sd(data[[column]], na.rm = TRUE)
+  
+  upper_bound <- mean_val + threshold * sd_val
+  lower_bound <- mean_val - threshold * sd_val
+  
+  positive_outliers <- data %>%
+    filter(.data[[column]] > upper_bound)
+  
+  negative_outliers <- data %>%
+    filter(.data[[column]] < lower_bound)
+  
+  return(list(
+    positive_outliers = positive_outliers,
+    negative_outliers = negative_outliers
+  ))
+}
+
+# Example Usage
+# Replace 'df' and 'value' with your data frame and column name
+outliers <- separate_outliers(data_BMI, "BMI", threshold = 5)
+
+# Access Positive Outliers
+positive_outliers <- outliers$positive_outliers
+
+# Access Negative Outliers
+negative_outliers <- outliers$negative_outliers
+
+# Display the Results
+cat("Positive Outliers:\n")
+print(positive_outliers)
+
+cat("\nNegative Outliers:\n")
+print(negative_outliers)
+
+
+library(dplyr)
+# positive_outliers <- positive_outliers %>% arrange(desc(BMI))
+positive_outliers <- positive_outliers %>% arrange(BMI)
+
+
+```
+
+
+
+```{r}
+
+# Ladda paketet
+library(openxlsx)
+
+write.xlsx(positive_outliers, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/positive_outliers_BMI.xlsx")
+
+```
+
+
+

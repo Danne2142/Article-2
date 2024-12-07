@@ -1,0 +1,38 @@
+---
+title: "IPW"
+output: html_document
+date: "2024-07-13"
+---
+
+### Import functions
+```{r}
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/convert_columns_to_numeric().R")
+
+```
+
+
+### Import data
+
+```{r}
+survey1 <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/survey1", header=TRUE, stringsAsFactors=FALSE)
+
+```
+
+
+```{r}
+# install.packages("stdReg")
+
+survey1$DHEA_new <- as.numeric(survey1$DHEA_new)
+
+
+library(stdReg)
+fit <- glm(formula = DunedinPACE ~ Decimal.Chronological.Age + BMI + Resveratrol_new + Main.Diet, family=gaussian, data=survey1)
+
+std.fit <- stdGlm(fit=fit, data=survey1, X="DHEA_new")
+
+summary(std.fit)
+
+summary(object=std.fit, transform="odds", contrast="ratio", reference=0)
+
+```
+

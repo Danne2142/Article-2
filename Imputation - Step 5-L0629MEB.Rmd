@@ -1,0 +1,259 @@
+---
+title: "Imputation"
+output: html_document
+date: "2024-10-25"
+---
+
+
+#Import functions
+```{r}
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/set_NA_percent_and_imp_cols().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/mixed_correlation_matrix().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/imputationFunctions.R")
+
+
+
+```
+
+
+### Calculate corr matrix
+```{r}
+  # Remove unnecessary columns
+  # data4_without_cols <- subset(data4, select = -c(Hannum.PC, Horvath.PC, Telomere.Values.PC, GrimAge.PC, PhenoAge.PC,
+  #                                        SystemsAge.Heart, SystemsAge.Hormone, SystemsAge.Blood, SystemsAge.Brain, 
+  #                                        SystemsAge.Inflammation, SystemsAge.Immune, SystemsAge.Kidney, SystemsAge.Liver,
+  #                                        SystemsAge.Metabolic, SystemsAge.Lung, SystemsAge.MusculoSkeletal, SystemsAge,
+  #                                        OMICmAge, fasting, Main.Diet, NAD, TA65, sulforaphane, DHEA_new, Rapamycin_new,
+  #                                        SASP_supressors, Metformin_new, Resveratrol_new, Exosomes, stem_cells, HRT, 
+  #                                        spermidine, semaglutide, vitaminD, AKG, Hannum.PCAgeDev, Horvath.PCAgeDev, 
+  #                                         GrimAge.PCAgeDev, PhenoAge.PCAgeDev, OMICmAgeAgeDev,
+  #                                        SystemsAge.BloodAgeDev, SystemsAge.BrainAgeDev, SystemsAge.InflammationAgeDev,
+  #                                        SystemsAge.HeartAgeDev, SystemsAge.HormoneAgeDev, SystemsAge.ImmuneAgeDev,
+  #                                        SystemsAge.KidneyAgeDev, SystemsAge.LiverAgeDev, SystemsAge.MetabolicAgeDev,
+  #                                        SystemsAge.LungAgeDev, SystemsAge.MusculoSkeletalAgeDev, SystemsAgeAgeDev, DunedinPACE))
+
+# OMICage och grimage är ej korrolerade över 0,8
+# 
+# Kolla OMICage-dunedin och dunedin-grimAge
+
+# corr_df<-mixed_correlation_matrix(data4, cols_to_skip = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version"))
+
+```
+
+
+### Impute survey 1
+```{r}
+# Adjust this according to each survey
+surveyVersion=1
+missing_threshold=50
+amount_of_mice_datasets_to_impute=5 #!!!!!!!!!!!!!!!!!!!!
+max_iterations_per_dataset = 65 #!!!!!!!!!!!!!!!!
+specific_cols_to_permanently_exclude_completely = c("Education.of.Mother", "Education.of.Father")
+#------------------------------------
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_after_step4")
+# Rename dataframe in this new script
+data_to_drop_cols_from<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surveyVersion) ##Important row!!
+# str(data_to_drop_cols_from)
+
+# Save a plot of how the data looks before cols with more missing data than the threshold is dropped
+  save_missing_data_plot(
+    data =  data_to_drop_cols_from,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
+  )
+  
+#Prepare data for imputation by removing columns with more missing data than threshold
+df_to_impute<-set_NA_percent_and_imp_cols(data = data_to_drop_cols_from, survey_version_filter = surveyVersion, missing_threshold = missing_threshold)
+
+#Drop specific cols that shouldnt be used at all from here
+df_to_impute<- exclude_columns_dplyr(df_to_impute, exclude_cols = specific_cols_to_permanently_exclude_completely)
+
+# Save a plot of how the data looks before imputation
+  save_missing_data_plot(
+    data = df_to_impute,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
+  )
+  
+  
+# Perform imputation
+imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, max_iterations=max_iterations_per_dataset, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "GrimAge.PC", "OMICmAge", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                      "SystemsAgeAgeDev", "Hannum.PC", "Horvath.PC",
+  "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+  "SystemsAge.MusculoSkeletal", "SystemsAge"))
+
+# Save a plot of how the data looks after imputation
+  save_missing_data_plot(
+    data = complete(imputed_data, 1),
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_imputation_for_survey_version_"
+  )
+
+# Save the imputed datasets to a file
+save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey",surveyVersion,".RData"))
+
+# 
+# #Inspect imputation
+# densityplot(imputed_data)
+# stripplot(imputed_data)
+
+
+```
+
+### Impute survey 2
+```{r}
+# Adjust this according to each survey
+surveyVersion=2
+missing_threshold=50
+amount_of_mice_datasets_to_impute=5
+max_iterations_per_dataset = 65
+#------------------------------------
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_after_step4")
+# Rename dataframe in this new script
+data_to_drop_cols_from<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surveyVersion) ##Important row!!
+str(data_to_drop_cols_from)
+
+# Save a plot of how the data looks before cols with more missing data than the threshold is dropped
+  save_missing_data_plot(
+    data =  data_to_drop_cols_from,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
+  )
+  
+#Prepare data for imputation by removing columns with more missing data than threshold
+df_to_impute<-set_NA_percent_and_imp_cols(data = data_to_drop_cols_from, survey_version_filter = surveyVersion, missing_threshold = missing_threshold)
+
+# Save a plot of how the data looks before imputation
+  save_missing_data_plot(
+    data = df_to_impute,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
+  )
+  
+# Perform imputation
+imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, max_iterations=max_iterations_per_dataset, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "GrimAge.PC", "OMICmAge", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                      "SystemsAgeAgeDev", "Hannum.PC", "Horvath.PC",
+  "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+  "SystemsAge.MusculoSkeletal", "SystemsAge"))
+
+# Save a plot of how the data looks after imputation
+  save_missing_data_plot(
+    data = complete(imputed_data, 1),
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_imputation_for_survey_version_"
+  )
+
+# Save the imputed datasets to a file
+save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey",surveyVersion,".RData"))
+
+# # inspect results
+# densityplot(imputed_data)
+# stripplot(imputed_data)
+
+
+```
+
+### Impute survey 3
+```{r}
+# Adjust this according to each survey
+surveyVersion=3
+missing_threshold=50
+amount_of_mice_datasets_to_impute=5
+max_iterations_per_dataset = 65
+#------------------------------------
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/data_after_step4")
+# Rename dataframe in this new script
+data_to_drop_cols_from<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+
+data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surveyVersion) ##Important row!!
+str(data_to_drop_cols_from)
+
+# Save a plot of how the data looks before cols with more missing data than the threshold is dropped
+  save_missing_data_plot(
+    data =  data_to_drop_cols_from,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
+  )
+  
+#Prepare data for imputation by removing columns with more missing data than threshold
+df_to_impute<-set_NA_percent_and_imp_cols(data = data_to_drop_cols_from, survey_version_filter = surveyVersion, missing_threshold = missing_threshold)
+
+# Save a plot of how the data looks before imputation
+  save_missing_data_plot(
+    data = df_to_impute,
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
+  )
+  
+# Perform imputation
+imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, max_iterations=max_iterations_per_dataset, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "GrimAge.PC", "OMICmAge", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                      "SystemsAgeAgeDev", "Hannum.PC", "Horvath.PC",
+  "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+  "SystemsAge.MusculoSkeletal", "SystemsAge"))
+
+# Save a plot of how the data looks after imputation
+  save_missing_data_plot(
+    data = complete(imputed_data, 1),
+    survey_version_filter = surveyVersion,
+    output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output", # Replace with your desired directory,
+    filename_prefix = "missing_data_after_imputation_for_survey_version_"
+  )
+
+# Save the imputed datasets to a file
+save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey",surveyVersion,".RData"))
+
+# # inspect results
+# densityplot(imputed_data)
+# stripplot(imputed_data)
+
+
+```
+
+
+

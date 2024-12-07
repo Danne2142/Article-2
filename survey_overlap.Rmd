@@ -1,0 +1,48 @@
+---
+title: "survey_overlap"
+output: html_document
+date: "2024-08-21"
+---
+
+## Import Data
+```{r}
+df_EPICv1_EPICv2_new <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+
+# Convert Collection.Date to a datetime format
+df_EPICv1_EPICv2_new$Collection.Date <- as.POSIXct(df_EPICv1_EPICv2_new$Collection.Date, format = "%m/%d/%Y %I:%M:%S %p")
+
+
+
+```
+
+
+## Make Histogram
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Convert the dates to POSIXct format
+date1 <- as.POSIXct("2023-05-10")
+date2 <- as.POSIXct("2023-11-07")
+
+# Plot overlaid histograms with vertical lines
+ggplot(df_EPICv1_EPICv2_new, aes(x = Collection.Date, fill = Array)) +
+  geom_histogram(position = "identity", alpha = 0.6, binwidth = 86400) + # binwidth set to one day (86400 seconds)
+  scale_fill_manual(values = c("EPICv2 custom" = "blue", "EPICv2 regular" = "green", "EPICv1" = "red")) +
+  labs(x = "Collection Date", y = "Frequency", title = "Overlaid Histograms of Array Types by Collection Date") +
+  geom_vline(xintercept = as.numeric(date1), color = "black", linetype = "dashed", size = 1) +  # Vertical line for May 10th, 2023
+  geom_vline(xintercept = as.numeric(date2), color = "black", linetype = "dashed", size = 1) +  # Vertical line for November 7th, 2023
+  theme_minimal() +
+  theme(legend.title = element_blank())
+
+
+
+```
+```{r}
+sum(is.na(df_EPICv1_EPICv2_new$Collection.Date))
+
+```
+
+
+
