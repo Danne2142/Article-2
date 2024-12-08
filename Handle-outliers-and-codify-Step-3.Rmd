@@ -167,9 +167,9 @@ print(result)
 #      pch = 19, col = "blue")
 
 # Add regression line
-abline(lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level), col = "red")
+# abline(lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level), col = "red")
 
-lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level)
+# lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level)
 
 ```
 
@@ -217,6 +217,36 @@ removed_low_BMI_rows <- removed_low_BMI_rows %>%
 
 ```
 
+
+### Codify education level
+```{r}
+
+# Define the mapping for the education levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Education_levels_numeric = case_when(
+    Level.of.Education == "Did not complete high school" ~ 0,
+    Level.of.Education == "High school or equivalent" ~ 1,
+    Level.of.Education %in% c("Technical or occupational certificate", "Associate degree", "Some college coursework completed") ~ 2,
+    Level.of.Education == "Bachelor’s degree" ~ 3,
+    Level.of.Education %in% c("Master’s degree", "Doctorate (PhD)", "Professional (MD, DO, DDS, JD)") ~ 4,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+
+# Check which rows where removed for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Level.of.Education, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Education_levels_numeric)
+```
+
+### Codify alcohol level
+```{r}
+uninque()
+```
+
+### Save Rdata
 ```{r}
 save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
 
@@ -225,9 +255,6 @@ save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska I
 
 ### Print colnames
 ```{r}
-# Assuming your data frame is named df and the column is named column_name
-unique(data_with_outliers_removed$Tobacco.Use)
-
 # Assuming your data frame is named df
 colnames(data_with_outliers_removed)
 ```
@@ -235,32 +262,32 @@ colnames(data_with_outliers_removed)
 
 # Plot outliers
 ```{r}
-# Define the output directory
-output_dir <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Visualization of outliers after removal"
+# # Define the output directory
+# output_dir <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Visualization of outliers after removal"
 
-# Create the output directory if it doesn't exist
-if (!dir.exists(output_dir)) {
-  dir.create(output_dir, recursive = TRUE)
-}
+# # Create the output directory if it doesn't exist
+# if (!dir.exists(output_dir)) {
+#   dir.create(output_dir, recursive = TRUE)
+# }
 
-exclude_columns = c("Patient.ID", "PID", "survey_version", "Array", "Collection.Date")
+# exclude_columns = c("Patient.ID", "PID", "survey_version", "Array", "Collection.Date")
 
-# Assuming you have a dataframe `data_with_outliers_removed`
-col_numbers <- get_Numeric_and_int_cols(data_with_outliers_removed, exclude_cols = exclude_columns)
-col_names <- names(data_with_outliers_removed)[col_numbers]
+# # Assuming you have a dataframe `data_with_outliers_removed`
+# col_numbers <- get_Numeric_and_int_cols(data_with_outliers_removed, exclude_cols = exclude_columns)
+# col_names <- names(data_with_outliers_removed)[col_numbers]
 
-for (col_name in col_names) {
-  # Define the file name for each plot
-  file_name <- paste0(output_dir, "/plot_col_", col_name, ".pdf")
+# for (col_name in col_names) {
+#   # Define the file name for each plot
+#   file_name <- paste0(output_dir, "/plot_col_", col_name, ".pdf")
   
-  # Open a PDF device
-  pdf(file_name)
+#   # Open a PDF device
+#   pdf(file_name)
   
-  # Generate the plot
-  plot_with_std_outliers(data_with_outliers_removed, outliers_std_thresh = 5, col_num = which(names(data_with_outliers_removed) == col_name))
+#   # Generate the plot
+#   plot_with_std_outliers(data_with_outliers_removed, outliers_std_thresh = 5, col_num = which(names(data_with_outliers_removed) == col_name))
   
-  # Close the PDF device
-  dev.off()
-}
+#   # Close the PDF device
+#   dev.off()
+# }
 
 ```
