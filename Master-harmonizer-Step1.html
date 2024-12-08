@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2024-10-28" />
+<meta name="date" content="2024-07-09" />
 
-<title>Set datatypes step 2</title>
+<title>Master</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,582 +349,754 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Set datatypes step 2</h1>
-<h4 class="date">2024-10-28</h4>
+<h1 class="title toc-ignore">Master</h1>
+<h4 class="date">2024-07-09</h4>
 
 </div>
 
 
-<div id="import-data-and-functions" class="section level3">
-<h3>Import data and functions</h3>
-<pre class="r"><code>source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R&quot;)
-source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_integer().R&quot;)
-source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R&quot;)
-source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_yes_no_to_logical().R&quot;)
-source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_logical().R&quot;)
-source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/char_cols_to_factors().R&quot;)
-
-
-data &lt;- read.csv(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step1&quot;, header=TRUE, stringsAsFactors=FALSE)</code></pre>
+<div id="import-packages" class="section level3">
+<h3>Import packages</h3>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code># Load the necessary packages
+library(ggplot2)</code></pre>
 </div>
-<div id="remove-non-binary-biological-sex" class="section level3">
-<h3>Remove non binary biological sex</h3>
-<pre class="r"><code>data&lt;- remove_other(data, &quot;Biological.Sex&quot;)</code></pre>
-<pre class="r"><code># Konvertera till Date-format
-data$Collection.Date &lt;- as.Date(data$Collection.Date, format = &quot;%m/%d/%Y&quot;)</code></pre>
+<div id="import-all-data" class="section level3">
+<h3>Import all data</h3>
+<pre class="r"><code>df_EPICv1_EPICv2_new &lt;- read.csv(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv&quot;, header=TRUE, stringsAsFactors=FALSE)
+
+# #Remove unwated samples 
+# df_EPICv1_EPICv2_new&lt;-remove_patient_case(&quot;206084850048_R07C01&quot;,df_EPICv1_EPICv2_new)
+# df_EPICv1_EPICv2_new&lt;-remove_patient_case(&quot;206103060090_R03C01&quot;, df_EPICv1_EPICv2_new)
+
+# Rename collumn DunedinPoAm to DunedinPACE as it was misnamed according to Natalia
+names(df_EPICv1_EPICv2_new)[names(df_EPICv1_EPICv2_new) == &quot;DunedinPoAm&quot;] &lt;- &quot;DunedinPACE&quot;
+
+# df_EPICv1_old &lt;- read.csv(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 data/All_metrics_crossectional_samples.csv&quot;, header=TRUE, stringsAsFactors=FALSE)</code></pre>
 </div>
-<div id="fix-datatypes" class="section level3">
-<h3>Fix datatypes</h3>
-<pre class="r"><code>data_fixed_datatypes&lt;-convert_to_logical(data, column_name=&quot;Diagnosed.with.low.or.high.calcium&quot;, false_values=&quot;No&quot;)</code></pre>
-<pre><code>## === Converting Column: Diagnosed.with.low.or.high.calcium ===
-## Original Data Type: character 
-## Unique Values: No, NA, Yes 
-## Conversion Complete.
-## New Data Type: logical 
-## TRUE Count: 323 
-## FALSE Count: 23597 
-## ===============================</code></pre>
-<pre class="r"><code>data_fixed_datatypes&lt;-convert_to_logical(data_fixed_datatypes, column_name=&quot;Are.you.adopted.&quot;, false_values=&quot;No&quot;)</code></pre>
-<pre><code>## === Converting Column: Are.you.adopted. ===
-## Original Data Type: character 
-## Unique Values: No, Yes, NA 
-## Conversion Complete.
-## New Data Type: logical 
-## TRUE Count: 248 
-## FALSE Count: 23672 
-## ===============================</code></pre>
-<pre class="r"><code>data_fixed_datatypes&lt;-convert_to_logical(data_fixed_datatypes, column_name=&quot;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&quot;, false_values=&quot;No&quot;)</code></pre>
-<pre><code>## === Converting Column: Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old. ===
-## Original Data Type: character 
-## Unique Values: Yes, No 
-## Conversion Complete.
-## New Data Type: logical 
-## TRUE Count: 2912 
-## FALSE Count: 21008 
-## ===============================</code></pre>
-<pre class="r"><code>data_fixed_datatypes&lt;-convert_to_logical(data_fixed_datatypes, column_name=&quot;Track.Sleep.Wearable.Device&quot;, false_values=&quot;No&quot;)</code></pre>
-<pre><code>## === Converting Column: Track.Sleep.Wearable.Device ===
-## Original Data Type: character 
-## Unique Values: NA, Yes, No 
-## Conversion Complete.
-## New Data Type: logical 
-## TRUE Count: 3751 
-## FALSE Count: 20169 
-## ===============================</code></pre>
-<pre class="r"><code>data_fixed_datatypes&lt;-convert_to_logical(data_fixed_datatypes, column_name=&quot;Lab.Fasting&quot;, false_values=&quot;No&quot;)</code></pre>
-<pre><code>## === Converting Column: Lab.Fasting ===
-## Original Data Type: character 
-## Unique Values: NA, Yes, No 
-## Conversion Complete.
-## New Data Type: logical 
-## TRUE Count: 2221 
-## FALSE Count: 21699 
-## ===============================</code></pre>
-<pre class="r"><code># Converting &#39;Strictly.Followed.Main.Diet&#39; to an ordered factor
-data_fixed_datatypes$Strictly.Followed.Main.Diet &lt;- ordered(
-  data_fixed_datatypes$Strictly.Followed.Main.Diet,
-  levels = c(
-    &quot;Very strict. I consumed products that didn’t traditionally fall within the diet less than 2 days a week&quot;,
-    &quot;Moderately strict. I consumed products that didn’t traditionally fall within the diet 2-5 days a week&quot;,
-    &quot;Not very strict. I consumed products that didn’t traditionally fall within the diet 5-6 days a week&quot;
-  ),
-  exclude = NA
+<div id="replace-all-empty-strings-with-na" class="section level3">
+<h3>Replace all empty strings with NA</h3>
+<pre class="r"><code>  df_EPICv1_EPICv2_new[df_EPICv1_EPICv2_new == &quot;&quot;] &lt;- NA</code></pre>
+</div>
+<div id="remove-unnecessary-text-in-searchword-collumns" class="section level3">
+<h3>Remove unnecessary text in searchword collumns</h3>
+<pre class="r"><code>#Remove unnecessary text in searchword collumns
+source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_unnecessary_strings().R&quot;)
+# Define the parameters
+remove_list &lt;- c(&quot;Senolytic therapy (dasatinib, quercetin, rapamycin, etc.)&quot;, &quot;Digestive support: probiotic, digestive enzymes, etc.&quot;, &quot;Herbal supplements&quot;,
+                 &quot;Fish oil/Omega fatty acids&quot;,
+                 &quot;Antioxidants: coenzyme Q10, green tree extract, resveratrol, etc.&quot;, &quot;Workout supplements&quot;,
+                 &quot;Minerals, calcium, iron, etc.&quot;, &quot;Antioxidants: coenzyme Q10, green tea extract, resveratrol, etc.&quot;)
+columns_to_process &lt;- c(&quot;Anti.Aging.Interventions&quot;, &quot;Supplements.Medication&quot;, &quot;Nutritional.Supplements&quot;)
+
+df_EPICv1_EPICv2_new&lt;-remove_unnecessary_strings(df_EPICv1_EPICv2_new, remove_list, columns_to_process)</code></pre>
+</div>
+<div id="import-functions" class="section level3">
+<h3>Import functions</h3>
+<pre class="r"><code>source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/survey_version_functions.R&quot;)
+source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_supplement_data().R&quot;)
+source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_diet().R&quot;)
+source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Users_without_searchwords().R&quot;)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre class="r"><code>source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/replace_na_with_false().R&quot;)
+source(&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/seperate_survey().R&quot;)</code></pre>
+</div>
+<div id="add-survey-version-collumn" class="section level3">
+<h3>Add survey version collumn</h3>
+<pre class="r"><code>cols_survey2_3 &lt;-c(&quot;Hours.Sedentary.Remaining.Awake&quot;, &quot;Primary.Diet.Past.Year&quot;,&quot;Strictly.Followed.&quot;,&quot;Red.Meat.times.per.week&quot;,&quot;Processed.Food.times.per.week&quot;,&quot;Feel.Well.Rested.days.per.week&quot;,&quot;Screens.before.bed&quot;,&quot;Track.Sleep.Wearable.Device&quot;)
+#Remove rows with &quot;other&quot; in biological sex collumn
+
+cols_survey3_1 &lt;-c(&quot;Height.in&quot;, &quot;Weight&quot;, &quot;Lab.Fasting&quot;, &quot;Anti.Aging.Interventions&quot;, &quot;Menopause&quot;, &quot;Given.Birth&quot;, &quot;Hours.of.sleep.per.night&quot;)
+
+df_EPICv1_EPICv2_new &lt;- add_surv_version_col(df_EPICv1_EPICv2_new, cols_survey2_3, cols_survey3_1)</code></pre>
+<pre><code>## [1] &quot;&quot;
+## [1] &quot;Identifying survey 1&quot;
+## [1] &quot;Valid cols: &quot;
+## [1] &quot;Hours.Sedentary.Remaining.Awake&quot; &quot;Primary.Diet.Past.Year&quot;         
+## [3] &quot;Red.Meat.times.per.week&quot;         &quot;Processed.Food.times.per.week&quot;  
+## [5] &quot;Feel.Well.Rested.days.per.week&quot;  &quot;Screens.before.bed&quot;             
+## [7] &quot;Track.Sleep.Wearable.Device&quot;    
+## Column Hours.Sedentary.Remaining.Awake has 10069 hits.
+## Column Primary.Diet.Past.Year has 2819 hits.
+## Column Red.Meat.times.per.week has 10069 hits.
+## Column Processed.Food.times.per.week has 10069 hits.
+## Column Feel.Well.Rested.days.per.week has 10069 hits.
+## Column Screens.before.bed has 10069 hits.
+## Column Track.Sleep.Wearable.Device has 10069 hits.
+## [1] &quot;Valid cols: &quot;
+## [1] &quot;Hours.Sedentary.Remaining.Awake&quot; &quot;Primary.Diet.Past.Year&quot;         
+## [3] &quot;Red.Meat.times.per.week&quot;         &quot;Processed.Food.times.per.week&quot;  
+## [5] &quot;Feel.Well.Rested.days.per.week&quot;  &quot;Screens.before.bed&quot;             
+## [7] &quot;Track.Sleep.Wearable.Device&quot;    
+## Column Hours.Sedentary.Remaining.Awake has 10069 hits.
+## Column Primary.Diet.Past.Year has 2819 hits.
+## Column Red.Meat.times.per.week has 10069 hits.
+## Column Processed.Food.times.per.week has 10069 hits.
+## Column Feel.Well.Rested.days.per.week has 10069 hits.
+## Column Screens.before.bed has 10069 hits.
+## Column Track.Sleep.Wearable.Device has 10069 hits.
+## [1] &quot;&quot;
+## [1] &quot;Identifying survey 3 from surveys 2/3&quot;
+## [1] &quot;Valid cols: &quot;
+## [1] &quot;Height.in&quot;                &quot;Weight&quot;                  
+## [3] &quot;Lab.Fasting&quot;              &quot;Anti.Aging.Interventions&quot;
+## [5] &quot;Menopause&quot;                &quot;Given.Birth&quot;             
+## [7] &quot;Hours.of.sleep.per.night&quot;
+## Column Height.in has 4755 hits.
+## Column Weight has 4725 hits.
+## Column Lab.Fasting has 4628 hits.
+## Column Anti.Aging.Interventions has 4588 hits.
+## Column Menopause has 0 hits.
+## Column Given.Birth has 0 hits.
+## Column Hours.of.sleep.per.night has 4628 hits.
+## [1] &quot;Valid cols: &quot;
+## [1] &quot;Height.in&quot;                &quot;Weight&quot;                  
+## [3] &quot;Lab.Fasting&quot;              &quot;Anti.Aging.Interventions&quot;
+## [5] &quot;Menopause&quot;                &quot;Given.Birth&quot;             
+## [7] &quot;Hours.of.sleep.per.night&quot;
+## Column Height.in has 4755 hits.
+## Column Weight has 4725 hits.
+## Column Lab.Fasting has 4628 hits.
+## Column Anti.Aging.Interventions has 4588 hits.
+## Column Menopause has 0 hits.
+## Column Given.Birth has 0 hits.
+## Column Hours.of.sleep.per.night has 4628 hits.</code></pre>
+<pre class="r"><code># Create a histogram of survey classifications
+# ggplot2::ggplot(df_EPICv1_EPICv2_new, ggplot2::aes(x = factor(survey_version))) +
+#   ggplot2::geom_histogram(stat = &quot;count&quot;, fill = &quot;skyblue&quot;, color = &quot;black&quot;) +
+#   ggplot2::labs(title = &quot;Histogram of Survey Classifications&quot;, x = &quot;Survey Version&quot;, y = &quot;Count&quot;)</code></pre>
+</div>
+<div id="choose-if-you-only-want-to-see-only-one-survey-to-check-searchword-results.-otherwise-comment-out" class="section level3">
+<h3>Choose if you only want to see only one survey to check searchword
+results. Otherwise comment out</h3>
+<pre class="r"><code># # #
+# df_EPICv1_EPICv2_new &lt;- filter(df_EPICv1_EPICv2_new, survey_version==&quot;2&quot;|survey_version==&quot;3&quot;)
+# # #
+# # #</code></pre>
+</div>
+<div id="here-you-select-what-columns-to-keep" class="section level3">
+<h3>Here you select what columns to keep</h3>
+<pre class="r"><code>new_columns &lt;- c(
+  &quot;Patient.ID&quot;, &quot;PID&quot;, &quot;survey_version&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, &quot;Decimal.Chronological.Age&quot;, &quot;Biological.Sex&quot;,
+  &quot;Menopause&quot;, &quot;Given.Birth&quot;, &quot;Mother.Nicotine.Use&quot;, &quot;Mother.Pregnancy.Complications&quot;,
+  &quot;Diagnosed.with.low.or.high.calcium&quot;, &quot;Marital.Status&quot;, &quot;Level.of.Education&quot;,
+  &quot;Stress.Level&quot;, &quot;Caffeine.Use&quot;,
+  &quot;Tobacco.Use&quot;, &quot;Main.Diet&quot;,
+  &quot;Recreational.Drug.Frequency&quot;, &quot;Exercise.per.week&quot;,
+  &quot;Exercise.Type&quot;, &quot;Sexual.Frequency&quot;, &quot;Hours.of.sleep.per.night&quot;,
+  &quot;Allergies.family&quot;, &quot;Arthritis.family&quot;, &quot;Asthma.family&quot;, &quot;Back.Problems.family&quot;,
+  &quot;Blood.Diseases.family&quot;, &quot;Cancer.family&quot;, &quot;COPD.family&quot;, &quot;Diabetes.family&quot;,
+  &quot;Drug.Alcohol.family&quot;, &quot;Emphysema.family&quot;, &quot;Genetic.Disorder.family&quot;,
+  &quot;Stomach.Problems.family&quot;, &quot;Kidney.Disease.family&quot;, &quot;Heart.Problems.family&quot;,
+  &quot;High.Blood.Pressure.family&quot;, &quot;Neurological.Disease.family&quot;, &quot;Obesity.family&quot;,
+  &quot;Psychiatric.family&quot;, &quot;Scolliosis.family&quot;, &quot;SIDS.family&quot;, &quot;Stroke.family&quot;,
+  &quot;Tuberculosis.family&quot;, &quot;Thyroid.Disorder.family&quot;, &quot;Are.you.adopted.&quot;,
+  &quot;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&quot;,
+  &quot;Age.mother.at.birth&quot;, &quot;Age.father.at.birth&quot;, &quot;Hours.Sedentary.Remaining.Awake&quot;,
+  &quot;Primary.Diet.Past.Year&quot;, &quot;Strictly.Followed.Main.Diet&quot;, &quot;Red.Meat.times.per.week&quot;,
+  &quot;Processed.Food.times.per.week&quot;, &quot;Feel.Well.Rested.days.per.week&quot;,
+  &quot;Screens.before.bed&quot;, &quot;Track.Sleep.Wearable.Device&quot;, &quot;Lab.Fasting&quot;, &quot;Ethnicity&quot;,
+  &quot;Cancer.Diagnosis.any&quot;, &quot;Cardiovascular.any&quot;, &quot;Respiratory.Disease.any&quot;,
+  &quot;Endocrine.Disease.any&quot;, &quot;Skin.Hair.any&quot;, &quot;Gastrointestinal.any&quot;,
+  &quot;Genito.Urinary.any&quot;, &quot;Musculoskeletal.any&quot;, &quot;Neuropsychological.any&quot;,
+  &quot;Reproductive.any&quot;, &quot;Immune.any&quot;, &quot;Anemia&quot;, &quot;High.Cholesterol&quot;, &quot;Heart.Murmur&quot;,
+  &quot;Rheumatic.Fever&quot;, &quot;Stroke&quot;, &quot;High.Blood.Pressure&quot;, &quot;Heart.Attack&quot;, &quot;Hemophilia&quot;,
+  &quot;Sickle.Cell.Disease&quot;, &quot;Asthma&quot;, &quot;Chronic.Bronchitis&quot;, &quot;Cystic.Fibrosis&quot;,
+  &quot;Pleural.Effusion&quot;, &quot;COPD&quot;, &quot;Emphysema&quot;, &quot;Pneumonia&quot;, &quot;Tuberculosis&quot;, &quot;Acne&quot;,
+  &quot;Dandruff&quot;, &quot;Loss.Hair&quot;, &quot;Psoriasis&quot;, &quot;Vitiligo&quot;, &quot;Eczema&quot;, &quot;Ichthyossis&quot;,
+  &quot;Pressure.Ulcers&quot;, &quot;Seborrheic.dermatitis&quot;, &quot;Addison.Disease&quot;, &quot;Gestational.Diabetes&quot;,
+  &quot;Hashimoto.Thyroiditis&quot;, &quot;Prediabetes&quot;, &quot;Diabetes2&quot;, &quot;Cushing.Syndrome&quot;,
+  &quot;Grave.Disease&quot;, &quot;Osteoporosis&quot;, &quot;Diabetes1&quot;, &quot;Celiac.Disease&quot;, &quot;Cirrhosis&quot;,
+  &quot;Gallstones&quot;, &quot;Hemorrhoids&quot;, &quot;Irritable.Bowel&quot;, &quot;Crohn.Disease&quot;, &quot;Diverticulitis&quot;,
+  &quot;Gastroesophageal.Reflux&quot;, &quot;Hepatitis&quot;, &quot;Ulcerative.Colitis&quot;, &quot;Interstitial.Cystitis&quot;,
+  &quot;Ostomy&quot;, &quot;Urinary.Tract.Infections&quot;, &quot;Kidney.Stones&quot;, &quot;Urinary.Incontinence&quot;,
+  &quot;Gout&quot;, &quot;Psoriatic.Arthritis&quot;, &quot;Tendonitis&quot;, &quot;Osteoarthritis&quot;,
+  &quot;Rheumatoid.Arthritis&quot;, &quot;Alzheimer&quot;, &quot;Depression&quot;, &quot;Fibromyalgia&quot;, &quot;Parkinson&quot;,
+  &quot;Traumatic.Brain.Injury&quot;, &quot;Anxiety&quot;, &quot;Epilepsy&quot;, &quot;Migraines&quot;, &quot;Seizures&quot;,
+  &quot;Elevated.PSA&quot;, &quot;Endometriosis&quot;, &quot;Uterine.Fibroids&quot;, &quot;Enlarged.Prostate&quot;,
+  &quot;Polycystic.Ovary&quot;, &quot;HIV&quot;, &quot;Lupus&quot;, &quot;Myasthenia.Gravis&quot;, &quot;Vasculitis&quot;,
+  &quot;Guillain.Barre.syndrome&quot;, &quot;Multiple.Sclerosis&quot;, &quot;Severe.combined.immunodeficiency&quot;,
+  &quot;Cytomegalovirus&quot;, &quot;Bladder.Cancer&quot;, &quot;Breast.Cancer&quot;, &quot;Cervical.Cancer&quot;,
+  &quot;Colorectal.Cancer&quot;, &quot;Gynecologic.Cancer&quot;, &quot;Head.Cancer&quot;, &quot;Neck.Cancer&quot;,
+  &quot;Kidney.Cancer&quot;, &quot;Liver.Cancer&quot;, &quot;Lung.Cancer&quot;, &quot;Lymphoma.Cancer&quot;,
+  &quot;Mesothelioma.Cancer&quot;, &quot;Myeloma.Cancer&quot;, &quot;Ovarian.Cancer&quot;, &quot;Prostate.Cancer&quot;,
+  &quot;Skin.Cancer&quot;, &quot;Thyroid.Cancer&quot;, &quot;Uterine.Cancer&quot;, &quot;Vaginal.Vulvar.Cancer&quot;,
+  &quot;Recreational.Drug.Use.any&quot;, &quot;Drug.Alcohol.mother&quot;,
+  &quot;Drug.Alcohol.father&quot;, &quot;Main.Diet.Factor&quot;, &quot;FactorV&quot;, &quot;MTHFR&quot;, &quot;APOE&quot;,
+  &quot;BRCA1_BRCA2&quot;, &quot;BMI&quot; ,&quot;Hannum.PC&quot;, &quot;Horvath.PC&quot;, 
+  &quot;Telomere.Values.PC&quot;, &quot;GrimAge.PC&quot;, &quot;PhenoAge.PC&quot;, &quot;SystemsAge.Blood&quot;, 
+  &quot;SystemsAge.Brain&quot;, &quot;SystemsAge.Inflammation&quot;, &quot;SystemsAge.Heart&quot;, 
+  &quot;SystemsAge.Hormone&quot;, &quot;SystemsAge.Immune&quot;, &quot;SystemsAge.Kidney&quot;, 
+  &quot;SystemsAge.Liver&quot;, &quot;SystemsAge.Metabolic&quot;, &quot;SystemsAge.Lung&quot;, 
+  &quot;SystemsAge.MusculoSkeletal&quot;, &quot;SystemsAge&quot;, &quot;OMICmAge&quot;, &quot;DunedinPACE&quot;
 )
 
-# Converting &#39;Red.Meat.times.per.week&#39; to an ordered factor
-data_fixed_datatypes$Red.Meat.times.per.week &lt;- ordered(
-  data_fixed_datatypes$Red.Meat.times.per.week,
-  levels = c(&quot;0-1 days&quot;, &quot;1-3 days&quot;, &quot;3-5 days&quot;, &quot;6-7 days&quot;),
-  exclude = NA
+# filtered_df_crossectional_harmonized &lt;- df_EPICv1_EPICv2_new
+
+
+filtered_df_crossectional_harmonized &lt;- df_EPICv1_EPICv2_new[new_columns]</code></pre>
+</div>
+<div id="updates-the-changes-to-df_epicv1_epicv2_new" class="section level3">
+<h3>Updates the changes to df_EPICv1_EPICv2_new</h3>
+<pre class="r"><code>### VERY IMPORTANT: Updates the changes to df_EPICv1_EPICv2_new so that your functions will actually use them, as they load the file path of df_EPICv1_EPICv2_new.csv and not the object df_EPICv1_EPICv2_new
+write.csv(df_EPICv1_EPICv2_new, file = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;, row.names = FALSE)</code></pre>
+</div>
+<div id="harmonize-fasting" class="section level3">
+<h3>Harmonize fasting</h3>
+<pre class="r"><code>result_fasting &lt;- process_diet(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;fasting&quot;,
+  searchwords_case_unsensitive = &quot;Fasting|Caloric restriction|Time-restricted eating|Time-restricted fasting|intermittent fast|calorie restrict&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c()
 )
 
-# Converting &#39;Processed.Food.times.per.week&#39; to an ordered factor
-data_fixed_datatypes$Processed.Food.times.per.week &lt;- ordered(
-  data_fixed_datatypes$Processed.Food.times.per.week,
-  levels = c(&quot;0-1 days&quot;, &quot;1-3 days&quot;, &quot;3-5 days&quot;, &quot;6-7 days&quot;),
-  exclude = NA
+#add fasting to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_fasting$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_fasting$df_clean)[ncol(result_fasting$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;fasting&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, 0))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 0&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_fasting$searchword_findings$fasting, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 35&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_fasting$df_clean1$fasting, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 35&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: fasting_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: fasting_searchword_findings&quot;</code></pre>
+<pre class="r"><code>fasting_searchword_findings&lt;-result_fasting$searchword_findings</code></pre>
+</div>
+<div id="harmonize-main.diet" class="section level3">
+<h3>Harmonize Main.Diet</h3>
+<pre class="r"><code># Check if the &#39;Main.Diet&#39; column exists in the dataframe
+if (!&quot;Main.Diet&quot; %in% colnames(filtered_df_crossectional_harmonized)) {
+  stop(&quot;Error: The &#39;Main.Diet&#39; column is missing from &#39;filtered_df_crossectional_harmonized&#39; dataframe.&quot;)
+}
+
+# Define the list of valid diet options
+valid_diets &lt;- c(&quot;Mostly meat and fish&quot;, &quot;Mostly vegetables&quot;, &quot;Both meat and vegetables&quot;, &quot;Ketogenic diet&quot;)
+
+# Apply the transformation to the Main.Diet column
+filtered_df_crossectional_harmonized$Main.Diet &lt;- ifelse(
+  is.na(filtered_df_crossectional_harmonized$Main.Diet) | filtered_df_crossectional_harmonized$Main.Diet == &quot;&quot;,
+  NA,
+  ifelse(
+    filtered_df_crossectional_harmonized$Main.Diet %in% valid_diets,
+    filtered_df_crossectional_harmonized$Main.Diet,
+    &quot;Other&quot;
+  )
 )
 
-# Converting &#39;Feel.Well.Rested.days.per.week&#39; to an ordered factor
-data_fixed_datatypes$Feel.Well.Rested.days.per.week &lt;- ordered(
-  data_fixed_datatypes$Feel.Well.Rested.days.per.week,
-  levels = c(&quot;0-1 days&quot;, &quot;1-3 days&quot;, &quot;3-5 days&quot;, &quot;6-7 days&quot;),
-  exclude = NA
+# The Main.Diet column will now only contain valid values, &quot;Other&quot;, or NA</code></pre>
+</div>
+<div id="harmonize-nad" class="section level3">
+<h3>Harmonize NAD</h3>
+<pre class="r"><code>result_nad &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;NAD&quot;,
+  searchwords_case_unsensitive = &quot;NMN|nad|nicotinamide|B3|Niagen|Niacin|Elysium Signal|Elysium Health&#39;s Basis|Nuchido Time+|elysium Basis|Basis+&quot;,
+  searchwords_case_sensitive = &quot;NR|NDA&quot;,
+  old_columns = c(&quot;NR.NAD&quot;, &quot;Antiaging.NAD&quot;),
+  rows_to_remove = c(&quot;207428030059_R06C01&quot;, &quot;206693210178_R02C01&quot;, &quot;205117390039_R05C01&quot;, &quot;204229100144_R06C01&quot;)
 )
 
-# Converting &#39;Screens.before.bed&#39; to an ordered factor
-data_fixed_datatypes$Screens.before.bed &lt;- ordered(
-  data_fixed_datatypes$Screens.before.bed,
-  levels = c(&quot;Once a month or less&quot;, &quot;Once a week&quot;, &quot;Multiple times a week&quot;, &quot;Daily/near daily&quot;),
-  exclude = NA
+#add NAD to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_nad$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_nad$df_clean)[ncol(result_nad$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized&lt;-replace_na_with_false(filtered_df_crossectional_harmonized, &quot;NAD&quot;)
+
+#Compare searchword method to not using searchwords
+file_path &lt;- &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;
+no_searchword_results &lt;- count_true_values(file_path, &quot;NR.NAD&quot;, &quot;Antiaging.NAD&quot;)
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, no_searchword_results))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 1998&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_nad$searchword_findings$NAD, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 1586&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_nad$df_clean1$NAD, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 3584&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: NAD_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: NAD_searchword_findings&quot;</code></pre>
+<pre class="r"><code>NAD_searchword_findings&lt;-result_nad$searchword_findings
+NAD_removed_rows&lt;-result_nad$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-ta65" class="section level3">
+<h3>Harmonize TA65</h3>
+<pre class="r"><code>result_TA65 &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;TA65&quot;,
+  searchwords_case_unsensitive = &quot;TA.65|TA-65|TA65|TA 65|Astragalus|Astragaloside|Cycloastragenol&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;TA.65&quot;)
 )
 
-# Converting &#39;Track.Sleep.Wearable.Device&#39; to an ordered factor
-# Assuming the two unique values are &quot;No&quot; and &quot;Yes&quot;
-data_fixed_datatypes$Track.Sleep.Wearable.Device &lt;- ordered(
-  data_fixed_datatypes$Track.Sleep.Wearable.Device,
-  levels = c(&quot;No&quot;, &quot;Yes&quot;),
-  exclude = NA
+#add TA65 to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_TA65$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_TA65$df_clean)[ncol(result_TA65$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized&lt;-replace_na_with_false(filtered_df_crossectional_harmonized, &quot;TA65&quot;)
+
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$TA.65, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 343&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_TA65$searchword_findings$TA65, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 183&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_TA65$df_clean1$TA65, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 526&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: TA65_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: TA65_searchword_findings&quot;</code></pre>
+<pre class="r"><code>TA65_searchword_findings&lt;-result_TA65$searchword_findings</code></pre>
+</div>
+<div id="harmonize-sulforaphane" class="section level3">
+<h3>Harmonize sulforaphane</h3>
+<pre class="r"><code>result_sulforaphane &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;sulforaphane&quot;,
+  searchwords_case_unsensitive = &quot;Sulforaphane|Sulphoraphane|broccoli|brocoli|SFN|Avmacol|suphlorophane&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Sulphoraphane.broccoli.extract&quot;)
 )
 
+#add sulforaphane to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_sulforaphane$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_sulforaphane$df_clean)[ncol(result_sulforaphane$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
 
-data_fixed_datatypes$Recreational.Drug.Frequency &lt;- ordered(data$Recreational.Drug.Frequency, 
-                                   levels = c(&quot;Never&quot;, &quot;On special occasions&quot;,&quot;Once per week&quot;, &quot;Regularly&quot;, &quot;3-5 times per week&quot;), exclude=NA)
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized&lt;-replace_na_with_false(filtered_df_crossectional_harmonized, &quot;sulforaphane&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Sulphoraphane.broccoli.extract, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 637&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_sulforaphane$searchword_findings$sulforaphane, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 387&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_sulforaphane$df_clean1$sulforaphane, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 1024&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: sulforaphane_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: sulforaphane_searchword_findings&quot;</code></pre>
+<pre class="r"><code>sulforaphane_searchword_findings&lt;-result_sulforaphane$searchword_findings</code></pre>
+</div>
+<div id="harmonize-dhea" class="section level3">
+<h3>Harmonize DHEA</h3>
+<pre class="r"><code>result_DHEA &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;DHEA_new&quot;,
+  searchwords_case_unsensitive = &quot;DHEA|Dehydroepiandrosterone|Prasterone|Androstenolone&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;DHEA&quot;),
+  rows_to_remove = c(&quot;204229110168_R02C01&quot;)
+)
+
+#add DHEA to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_DHEA$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_DHEA$df_clean)[ncol(result_DHEA$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;DHEA_new&quot;)
 
 
-data_fixed_datatypes$Sexual.Frequency &lt;- ordered(data$Sexual.Frequency, 
-                                   levels = c(&quot;Inactive&quot;, &quot;Occasionally&quot;, &quot;Regularly&quot;), exclude=NA)
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$DHEA, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 1592&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_DHEA$searchword_findings$DHEA_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 835&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_DHEA$df_clean1$DHEA_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 2427&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: DHEA_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: DHEA_searchword_findings&quot;</code></pre>
+<pre class="r"><code>DHEA_searchword_findings&lt;-result_DHEA$searchword_findings
+DHEA_removed_rows&lt;-result_DHEA$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-rapamycin" class="section level3">
+<h3>Harmonize Rapamycin</h3>
+<pre class="r"><code>result_Rapamycin &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;Rapamycin_new&quot;,
+  searchwords_case_unsensitive = &quot;Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Rapamycin&quot;)
+)
 
-data_fixed_datatypes$Hours.of.sleep.per.night &lt;- ordered(data$Hours.of.sleep.per.night, 
-                                   levels = c(&quot;6 hours or less&quot;, &quot;6 to 8 hours&quot;, &quot;More than 8 hours&quot;), exclude=NA)
+#add Rapamycin to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_Rapamycin$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_Rapamycin$df_clean)[ncol(result_Rapamycin$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
 
-data_fixed_datatypes$Caffeine.Use &lt;- ordered(data$Caffeine.Use, 
-                                   levels = c(&quot;Never&quot;, &quot;On special occasions&quot;, &quot;Once per week&quot;, &quot;3-5 times per week &quot;, &quot;Regularly&quot;), exclude=NA)
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;Rapamycin_new&quot;)
 
-data_fixed_datatypes$Exercise.per.week &lt;- ordered(data$Exercise.per.week, 
-                                   levels = c(&quot;Never&quot;, &quot;1-2 times per week&quot;, &quot;3-4 times per week&quot;, &quot;5-7 times per week&quot;, &quot;8 or more times per week&quot;), exclude=NA)
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Rapamycin, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 231&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_Rapamycin$searchword_findings$Rapamycin_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 1&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_Rapamycin$df_clean1$Rapamycin_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 232&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: Rapamycin_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: Rapamycin_searchword_findings&quot;</code></pre>
+<pre class="r"><code>Rapamycin_searchword_findings&lt;-result_Rapamycin$searchword_findings</code></pre>
+</div>
+<div id="harmonize-sasp_supressors" class="section level3">
+<h3>Harmonize SASP_supressors</h3>
+<pre class="r"><code>result_SASP_supressors &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;SASP_supressors&quot;,
+  searchwords_case_unsensitive = &quot;Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune|Senolytic|quercetin|dasatanib|dasatinib|Fisetin|Senomorphic|SASP|MitoQ|Mito Q|apigenin|Curcumin|fisatine|TA.65|TA-65|TA 65|Astragalus|Astragaloside|Cycloastragenol|Metformin|Berberine|berbarine&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Rapamycin&quot;, &quot;Antiaging.Senolytics&quot;, &quot;Metformin&quot;, &quot;TA.65&quot;),
+  rows_to_remove = c(&quot;204930630030_R04C01&quot;, &quot;205117390039_R05C01&quot;, &quot;207343250042_R01C01&quot;, &quot;206602840028_R04C01&quot;)
+)
+
+#add SASP_supressors to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_SASP_supressors$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_SASP_supressors$df_clean)[ncol(result_SASP_supressors$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;SASP_supressors&quot;)
+
+#Compare searchword method to not using searchwords
+file_path &lt;- &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;
+no_searchword_results &lt;- count_true_values(file_path, &quot;Rapamycin&quot;, &quot;Antiaging.Senolytics&quot;, &quot;Metformin&quot;, &quot;TA.65&quot;)
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, no_searchword_results))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 2097&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_SASP_supressors$searchword_findings$SASP_supressors, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 1570&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_SASP_supressors$df_clean1$SASP_supressors, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 3667&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: SASP_supressors_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: SASP_supressors_searchword_findings&quot;</code></pre>
+<pre class="r"><code>SASP_supressors_searchword_findings&lt;-result_SASP_supressors$searchword_findings
+SASP_supressors_removed_rows&lt;-result_SASP_supressors$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-metformin-includes-berberine" class="section level3">
+<h3>Harmonize Metformin (includes berberine)</h3>
+<pre class="r"><code>result_Metformin &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;Metformin_new&quot;,
+  searchwords_case_unsensitive = &quot;Metformin|Berberine|berbarine&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Metformin&quot;),
+  rows_to_remove = c(&quot;206602840028_R04C01&quot;, &quot;204930630030_R04C01&quot;, &quot;207510060018_R06C01&quot;)
+)
+
+#add Metformin to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_Metformin$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_Metformin$df_clean)[ncol(result_Metformin$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;Metformin_new&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Metformin, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 1391&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_Metformin$searchword_findings$Metformin_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 616&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_Metformin$df_clean1$Metformin_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 2007&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: Metformin_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: Metformin_searchword_findings&quot;</code></pre>
+<pre class="r"><code>Metformin_searchword_findings&lt;-result_Metformin$searchword_findings
+Metformin_removed_rows&lt;-result_Metformin$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-resveratrol" class="section level3">
+<h3>Harmonize Resveratrol</h3>
+<pre class="r"><code>result_Resveratrol &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;Resveratrol_new&quot;,
+  searchwords_case_unsensitive = &quot;Resveratrol|resveraCel|resverotrol|Pterostilbene&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Resveratrol&quot;),
+  rows_to_remove = c(&quot;206602840028_R04C01&quot;)
+)
+
+#add Resveratrol to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_Resveratrol$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_Resveratrol$df_clean)[ncol(result_Resveratrol$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;Resveratrol_new&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Resveratrol, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 2911&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_Resveratrol$searchword_findings$Resveratrol_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 69&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_Resveratrol$df_clean1$Resveratrol_new, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 2980&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: Resveratrol_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: Resveratrol_searchword_findings&quot;</code></pre>
+<pre class="r"><code>Resveratrol_searchword_findings&lt;-result_Resveratrol$searchword_findings
+Resveratrol_removed_rows&lt;-result_Resveratrol$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-exosomes" class="section level3">
+<h3>Harmonize Exosomes</h3>
+<pre class="r"><code>result_Exosomes &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;Exosomes&quot;,
+  searchwords_case_unsensitive = &quot;Exosome|vesic&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Antiaging.Exosome&quot;)
+)
+
+#add Exosomes to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_Exosomes$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_Exosomes$df_clean)[ncol(result_Exosomes$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;Exosomes&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Antiaging.Exosome, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 449&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_Exosomes$searchword_findings$Exosomes, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 110&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_Exosomes$df_clean1$Exosomes, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 559&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: Exosomes_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: Exosomes_searchword_findings&quot;</code></pre>
+<pre class="r"><code>Exosomes_searchword_findings&lt;-result_Exosomes$searchword_findings</code></pre>
+</div>
+<div id="harmonize-stem-cells" class="section level3">
+<h3>Harmonize Stem cells</h3>
+<pre class="r"><code>result_stem_cells &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;stem_cells&quot;,
+  searchwords_case_unsensitive = &quot;CELULAS MADRES|Stem cell&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(&quot;Antiaging.Stem.Cell&quot;),
+  rows_to_remove = c(&quot;204229100139_R07C01&quot;,&quot;205676800104_R04C01&quot;, &quot;206240670072_R05C01&quot;, &quot;204229100139_R07C01&quot;)
+)
+
+#add stem_cells to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_stem_cells$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_stem_cells$df_clean)[ncol(result_stem_cells$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;stem_cells&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, sum(df_EPICv1_EPICv2_new$Antiaging.Exosome, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 449&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_stem_cells$searchword_findings$stem_cells, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 192&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_stem_cells$df_clean1$stem_cells, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 893&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: stem_cells_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: stem_cells_searchword_findings&quot;</code></pre>
+<pre class="r"><code>stem_cells_searchword_findings&lt;-result_stem_cells$searchword_findings
+stem_cells_removed_rows&lt;-result_stem_cells$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-hrt" class="section level3">
+<h3>Harmonize HRT</h3>
+<pre class="r"><code>result_HRT &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;HRT&quot;,
+  searchwords_case_unsensitive = &quot;Hormone|testosterone|estrogen|estradiol|progesterone|DHEA|Dehydroepiandrosterone|HGH|Growth Hormone|GHRH|HCG|Pregnyl|Ipamorelin|Norditropin|Androforte|TRT|HCG|Pregnenolone|Cypionate|testosterone|Testorone|Tesamorelin|sermorelin|estriol|Estring|CJC|Testoplex&quot;,
+  searchwords_case_sensitive = &quot;GH&quot;,
+  old_columns = c(&quot;Antiaging.Hormone.Replacement&quot;, &quot;DHEA&quot;),
+  rows_to_remove = c(&quot;204229100153_R06C01&quot;, &quot;204229100143_R04C01&quot;)
+)
+
+#add HRT to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_HRT$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_HRT$df_clean)[ncol(result_HRT$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;HRT&quot;)
+
+#Compare searchword method to not using searchwords
+file_path &lt;- &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;
+no_searchword_results &lt;- count_true_values(file_path, &quot;Antiaging.Hormone.Replacement&quot;, &quot;DHEA&quot;)
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, no_searchword_results))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 3359&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_HRT$searchword_findings$HRT, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 1338&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_HRT$df_clean1$HRT, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 4697&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: HRT_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: HRT_searchword_findings&quot;</code></pre>
+<pre class="r"><code>HRT_searchword_findings&lt;-result_HRT$searchword_findings
+HRT_removed_rows&lt;-result_HRT$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-spermidine" class="section level3">
+<h3>Harmonize spermidine</h3>
+<pre class="r"><code>result_spermidine &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;spermidine&quot;,
+  searchwords_case_unsensitive = &quot;Spermidine|Primeadine|Spermedine&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c(),
+  rows_to_remove = c(&quot;205117390039_R05C01&quot;)
+)
+
+#add spermidine to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_spermidine$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_spermidine$df_clean)[ncol(result_spermidine$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;spermidine&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, 0))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 0&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_spermidine$searchword_findings$spermidine, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 416&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_spermidine$df_clean1$spermidine, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 416&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: spermidine_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: spermidine_searchword_findings&quot;</code></pre>
+<pre class="r"><code>spermidine_searchword_findings&lt;-result_spermidine$searchword_findings
+spermidine_removed_rows&lt;-result_spermidine$df_removed_rows</code></pre>
+</div>
+<div id="harmonize-semaglutide" class="section level3">
+<h3>Harmonize semaglutide</h3>
+<pre class="r"><code>result_semaglutide &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;semaglutide&quot;,
+  searchwords_case_unsensitive = &quot;GLP|semaglutide|Ozempic|Wegovy|Saxenda|liraglutide|semautide|Ozemoic&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c()
+)
+
+#add semaglutide to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_semaglutide$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_semaglutide$df_clean)[ncol(result_semaglutide$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;semaglutide&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, 0))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 0&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_semaglutide$searchword_findings$semaglutide, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 17&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_semaglutide$df_clean1$semaglutide, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 17&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: semaglutide_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: semaglutide_searchword_findings&quot;</code></pre>
+<pre class="r"><code>semaglutide_searchword_findings&lt;-result_semaglutide$searchword_findings</code></pre>
+</div>
+<div id="harmonize-vitamind" class="section level3">
+<h3>Harmonize vitaminD</h3>
+<pre class="r"><code>result_vitaminD &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;vitaminD&quot;,
+  searchwords_case_unsensitive = &quot;Vit-D|Vitamin D|vit D|D3 |v itiam D|Vitamine D|Vitamins D&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c()
+)
+
+#add vitaminD to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_vitaminD$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_vitaminD$df_clean)[ncol(result_vitaminD$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;vitaminD&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, 0))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 0&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_vitaminD$searchword_findings$vitaminD, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 4785&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_vitaminD$df_clean1$vitaminD, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 4785&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: vitaminD_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: vitaminD_searchword_findings&quot;</code></pre>
+<pre class="r"><code>vitaminD_searchword_findings&lt;-result_vitaminD$searchword_findings</code></pre>
+</div>
+<div id="harmonize-akg" class="section level3">
+<h3>Harmonize AKG</h3>
+<pre class="r"><code>result_AKG &lt;- process_supplement_data(
+  file_path = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv&quot;,
+  supplement = &quot;AKG&quot;,
+  searchwords_case_unsensitive = &quot;AKG|Alfa-keto|Alpha-keto|Alpha keto|Alfa keto&quot;,
+  searchwords_case_sensitive = &quot;&quot;,
+  old_columns = c()
+)
+
+#add AKG to filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- merge(filtered_df_crossectional_harmonized, result_AKG$df_clean[, c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;, names(result_AKG$df_clean)[ncol(result_AKG$df_clean)])], c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Array&quot;, &quot;Collection.Date&quot;), all.x = TRUE)
+
+# Replace NA values with FALSE, otherwise the rows you remove in the function above will have NA values in filtered_df_crossectional_harmonized
+filtered_df_crossectional_harmonized &lt;- replace_na_with_false(filtered_df_crossectional_harmonized, &quot;AKG&quot;)
+
+#Compare searchword method to not using searchwords
+# Print the result
+print(paste(&quot;Number of users without using searchwords:&quot;, 0))</code></pre>
+<pre><code>## [1] &quot;Number of users without using searchwords: 0&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Number of extra users using searchwords:&quot;, sum(result_AKG$searchword_findings$AKG, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Number of extra users using searchwords: 174&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Total number of users using searchwords and previous cathegorization method:&quot;, sum(result_AKG$df_clean1$AKG, na.rm = TRUE)))</code></pre>
+<pre><code>## [1] &quot;Total number of users using searchwords and previous cathegorization method: 174&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;To see text answers cathegorized as true see: AKG_searchword_findings&quot;))</code></pre>
+<pre><code>## [1] &quot;To see text answers cathegorized as true see: AKG_searchword_findings&quot;</code></pre>
+<pre class="r"><code>AKG_searchword_findings&lt;-result_AKG$searchword_findings</code></pre>
+</div>
+<div id="make-new-csv-with-harmonized-data" class="section level3">
+<h3>Make new CSV with harmonized data</h3>
+<pre class="r"><code># Sortera dataframe efter en kollumn som bara finns i survey 2-3 för quality control
+df_EPICv1_EPICv2_new &lt;- df_EPICv1_EPICv2_new %&gt;% arrange(desc(BMI))
+  # filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Primary.Diet.Past.Year)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Strictly.Followed.)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Red.Meat.times.per.week)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Processed.Food.times.per.week)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Feel.Well.Rested.days.per.week)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Screens.before.bed)
+# filtered_df_crossectional_harmonized &lt;- filtered_df_crossectional_harmonized %&gt;% arrange(Track.Sleep.Wearable.Device)</code></pre>
+</div>
+<div id="save-results" class="section level3">
+<h3>Save results</h3>
+<pre class="r"><code>write.csv(filtered_df_crossectional_harmonized, file = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step1&quot;, row.names = FALSE)</code></pre>
+</div>
+<div id="make-a-df-to-check-what-free-text-was-used-to-categorize-each-user" class="section level3">
+<h3>Make a DF to check what free text was used to categorize each
+user</h3>
+<pre class="r"><code>library(dplyr)
+all_searchword_findings&lt;-merge(AKG_searchword_findings, DHEA_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, Exosomes_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, fasting_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, HRT_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, Metformin_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, NAD_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, Resveratrol_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, SASP_supressors_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, semaglutide_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, spermidine_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, stem_cells_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, sulforaphane_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, TA65_searchword_findings, all = TRUE)
+all_searchword_findings&lt;-merge(all_searchword_findings, vitaminD_searchword_findings, all = TRUE)
+
+all_searchword_findings$sups_meds_interventions &lt;- paste(
+  ifelse(is.na(all_searchword_findings$Supplements.Medication), &quot;&quot;, all_searchword_findings$Supplements.Medication),
+  ifelse(is.na(all_searchword_findings$Anti.Aging.Interventions), &quot;&quot;, all_searchword_findings$Anti.Aging.Interventions),
+  sep = &quot; + &quot;
+)
+
+# # Optional: Remove cases where the entire string is just &quot; + &quot; (in case both values were NA)
+# all_searchword_findings$sups_meds_interventions &lt;- gsub(&quot;^ \\+ $&quot;, &quot;&quot;, all_searchword_findings$sups_meds_interventions)
 # 
-# # Convert to Ordered Factor
-# data_fixed_datatypes$Education.of.Mother &lt;- ordered(data$Education.of.Mother, 
-#                                    levels = c(&quot;Did not complete high school&quot;, &quot;High school or equivalent&quot;, &quot;Technical or occupational certificate&quot;, &quot;Some college coursework completed&quot;, &quot;Associate degree&quot;, &quot;Bachelor’s degree&quot;, &quot;Master’s degree&quot;, &quot;Professional (MD, DO, DDS, JD)&quot;, &quot;Doctorate (PhD)&quot;), exclude=NA)
-# data_fixed_datatypes$Education.of.Father &lt;- ordered(data$Education.of.Father, 
-#                                    levels = c(&quot;Did not complete high school&quot;, &quot;High school or equivalent&quot;, &quot;Technical or occupational certificate&quot;, &quot;Some college coursework completed&quot;, &quot;Associate degree&quot;, &quot;Bachelor’s degree&quot;, &quot;Master’s degree&quot;, &quot;Professional (MD, DO, DDS, JD)&quot;, &quot;Doctorate (PhD)&quot;), exclude=NA)
-# data_fixed_datatypes$Level.of.Education &lt;- ordered(data$Level.of.Education, 
-#                                    levels = c(&quot;Did not complete high school&quot;, &quot;High school or equivalent&quot;, &quot;Technical or occupational certificate&quot;, &quot;Some college coursework completed&quot;, &quot;Associate degree&quot;, &quot;Bachelor’s degree&quot;, &quot;Master’s degree&quot;, &quot;Professional (MD, DO, DDS, JD)&quot;, &quot;Doctorate (PhD)&quot;), exclude=NA)
 
-# Convert to Ordered Factor
-data_fixed_datatypes$Tobacco.Use &lt;- ordered(data$Tobacco.Use, 
-                                   levels = c(&quot;None&quot;, &quot;Less than 1 cigarette per week&quot;, &quot;Less than 1 cigarette per day&quot;, &quot;1-5 cigarettes per day&quot;, &quot;6-10 cigarettes per day&quot;, &quot;11-20 cigarettes per day&quot;, &quot;More than 20 cigarettes per day&quot;), exclude=NA)
+all_searchword_findings &lt;- subset(all_searchword_findings, select = -c(PID, Supplements.Medication, Anti.Aging.Interventions))
 
-
-# str(data_fixed_datatypes)</code></pre>
-</div>
-<div id="truefalse-values-need-to-på-converted-to-01-for-stdreg-package---funkar-ej-just-nu" class="section level3">
-<h3>True/false values need to på converted to 0/1 for stdReg package -
-Funkar ej just nu!</h3>
-<pre class="r"><code>data_fixed_datatypes &lt;- logical_to_integer(data_fixed_datatypes)</code></pre>
-<pre><code>## Converting column &#39;Diagnosed.with.low.or.high.calcium&#39; from logical to integer.
-## Converting column &#39;Are.you.adopted.&#39; from logical to integer.
-## Converting column &#39;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&#39; from logical to integer.
-## Converting column &#39;Lab.Fasting&#39; from logical to integer.
-## Converting column &#39;Cancer.Diagnosis.any&#39; from logical to integer.
-## Converting column &#39;Cardiovascular.any&#39; from logical to integer.
-## Converting column &#39;Respiratory.Disease.any&#39; from logical to integer.
-## Converting column &#39;Endocrine.Disease.any&#39; from logical to integer.
-## Converting column &#39;Skin.Hair.any&#39; from logical to integer.
-## Converting column &#39;Gastrointestinal.any&#39; from logical to integer.
-## Converting column &#39;Genito.Urinary.any&#39; from logical to integer.
-## Converting column &#39;Musculoskeletal.any&#39; from logical to integer.
-## Converting column &#39;Neuropsychological.any&#39; from logical to integer.
-## Converting column &#39;Reproductive.any&#39; from logical to integer.
-## Converting column &#39;Immune.any&#39; from logical to integer.
-## Converting column &#39;Anemia&#39; from logical to integer.
-## Converting column &#39;High.Cholesterol&#39; from logical to integer.
-## Converting column &#39;Heart.Murmur&#39; from logical to integer.
-## Converting column &#39;Rheumatic.Fever&#39; from logical to integer.
-## Converting column &#39;Stroke&#39; from logical to integer.
-## Converting column &#39;High.Blood.Pressure&#39; from logical to integer.
-## Converting column &#39;Heart.Attack&#39; from logical to integer.
-## Converting column &#39;Hemophilia&#39; from logical to integer.
-## Converting column &#39;Sickle.Cell.Disease&#39; from logical to integer.
-## Converting column &#39;Asthma&#39; from logical to integer.
-## Converting column &#39;Chronic.Bronchitis&#39; from logical to integer.
-## Converting column &#39;Cystic.Fibrosis&#39; from logical to integer.
-## Converting column &#39;Pleural.Effusion&#39; from logical to integer.
-## Converting column &#39;COPD&#39; from logical to integer.
-## Converting column &#39;Emphysema&#39; from logical to integer.
-## Converting column &#39;Pneumonia&#39; from logical to integer.
-## Converting column &#39;Tuberculosis&#39; from logical to integer.
-## Converting column &#39;Acne&#39; from logical to integer.
-## Converting column &#39;Dandruff&#39; from logical to integer.
-## Converting column &#39;Loss.Hair&#39; from logical to integer.
-## Converting column &#39;Psoriasis&#39; from logical to integer.
-## Converting column &#39;Vitiligo&#39; from logical to integer.
-## Converting column &#39;Eczema&#39; from logical to integer.
-## Converting column &#39;Ichthyossis&#39; from logical to integer.
-## Converting column &#39;Pressure.Ulcers&#39; from logical to integer.
-## Converting column &#39;Seborrheic.dermatitis&#39; from logical to integer.
-## Converting column &#39;Addison.Disease&#39; from logical to integer.
-## Converting column &#39;Gestational.Diabetes&#39; from logical to integer.
-## Converting column &#39;Hashimoto.Thyroiditis&#39; from logical to integer.
-## Converting column &#39;Prediabetes&#39; from logical to integer.
-## Converting column &#39;Diabetes2&#39; from logical to integer.
-## Converting column &#39;Cushing.Syndrome&#39; from logical to integer.
-## Converting column &#39;Grave.Disease&#39; from logical to integer.
-## Converting column &#39;Osteoporosis&#39; from logical to integer.
-## Converting column &#39;Diabetes1&#39; from logical to integer.
-## Converting column &#39;Celiac.Disease&#39; from logical to integer.
-## Converting column &#39;Cirrhosis&#39; from logical to integer.
-## Converting column &#39;Gallstones&#39; from logical to integer.
-## Converting column &#39;Hemorrhoids&#39; from logical to integer.
-## Converting column &#39;Irritable.Bowel&#39; from logical to integer.
-## Converting column &#39;Crohn.Disease&#39; from logical to integer.
-## Converting column &#39;Diverticulitis&#39; from logical to integer.
-## Converting column &#39;Gastroesophageal.Reflux&#39; from logical to integer.
-## Converting column &#39;Hepatitis&#39; from logical to integer.
-## Converting column &#39;Ulcerative.Colitis&#39; from logical to integer.
-## Converting column &#39;Interstitial.Cystitis&#39; from logical to integer.
-## Converting column &#39;Ostomy&#39; from logical to integer.
-## Converting column &#39;Urinary.Tract.Infections&#39; from logical to integer.
-## Converting column &#39;Kidney.Stones&#39; from logical to integer.
-## Converting column &#39;Urinary.Incontinence&#39; from logical to integer.
-## Converting column &#39;Gout&#39; from logical to integer.
-## Converting column &#39;Psoriatic.Arthritis&#39; from logical to integer.
-## Converting column &#39;Tendonitis&#39; from logical to integer.
-## Converting column &#39;Osteoarthritis&#39; from logical to integer.
-## Converting column &#39;Rheumatoid.Arthritis&#39; from logical to integer.
-## Converting column &#39;Alzheimer&#39; from logical to integer.
-## Converting column &#39;Depression&#39; from logical to integer.
-## Converting column &#39;Fibromyalgia&#39; from logical to integer.
-## Converting column &#39;Parkinson&#39; from logical to integer.
-## Converting column &#39;Traumatic.Brain.Injury&#39; from logical to integer.
-## Converting column &#39;Anxiety&#39; from logical to integer.
-## Converting column &#39;Epilepsy&#39; from logical to integer.
-## Converting column &#39;Migraines&#39; from logical to integer.
-## Converting column &#39;Seizures&#39; from logical to integer.
-## Converting column &#39;Elevated.PSA&#39; from logical to integer.
-## Converting column &#39;Endometriosis&#39; from logical to integer.
-## Converting column &#39;Uterine.Fibroids&#39; from logical to integer.
-## Converting column &#39;Enlarged.Prostate&#39; from logical to integer.
-## Converting column &#39;Polycystic.Ovary&#39; from logical to integer.
-## Converting column &#39;HIV&#39; from logical to integer.
-## Converting column &#39;Lupus&#39; from logical to integer.
-## Converting column &#39;Myasthenia.Gravis&#39; from logical to integer.
-## Converting column &#39;Vasculitis&#39; from logical to integer.
-## Converting column &#39;Guillain.Barre.syndrome&#39; from logical to integer.
-## Converting column &#39;Multiple.Sclerosis&#39; from logical to integer.
-## Converting column &#39;Severe.combined.immunodeficiency&#39; from logical to integer.
-## Converting column &#39;Cytomegalovirus&#39; from logical to integer.
-## Converting column &#39;Bladder.Cancer&#39; from logical to integer.
-## Converting column &#39;Breast.Cancer&#39; from logical to integer.
-## Converting column &#39;Cervical.Cancer&#39; from logical to integer.
-## Converting column &#39;Colorectal.Cancer&#39; from logical to integer.
-## Converting column &#39;Gynecologic.Cancer&#39; from logical to integer.
-## Converting column &#39;Head.Cancer&#39; from logical to integer.
-## Converting column &#39;Neck.Cancer&#39; from logical to integer.
-## Converting column &#39;Kidney.Cancer&#39; from logical to integer.
-## Converting column &#39;Liver.Cancer&#39; from logical to integer.
-## Converting column &#39;Lung.Cancer&#39; from logical to integer.
-## Converting column &#39;Lymphoma.Cancer&#39; from logical to integer.
-## Converting column &#39;Mesothelioma.Cancer&#39; from logical to integer.
-## Converting column &#39;Myeloma.Cancer&#39; from logical to integer.
-## Converting column &#39;Ovarian.Cancer&#39; from logical to integer.
-## Converting column &#39;Prostate.Cancer&#39; from logical to integer.
-## Converting column &#39;Skin.Cancer&#39; from logical to integer.
-## Converting column &#39;Thyroid.Cancer&#39; from logical to integer.
-## Converting column &#39;Uterine.Cancer&#39; from logical to integer.
-## Converting column &#39;Vaginal.Vulvar.Cancer&#39; from logical to integer.
-## Converting column &#39;Recreational.Drug.Use.any&#39; from logical to integer.
-## Converting column &#39;Drug.Alcohol.mother&#39; from logical to integer.
-## Converting column &#39;Drug.Alcohol.father&#39; from logical to integer.
-## Converting column &#39;FactorV&#39; from logical to integer.
-## Converting column &#39;MTHFR&#39; from logical to integer.
-## Converting column &#39;APOE&#39; from logical to integer.
-## Converting column &#39;BRCA1_BRCA2&#39; from logical to integer.
-## Converting column &#39;fasting&#39; from logical to integer.
-## Converting column &#39;NAD&#39; from logical to integer.
-## Converting column &#39;TA65&#39; from logical to integer.
-## Converting column &#39;sulforaphane&#39; from logical to integer.
-## Converting column &#39;DHEA_new&#39; from logical to integer.
-## Converting column &#39;Rapamycin_new&#39; from logical to integer.
-## Converting column &#39;SASP_supressors&#39; from logical to integer.
-## Converting column &#39;Metformin_new&#39; from logical to integer.
-## Converting column &#39;Resveratrol_new&#39; from logical to integer.
-## Converting column &#39;Exosomes&#39; from logical to integer.
-## Converting column &#39;stem_cells&#39; from logical to integer.
-## Converting column &#39;HRT&#39; from logical to integer.
-## Converting column &#39;spermidine&#39; from logical to integer.
-## Converting column &#39;semaglutide&#39; from logical to integer.
-## Converting column &#39;vitaminD&#39; from logical to integer.
-## Converting column &#39;AKG&#39; from logical to integer.</code></pre>
-<pre class="r"><code>data_fixed_datatypes &lt;- char_cols_to_factors(data_fixed_datatypes,uniq_val_thresh=9, cols_to_skip = c(&quot;Patient.ID&quot;, &quot;PID&quot;, &quot;Collection.Date&quot;, &quot;Array&quot;, &quot;survey_version&quot;))</code></pre>
-<pre><code>## Skipping column &#39;Patient.ID&#39; as it&#39;s specified in cols_to_skip.</code></pre>
-<pre><code>## Skipping column &#39;PID&#39; as it&#39;s specified in cols_to_skip.</code></pre>
-<pre><code>## Skipping column &#39;Array&#39; as it&#39;s specified in cols_to_skip.</code></pre>
-<pre><code>## Skipping column &#39;Collection.Date&#39; as it&#39;s specified in cols_to_skip.</code></pre>
-<pre><code>## Skipping column &#39;survey_version&#39; as it&#39;s specified in cols_to_skip.</code></pre>
-<pre><code>## Skipping column &#39;Decimal.Chronological.Age&#39; (type: numeric).</code></pre>
-<pre><code>## Processing column &#39;Biological.Sex&#39; with 2 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Biological.Sex&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Female, Male</code></pre>
-<pre><code>## Processing column &#39;Menopause&#39; with 2 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Menopause&#39; to factor.</code></pre>
-<pre><code>##    - Levels: No, Yes</code></pre>
-<pre><code>## Processing column &#39;Given.Birth&#39; with 2 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Given.Birth&#39; to factor.</code></pre>
-<pre><code>##    - Levels: No, Yes</code></pre>
-<pre><code>## Processing column &#39;Mother.Nicotine.Use&#39; with 3 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Mother.Nicotine.Use&#39; to factor.</code></pre>
-<pre><code>##    - Levels: No, Unknown, Yes</code></pre>
-<pre><code>## Processing column &#39;Mother.Pregnancy.Complications&#39; with 3 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Mother.Pregnancy.Complications&#39; to factor.</code></pre>
-<pre><code>##    - Levels: No, Unknown, Yes</code></pre>
-<pre><code>## Skipping column &#39;Diagnosed.with.low.or.high.calcium&#39; (type: integer).</code></pre>
-<pre><code>## Processing column &#39;Marital.Status&#39; with 6 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Marital.Status&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Divorced, Married, Partner, Separated, Single, Widowed</code></pre>
-<pre><code>## Processing column &#39;Level.of.Education&#39; with 9 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Level.of.Education&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Associate degree, Bachelor’s degree, Did not complete high school, Doctorate (PhD), High school or equivalent, Master’s degree, Professional (MD, DO, DDS, JD), Some college coursework completed, Technical or occupational certificate</code></pre>
-<pre><code>## Skipping column &#39;Stress.Level&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Caffeine.Use&#39; (type: ordered).Skipping column &#39;Caffeine.Use&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Tobacco.Use&#39; (type: ordered).Skipping column &#39;Tobacco.Use&#39; (type: factor).</code></pre>
-<pre><code>## Processing column &#39;Main.Diet&#39; with 5 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Main.Diet&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Both meat and vegetables, Ketogenic diet, Mostly meat and fish, Mostly vegetables, Other</code></pre>
-<pre><code>## Skipping column &#39;Recreational.Drug.Frequency&#39; (type: ordered).Skipping column &#39;Recreational.Drug.Frequency&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Exercise.per.week&#39; (type: ordered).Skipping column &#39;Exercise.per.week&#39; (type: factor).</code></pre>
-<pre><code>## Processing column &#39;Exercise.Type&#39; with 4 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Exercise.Type&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Balance, Endurance, Flexibility, Strength</code></pre>
-<pre><code>## Skipping column &#39;Sexual.Frequency&#39; (type: ordered).Skipping column &#39;Sexual.Frequency&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Hours.of.sleep.per.night&#39; (type: ordered).Skipping column &#39;Hours.of.sleep.per.night&#39; (type: factor).</code></pre>
-<pre><code>## Processing column &#39;Allergies.family&#39; with 225 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Allergies.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 4110 TRUE, 0 FALSE, 19810 NA</code></pre>
-<pre><code>## Processing column &#39;Arthritis.family&#39; with 179 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Arthritis.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 4312 TRUE, 0 FALSE, 19608 NA</code></pre>
-<pre><code>## Processing column &#39;Asthma.family&#39; with 105 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Asthma.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 1900 TRUE, 0 FALSE, 22020 NA</code></pre>
-<pre><code>## Processing column &#39;Back.Problems.family&#39; with 158 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Back.Problems.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 3512 TRUE, 0 FALSE, 20408 NA</code></pre>
-<pre><code>## Processing column &#39;Blood.Diseases.family&#39; with 49 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Blood.Diseases.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 675 TRUE, 0 FALSE, 23245 NA</code></pre>
-<pre><code>## Processing column &#39;Cancer.family&#39; with 298 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Cancer.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 7528 TRUE, 9237 FALSE, 7155 NA</code></pre>
-<pre><code>## Processing column &#39;COPD.family&#39; with 51 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;COPD.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 1134 TRUE, 0 FALSE, 22786 NA</code></pre>
-<pre><code>## Processing column &#39;Diabetes.family&#39; with 155 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Diabetes.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 3852 TRUE, 0 FALSE, 20068 NA</code></pre>
-<pre><code>## Processing column &#39;Drug.Alcohol.family&#39; with 195 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Drug.Alcohol.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 2906 TRUE, 0 FALSE, 21014 NA</code></pre>
-<pre><code>## Processing column &#39;Emphysema.family&#39; with 42 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Emphysema.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 835 TRUE, 0 FALSE, 23085 NA</code></pre>
-<pre><code>## Processing column &#39;Genetic.Disorder.family&#39; with 34 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Genetic.Disorder.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 238 TRUE, 0 FALSE, 23682 NA</code></pre>
-<pre><code>## Processing column &#39;Stomach.Problems.family&#39; with 137 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Stomach.Problems.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 2306 TRUE, 0 FALSE, 21614 NA</code></pre>
-<pre><code>## Processing column &#39;Kidney.Disease.family&#39; with 38 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Kidney.Disease.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 875 TRUE, 0 FALSE, 23045 NA</code></pre>
-<pre><code>## Processing column &#39;Heart.Problems.family&#39; with 206 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Heart.Problems.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 5530 TRUE, 0 FALSE, 18390 NA</code></pre>
-<pre><code>## Processing column &#39;High.Blood.Pressure.family&#39; with 221 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;High.Blood.Pressure.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 5837 TRUE, 0 FALSE, 18083 NA</code></pre>
-<pre><code>## Processing column &#39;Neurological.Disease.family&#39; with 87 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Neurological.Disease.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 1399 TRUE, 0 FALSE, 22521 NA</code></pre>
-<pre><code>## Processing column &#39;Obesity.family&#39; with 201 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Obesity.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 2794 TRUE, 0 FALSE, 21126 NA</code></pre>
-<pre><code>## Processing column &#39;Psychiatric.family&#39; with 158 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Psychiatric.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 1627 TRUE, 0 FALSE, 22293 NA</code></pre>
-<pre><code>## Processing column &#39;Scolliosis.family&#39; with 41 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Scolliosis.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 563 TRUE, 0 FALSE, 23357 NA</code></pre>
-<pre><code>## Processing column &#39;SIDS.family&#39; with 12 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;SIDS.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 28 TRUE, 0 FALSE, 23892 NA</code></pre>
-<pre><code>## Processing column &#39;Stroke.family&#39; with 87 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Stroke.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 2625 TRUE, 0 FALSE, 21295 NA</code></pre>
-<pre><code>## Processing column &#39;Tuberculosis.family&#39; with 20 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Tuberculosis.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 182 TRUE, 0 FALSE, 23738 NA</code></pre>
-<pre><code>## Processing column &#39;Thyroid.Disorder.family&#39; with 84 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Thyroid.Disorder.family&#39; to logical.</code></pre>
-<pre><code>##    - Converted to logical: 2235 TRUE, 0 FALSE, 21685 NA</code></pre>
-<pre><code>## Skipping column &#39;Are.you.adopted.&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Age.mother.at.birth&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Age.father.at.birth&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Hours.Sedentary.Remaining.Awake&#39; (type: integer).</code></pre>
-<pre><code>## Processing column &#39;Primary.Diet.Past.Year&#39; with 8 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Primary.Diet.Past.Year&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Carnivore. Only/majority meat and animal products, Ketogenic. Limited carbohydrate consumption, Mediterranean. Emphasis on plant-based products, healthy fats, whole grains, nuts, and seeds. Limited meats, dairy, and processed foods, Mixed/Balanced Diet. Includes mixture of fruits, vegetables, meat, fish, dairy, and animal products. No specific restrictions., No Red Meat. Typical balanced diet, without any red meat (still consumes fish and poultry), Pescatarian. Limits meat products to only fish and seafood, Vegan. No meat or animal products, Vegetarian. No meat products</code></pre>
-<pre><code>## Skipping column &#39;Strictly.Followed.Main.Diet&#39; (type: ordered).Skipping column &#39;Strictly.Followed.Main.Diet&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Red.Meat.times.per.week&#39; (type: ordered).Skipping column &#39;Red.Meat.times.per.week&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Processed.Food.times.per.week&#39; (type: ordered).Skipping column &#39;Processed.Food.times.per.week&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Feel.Well.Rested.days.per.week&#39; (type: ordered).Skipping column &#39;Feel.Well.Rested.days.per.week&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Screens.before.bed&#39; (type: ordered).Skipping column &#39;Screens.before.bed&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Track.Sleep.Wearable.Device&#39; (type: ordered).Skipping column &#39;Track.Sleep.Wearable.Device&#39; (type: factor).</code></pre>
-<pre><code>## Skipping column &#39;Lab.Fasting&#39; (type: integer).</code></pre>
-<pre><code>## Processing column &#39;Ethnicity&#39; with 9 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Ethnicity&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Afr_Ame, Asia, Euro, Lati, Mid_afr, Nat_ame, Ocea, Other, Saha</code></pre>
-<pre><code>## Skipping column &#39;Cancer.Diagnosis.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cardiovascular.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Respiratory.Disease.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Endocrine.Disease.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Skin.Hair.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gastrointestinal.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Genito.Urinary.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Musculoskeletal.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Neuropsychological.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Reproductive.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Immune.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Anemia&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;High.Cholesterol&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Heart.Murmur&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Rheumatic.Fever&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Stroke&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;High.Blood.Pressure&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Heart.Attack&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Hemophilia&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Sickle.Cell.Disease&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Asthma&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Chronic.Bronchitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cystic.Fibrosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Pleural.Effusion&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;COPD&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Emphysema&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Pneumonia&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Tuberculosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Acne&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Dandruff&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Loss.Hair&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Psoriasis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Vitiligo&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Eczema&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Ichthyossis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Pressure.Ulcers&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Seborrheic.dermatitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Addison.Disease&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gestational.Diabetes&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Hashimoto.Thyroiditis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Prediabetes&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Diabetes2&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cushing.Syndrome&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Grave.Disease&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Osteoporosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Diabetes1&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Celiac.Disease&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cirrhosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gallstones&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Hemorrhoids&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Irritable.Bowel&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Crohn.Disease&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Diverticulitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gastroesophageal.Reflux&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Hepatitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Ulcerative.Colitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Interstitial.Cystitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Ostomy&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Urinary.Tract.Infections&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Kidney.Stones&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Urinary.Incontinence&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gout&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Psoriatic.Arthritis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Tendonitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Osteoarthritis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Rheumatoid.Arthritis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Alzheimer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Depression&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Fibromyalgia&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Parkinson&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Traumatic.Brain.Injury&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Anxiety&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Epilepsy&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Migraines&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Seizures&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Elevated.PSA&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Endometriosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Uterine.Fibroids&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Enlarged.Prostate&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Polycystic.Ovary&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;HIV&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Lupus&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Myasthenia.Gravis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Vasculitis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Guillain.Barre.syndrome&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Multiple.Sclerosis&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Severe.combined.immunodeficiency&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cytomegalovirus&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Bladder.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Breast.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Cervical.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Colorectal.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Gynecologic.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Head.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Neck.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Kidney.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Liver.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Lung.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Lymphoma.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Mesothelioma.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Myeloma.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Ovarian.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Prostate.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Skin.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Thyroid.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Uterine.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Vaginal.Vulvar.Cancer&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Recreational.Drug.Use.any&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Drug.Alcohol.mother&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Drug.Alcohol.father&#39; (type: integer).</code></pre>
-<pre><code>## Processing column &#39;Main.Diet.Factor&#39; with 5 unique non-NA values.</code></pre>
-<pre><code>##  - Converting &#39;Main.Diet.Factor&#39; to factor.</code></pre>
-<pre><code>##    - Levels: Fish.Vegetables, Ketogenic, Meat.Fish, Meat.Vegetables, Vegetables</code></pre>
-<pre><code>## Skipping column &#39;FactorV&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;MTHFR&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;APOE&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;BRCA1_BRCA2&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;BMI&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;Hannum.PC&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;Horvath.PC&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;Telomere.Values.PC&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;GrimAge.PC&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;PhenoAge.PC&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Blood&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Brain&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Inflammation&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Heart&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Hormone&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Immune&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Kidney&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Liver&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Metabolic&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.Lung&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge.MusculoSkeletal&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;SystemsAge&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;OMICmAge&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;DunedinPACE&#39; (type: numeric).</code></pre>
-<pre><code>## Skipping column &#39;fasting&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;NAD&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;TA65&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;sulforaphane&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;DHEA_new&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Rapamycin_new&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;SASP_supressors&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Metformin_new&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Resveratrol_new&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;Exosomes&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;stem_cells&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;HRT&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;spermidine&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;semaglutide&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;vitaminD&#39; (type: integer).</code></pre>
-<pre><code>## Skipping column &#39;AKG&#39; (type: integer).</code></pre>
-<pre><code>## Data frame processing complete.</code></pre>
-</div>
-<div id="save-data" class="section level3">
-<h3>Save data</h3>
-<pre class="r"><code># write.csv(data_fixed_datatypes, file = &quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2&quot;, row.names = FALSE)
-save(data_fixed_datatypes, file =&quot;C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2&quot;)</code></pre>
+all_searchword_findings &lt;- all_searchword_findings %&gt;% relocate(sups_meds_interventions, .before = TA.65)</code></pre>
+<pre class="r"><code># filtered_df_crossectional_harmonized &lt;- filter(filtered_df_crossectional_harmonized, survey_version==&quot;2&quot;|survey_version==&quot;3&quot;)</code></pre>
 </div>
 
 
