@@ -93,7 +93,7 @@ new_columns <- c(
   "Menopause", "Given.Birth", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications",
   "Diagnosed.with.low.or.high.calcium", "Marital.Status", "Level.of.Education",
   "Stress.Level", "Caffeine.Use",
-  "Tobacco.Use", "Main.Diet",
+  "Tobacco.Use", "Main.Diet", "Alcohol.per.week",
   "Recreational.Drug.Frequency", "Exercise.per.week",
   "Exercise.Type", "Sexual.Frequency", "Hours.of.sleep.per.night",
   "Allergies.family", "Arthritis.family", "Asthma.family", "Back.Problems.family",

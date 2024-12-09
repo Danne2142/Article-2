@@ -232,7 +232,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
 
-# Check which rows where removed for testing
+# Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
   relocate(Level.of.Education, .after = last_col())
 
@@ -243,7 +243,29 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ### Codify alcohol level
 ```{r}
-uninque()
+unique(data_with_outliers_removed$Alcohol.per.week)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the alcohol consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Alcohol_per_week_numeric = case_when(
+    Alcohol.per.week == "Never" ~ 0,
+    Alcohol.per.week == "On special occasions" ~ 1,
+    Alcohol.per.week == "Once per week" ~ 2,
+    Alcohol.per.week == "3-5 times per week" ~ 3,
+    Alcohol.per.week == "Regularly" ~ 4,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Alcohol.per.week, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Alcohol_per_week_numeric)
+
 ```
 
 ### Save Rdata
@@ -251,7 +273,6 @@ uninque()
 save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
 
 ```
-
 
 ### Print colnames
 ```{r}
