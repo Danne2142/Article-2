@@ -148,21 +148,39 @@ exclude_columns_from_predictors_matrix <- function(data, exclude_cols) {
 
 
 
-impute_survey <- function(data, survey_version_filter, missing_data_threshold =50, imputation_seed=12345, number_of_mice_datasets_to_impute=5, max_iterations=65, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version")) {
+impute_survey <- function(data, survey_version_filter, missing_data_threshold = 50, imputation_seed = 12345, number_of_mice_datasets_to_impute = 5, 
+max_iterations = 65, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version")) {
   
-  data <- subset(data, survey_version==survey_version_filter)
+  data <- subset(data, survey_version == survey_version_filter)
+  
+  # # Separate columns to keep unimputed
+  # if (!is.null(cols_to_exclude_from_imputation_entirely)) {
+  #   unimputed_data <- data[, cols_to_exclude_from_imputation_entirely, drop = FALSE]
+  #   data <- data[, !(names(data) %in% cols_to_exclude_from_imputation_entirely)]
+  # }
   
   # Load necessary library
   library(mice)
-  predictor_matrix<-exclude_columns_from_predictors_matrix(data, cols_to_exclude_from_predictors)
+  predictor_matrix <- exclude_columns_from_predictors_matrix(data, cols_to_exclude_from_predictors)
   
   start <- Sys.time()
-  df_imp <- mice(data, seed=imputation_seed, m=number_of_mice_datasets_to_impute, maxit=max_iterations, print=TRUE,tol = 1e-17, predictorMatrix = predictor_matrix) # imputes 10 different survey2sets
-  running_time = Sys.time() - start
+  df_imp <- mice(data, seed = imputation_seed, m = number_of_mice_datasets_to_impute, maxit = max_iterations, print = TRUE, tol = 1e-17, predictorMatrix = predictor_matrix)
+  running_time <- Sys.time() - start
   
   cat("Run time: ")
-  cat(running_time) # check how long it runs
-  df_imp$loggedEvents # if you need to check if something went wrong
+  cat(running_time)
+  df_imp$loggedEvents
+  
+  # # Add unimputed columns back to each imputed dataset
+  # if (!is.null(cols_to_exclude_from_imputation_entirely)) {
+  #   completed_datasets <- list()
+  #   for (i in 1:number_of_mice_datasets_to_impute) {
+  #     completed_data <- complete(df_imp, i)
+  #     completed_data <- cbind(completed_data, unimputed_data)
+  #     completed_datasets[[i]] <- completed_data
+  #   }
+  #   df_imp$completedDatasets <- completed_datasets
+  # }
   
   return(df_imp)
   

@@ -596,7 +596,7 @@ data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
 
-# Check which rows where removed for testing
+# Check which rows where altered for testing
 data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
   relocate(Level.of.Education, .after = last_col())
 
@@ -623,13 +623,40 @@ data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
     Alcohol.per.week == &quot;Regularly&quot; ~ 4,
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
-# Check which rows where removed for testing
+# Check which rows where altered for testing
 data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
   relocate(Alcohol.per.week, .after = last_col())
 
 # Sort for testing
   data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
   arrange(Alcohol_per_week_numeric)</code></pre>
+</div>
+<div id="codify-exercise-per-week" class="section level3">
+<h3>Codify exercise per week</h3>
+<pre class="r"><code>unique(data_with_outliers_removed$Exercise.per.week)</code></pre>
+<pre><code>## [1] 3-4 times per week       &lt;NA&gt;                     5-7 times per week      
+## [4] Never                    1-2 times per week       8 or more times per week
+## 5 Levels: Never &lt; 1-2 times per week &lt; ... &lt; 8 or more times per week</code></pre>
+<pre class="r"><code># Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Exercise.per.week levels
+data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
+  mutate(Exercise.per.week_numeric = case_when(
+    Exercise.per.week == &quot;Never&quot; ~ 0,
+    Exercise.per.week == &quot;1-2 times per week&quot; ~ 1,
+    Exercise.per.week == &quot;3-4 times per week&quot; ~ 2,
+    Exercise.per.week == &quot;5-7 times per week&quot; ~ 3,
+    Exercise.per.week == &quot;8 or more times per week&quot; ~ 4,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+# Check which rows where altered for testing
+data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
+  relocate(Exercise.per.week, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed &lt;- data_with_outliers_removed %&gt;%
+  arrange(Exercise.per.week_numeric)</code></pre>
 </div>
 <div id="save-rdata" class="section level3">
 <h3>Save Rdata</h3>
@@ -657,205 +684,206 @@ colnames(data_with_outliers_removed)</code></pre>
 ##  [16] &quot;Tobacco.Use&quot;                                                                                        
 ##  [17] &quot;Main.Diet&quot;                                                                                          
 ##  [18] &quot;Recreational.Drug.Frequency&quot;                                                                        
-##  [19] &quot;Exercise.per.week&quot;                                                                                  
-##  [20] &quot;Exercise.Type&quot;                                                                                      
-##  [21] &quot;Sexual.Frequency&quot;                                                                                   
-##  [22] &quot;Hours.of.sleep.per.night&quot;                                                                           
-##  [23] &quot;Allergies.family&quot;                                                                                   
-##  [24] &quot;Arthritis.family&quot;                                                                                   
-##  [25] &quot;Asthma.family&quot;                                                                                      
-##  [26] &quot;Back.Problems.family&quot;                                                                               
-##  [27] &quot;Blood.Diseases.family&quot;                                                                              
-##  [28] &quot;Cancer.family&quot;                                                                                      
-##  [29] &quot;COPD.family&quot;                                                                                        
-##  [30] &quot;Diabetes.family&quot;                                                                                    
-##  [31] &quot;Drug.Alcohol.family&quot;                                                                                
-##  [32] &quot;Emphysema.family&quot;                                                                                   
-##  [33] &quot;Genetic.Disorder.family&quot;                                                                            
-##  [34] &quot;Stomach.Problems.family&quot;                                                                            
-##  [35] &quot;Kidney.Disease.family&quot;                                                                              
-##  [36] &quot;Heart.Problems.family&quot;                                                                              
-##  [37] &quot;High.Blood.Pressure.family&quot;                                                                         
-##  [38] &quot;Neurological.Disease.family&quot;                                                                        
-##  [39] &quot;Obesity.family&quot;                                                                                     
-##  [40] &quot;Psychiatric.family&quot;                                                                                 
-##  [41] &quot;Scolliosis.family&quot;                                                                                  
-##  [42] &quot;SIDS.family&quot;                                                                                        
-##  [43] &quot;Stroke.family&quot;                                                                                      
-##  [44] &quot;Tuberculosis.family&quot;                                                                                
-##  [45] &quot;Thyroid.Disorder.family&quot;                                                                            
-##  [46] &quot;Are.you.adopted.&quot;                                                                                   
-##  [47] &quot;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&quot;
-##  [48] &quot;Age.mother.at.birth&quot;                                                                                
-##  [49] &quot;Age.father.at.birth&quot;                                                                                
-##  [50] &quot;Hours.Sedentary.Remaining.Awake&quot;                                                                    
-##  [51] &quot;Primary.Diet.Past.Year&quot;                                                                             
-##  [52] &quot;Strictly.Followed.Main.Diet&quot;                                                                        
-##  [53] &quot;Red.Meat.times.per.week&quot;                                                                            
-##  [54] &quot;Processed.Food.times.per.week&quot;                                                                      
-##  [55] &quot;Feel.Well.Rested.days.per.week&quot;                                                                     
-##  [56] &quot;Screens.before.bed&quot;                                                                                 
-##  [57] &quot;Track.Sleep.Wearable.Device&quot;                                                                        
-##  [58] &quot;Lab.Fasting&quot;                                                                                        
-##  [59] &quot;Ethnicity&quot;                                                                                          
-##  [60] &quot;Cancer.Diagnosis.any&quot;                                                                               
-##  [61] &quot;Cardiovascular.any&quot;                                                                                 
-##  [62] &quot;Respiratory.Disease.any&quot;                                                                            
-##  [63] &quot;Endocrine.Disease.any&quot;                                                                              
-##  [64] &quot;Skin.Hair.any&quot;                                                                                      
-##  [65] &quot;Gastrointestinal.any&quot;                                                                               
-##  [66] &quot;Genito.Urinary.any&quot;                                                                                 
-##  [67] &quot;Musculoskeletal.any&quot;                                                                                
-##  [68] &quot;Neuropsychological.any&quot;                                                                             
-##  [69] &quot;Reproductive.any&quot;                                                                                   
-##  [70] &quot;Immune.any&quot;                                                                                         
-##  [71] &quot;Anemia&quot;                                                                                             
-##  [72] &quot;High.Cholesterol&quot;                                                                                   
-##  [73] &quot;Heart.Murmur&quot;                                                                                       
-##  [74] &quot;Rheumatic.Fever&quot;                                                                                    
-##  [75] &quot;Stroke&quot;                                                                                             
-##  [76] &quot;High.Blood.Pressure&quot;                                                                                
-##  [77] &quot;Heart.Attack&quot;                                                                                       
-##  [78] &quot;Hemophilia&quot;                                                                                         
-##  [79] &quot;Sickle.Cell.Disease&quot;                                                                                
-##  [80] &quot;Asthma&quot;                                                                                             
-##  [81] &quot;Chronic.Bronchitis&quot;                                                                                 
-##  [82] &quot;Cystic.Fibrosis&quot;                                                                                    
-##  [83] &quot;Pleural.Effusion&quot;                                                                                   
-##  [84] &quot;COPD&quot;                                                                                               
-##  [85] &quot;Emphysema&quot;                                                                                          
-##  [86] &quot;Pneumonia&quot;                                                                                          
-##  [87] &quot;Tuberculosis&quot;                                                                                       
-##  [88] &quot;Acne&quot;                                                                                               
-##  [89] &quot;Dandruff&quot;                                                                                           
-##  [90] &quot;Loss.Hair&quot;                                                                                          
-##  [91] &quot;Psoriasis&quot;                                                                                          
-##  [92] &quot;Vitiligo&quot;                                                                                           
-##  [93] &quot;Eczema&quot;                                                                                             
-##  [94] &quot;Ichthyossis&quot;                                                                                        
-##  [95] &quot;Pressure.Ulcers&quot;                                                                                    
-##  [96] &quot;Seborrheic.dermatitis&quot;                                                                              
-##  [97] &quot;Addison.Disease&quot;                                                                                    
-##  [98] &quot;Gestational.Diabetes&quot;                                                                               
-##  [99] &quot;Hashimoto.Thyroiditis&quot;                                                                              
-## [100] &quot;Prediabetes&quot;                                                                                        
-## [101] &quot;Diabetes2&quot;                                                                                          
-## [102] &quot;Cushing.Syndrome&quot;                                                                                   
-## [103] &quot;Grave.Disease&quot;                                                                                      
-## [104] &quot;Osteoporosis&quot;                                                                                       
-## [105] &quot;Diabetes1&quot;                                                                                          
-## [106] &quot;Celiac.Disease&quot;                                                                                     
-## [107] &quot;Cirrhosis&quot;                                                                                          
-## [108] &quot;Gallstones&quot;                                                                                         
-## [109] &quot;Hemorrhoids&quot;                                                                                        
-## [110] &quot;Irritable.Bowel&quot;                                                                                    
-## [111] &quot;Crohn.Disease&quot;                                                                                      
-## [112] &quot;Diverticulitis&quot;                                                                                     
-## [113] &quot;Gastroesophageal.Reflux&quot;                                                                            
-## [114] &quot;Hepatitis&quot;                                                                                          
-## [115] &quot;Ulcerative.Colitis&quot;                                                                                 
-## [116] &quot;Interstitial.Cystitis&quot;                                                                              
-## [117] &quot;Ostomy&quot;                                                                                             
-## [118] &quot;Urinary.Tract.Infections&quot;                                                                           
-## [119] &quot;Kidney.Stones&quot;                                                                                      
-## [120] &quot;Urinary.Incontinence&quot;                                                                               
-## [121] &quot;Gout&quot;                                                                                               
-## [122] &quot;Psoriatic.Arthritis&quot;                                                                                
-## [123] &quot;Tendonitis&quot;                                                                                         
-## [124] &quot;Osteoarthritis&quot;                                                                                     
-## [125] &quot;Rheumatoid.Arthritis&quot;                                                                               
-## [126] &quot;Alzheimer&quot;                                                                                          
-## [127] &quot;Depression&quot;                                                                                         
-## [128] &quot;Fibromyalgia&quot;                                                                                       
-## [129] &quot;Parkinson&quot;                                                                                          
-## [130] &quot;Traumatic.Brain.Injury&quot;                                                                             
-## [131] &quot;Anxiety&quot;                                                                                            
-## [132] &quot;Epilepsy&quot;                                                                                           
-## [133] &quot;Migraines&quot;                                                                                          
-## [134] &quot;Seizures&quot;                                                                                           
-## [135] &quot;Elevated.PSA&quot;                                                                                       
-## [136] &quot;Endometriosis&quot;                                                                                      
-## [137] &quot;Uterine.Fibroids&quot;                                                                                   
-## [138] &quot;Enlarged.Prostate&quot;                                                                                  
-## [139] &quot;Polycystic.Ovary&quot;                                                                                   
-## [140] &quot;HIV&quot;                                                                                                
-## [141] &quot;Lupus&quot;                                                                                              
-## [142] &quot;Myasthenia.Gravis&quot;                                                                                  
-## [143] &quot;Vasculitis&quot;                                                                                         
-## [144] &quot;Guillain.Barre.syndrome&quot;                                                                            
-## [145] &quot;Multiple.Sclerosis&quot;                                                                                 
-## [146] &quot;Severe.combined.immunodeficiency&quot;                                                                   
-## [147] &quot;Cytomegalovirus&quot;                                                                                    
-## [148] &quot;Bladder.Cancer&quot;                                                                                     
-## [149] &quot;Breast.Cancer&quot;                                                                                      
-## [150] &quot;Cervical.Cancer&quot;                                                                                    
-## [151] &quot;Colorectal.Cancer&quot;                                                                                  
-## [152] &quot;Gynecologic.Cancer&quot;                                                                                 
-## [153] &quot;Head.Cancer&quot;                                                                                        
-## [154] &quot;Neck.Cancer&quot;                                                                                        
-## [155] &quot;Kidney.Cancer&quot;                                                                                      
-## [156] &quot;Liver.Cancer&quot;                                                                                       
-## [157] &quot;Lung.Cancer&quot;                                                                                        
-## [158] &quot;Lymphoma.Cancer&quot;                                                                                    
-## [159] &quot;Mesothelioma.Cancer&quot;                                                                                
-## [160] &quot;Myeloma.Cancer&quot;                                                                                     
-## [161] &quot;Ovarian.Cancer&quot;                                                                                     
-## [162] &quot;Prostate.Cancer&quot;                                                                                    
-## [163] &quot;Skin.Cancer&quot;                                                                                        
-## [164] &quot;Thyroid.Cancer&quot;                                                                                     
-## [165] &quot;Uterine.Cancer&quot;                                                                                     
-## [166] &quot;Vaginal.Vulvar.Cancer&quot;                                                                              
-## [167] &quot;Recreational.Drug.Use.any&quot;                                                                          
-## [168] &quot;Drug.Alcohol.mother&quot;                                                                                
-## [169] &quot;Drug.Alcohol.father&quot;                                                                                
-## [170] &quot;Main.Diet.Factor&quot;                                                                                   
-## [171] &quot;FactorV&quot;                                                                                            
-## [172] &quot;MTHFR&quot;                                                                                              
-## [173] &quot;APOE&quot;                                                                                               
-## [174] &quot;BRCA1_BRCA2&quot;                                                                                        
-## [175] &quot;Hannum.PC&quot;                                                                                          
-## [176] &quot;Horvath.PC&quot;                                                                                         
-## [177] &quot;Telomere.Values.PC&quot;                                                                                 
-## [178] &quot;GrimAge.PC&quot;                                                                                         
-## [179] &quot;PhenoAge.PC&quot;                                                                                        
-## [180] &quot;SystemsAge.Blood&quot;                                                                                   
-## [181] &quot;SystemsAge.Brain&quot;                                                                                   
-## [182] &quot;SystemsAge.Inflammation&quot;                                                                            
-## [183] &quot;SystemsAge.Heart&quot;                                                                                   
-## [184] &quot;SystemsAge.Hormone&quot;                                                                                 
-## [185] &quot;SystemsAge.Immune&quot;                                                                                  
-## [186] &quot;SystemsAge.Kidney&quot;                                                                                  
-## [187] &quot;SystemsAge.Liver&quot;                                                                                   
-## [188] &quot;SystemsAge.Metabolic&quot;                                                                               
-## [189] &quot;SystemsAge.Lung&quot;                                                                                    
-## [190] &quot;SystemsAge.MusculoSkeletal&quot;                                                                         
-## [191] &quot;SystemsAge&quot;                                                                                         
-## [192] &quot;OMICmAge&quot;                                                                                           
-## [193] &quot;DunedinPACE&quot;                                                                                        
-## [194] &quot;fasting&quot;                                                                                            
-## [195] &quot;NAD&quot;                                                                                                
-## [196] &quot;TA65&quot;                                                                                               
-## [197] &quot;sulforaphane&quot;                                                                                       
-## [198] &quot;DHEA_new&quot;                                                                                           
-## [199] &quot;Rapamycin_new&quot;                                                                                      
-## [200] &quot;SASP_supressors&quot;                                                                                    
-## [201] &quot;Metformin_new&quot;                                                                                      
-## [202] &quot;Resveratrol_new&quot;                                                                                    
-## [203] &quot;Exosomes&quot;                                                                                           
-## [204] &quot;stem_cells&quot;                                                                                         
-## [205] &quot;HRT&quot;                                                                                                
-## [206] &quot;spermidine&quot;                                                                                         
-## [207] &quot;semaglutide&quot;                                                                                        
-## [208] &quot;vitaminD&quot;                                                                                           
-## [209] &quot;AKG&quot;                                                                                                
-## [210] &quot;sedentary_level_objective&quot;                                                                          
-## [211] &quot;sedentary_level&quot;                                                                                    
-## [212] &quot;Tobacco.Use.Numeric&quot;                                                                                
-## [213] &quot;BMI&quot;                                                                                                
-## [214] &quot;Education_levels_numeric&quot;                                                                           
-## [215] &quot;Level.of.Education&quot;                                                                                 
-## [216] &quot;Alcohol_per_week_numeric&quot;                                                                           
-## [217] &quot;Alcohol.per.week&quot;</code></pre>
+##  [19] &quot;Exercise.Type&quot;                                                                                      
+##  [20] &quot;Sexual.Frequency&quot;                                                                                   
+##  [21] &quot;Hours.of.sleep.per.night&quot;                                                                           
+##  [22] &quot;Allergies.family&quot;                                                                                   
+##  [23] &quot;Arthritis.family&quot;                                                                                   
+##  [24] &quot;Asthma.family&quot;                                                                                      
+##  [25] &quot;Back.Problems.family&quot;                                                                               
+##  [26] &quot;Blood.Diseases.family&quot;                                                                              
+##  [27] &quot;Cancer.family&quot;                                                                                      
+##  [28] &quot;COPD.family&quot;                                                                                        
+##  [29] &quot;Diabetes.family&quot;                                                                                    
+##  [30] &quot;Drug.Alcohol.family&quot;                                                                                
+##  [31] &quot;Emphysema.family&quot;                                                                                   
+##  [32] &quot;Genetic.Disorder.family&quot;                                                                            
+##  [33] &quot;Stomach.Problems.family&quot;                                                                            
+##  [34] &quot;Kidney.Disease.family&quot;                                                                              
+##  [35] &quot;Heart.Problems.family&quot;                                                                              
+##  [36] &quot;High.Blood.Pressure.family&quot;                                                                         
+##  [37] &quot;Neurological.Disease.family&quot;                                                                        
+##  [38] &quot;Obesity.family&quot;                                                                                     
+##  [39] &quot;Psychiatric.family&quot;                                                                                 
+##  [40] &quot;Scolliosis.family&quot;                                                                                  
+##  [41] &quot;SIDS.family&quot;                                                                                        
+##  [42] &quot;Stroke.family&quot;                                                                                      
+##  [43] &quot;Tuberculosis.family&quot;                                                                                
+##  [44] &quot;Thyroid.Disorder.family&quot;                                                                            
+##  [45] &quot;Are.you.adopted.&quot;                                                                                   
+##  [46] &quot;Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.&quot;
+##  [47] &quot;Age.mother.at.birth&quot;                                                                                
+##  [48] &quot;Age.father.at.birth&quot;                                                                                
+##  [49] &quot;Hours.Sedentary.Remaining.Awake&quot;                                                                    
+##  [50] &quot;Primary.Diet.Past.Year&quot;                                                                             
+##  [51] &quot;Strictly.Followed.Main.Diet&quot;                                                                        
+##  [52] &quot;Red.Meat.times.per.week&quot;                                                                            
+##  [53] &quot;Processed.Food.times.per.week&quot;                                                                      
+##  [54] &quot;Feel.Well.Rested.days.per.week&quot;                                                                     
+##  [55] &quot;Screens.before.bed&quot;                                                                                 
+##  [56] &quot;Track.Sleep.Wearable.Device&quot;                                                                        
+##  [57] &quot;Lab.Fasting&quot;                                                                                        
+##  [58] &quot;Ethnicity&quot;                                                                                          
+##  [59] &quot;Cancer.Diagnosis.any&quot;                                                                               
+##  [60] &quot;Cardiovascular.any&quot;                                                                                 
+##  [61] &quot;Respiratory.Disease.any&quot;                                                                            
+##  [62] &quot;Endocrine.Disease.any&quot;                                                                              
+##  [63] &quot;Skin.Hair.any&quot;                                                                                      
+##  [64] &quot;Gastrointestinal.any&quot;                                                                               
+##  [65] &quot;Genito.Urinary.any&quot;                                                                                 
+##  [66] &quot;Musculoskeletal.any&quot;                                                                                
+##  [67] &quot;Neuropsychological.any&quot;                                                                             
+##  [68] &quot;Reproductive.any&quot;                                                                                   
+##  [69] &quot;Immune.any&quot;                                                                                         
+##  [70] &quot;Anemia&quot;                                                                                             
+##  [71] &quot;High.Cholesterol&quot;                                                                                   
+##  [72] &quot;Heart.Murmur&quot;                                                                                       
+##  [73] &quot;Rheumatic.Fever&quot;                                                                                    
+##  [74] &quot;Stroke&quot;                                                                                             
+##  [75] &quot;High.Blood.Pressure&quot;                                                                                
+##  [76] &quot;Heart.Attack&quot;                                                                                       
+##  [77] &quot;Hemophilia&quot;                                                                                         
+##  [78] &quot;Sickle.Cell.Disease&quot;                                                                                
+##  [79] &quot;Asthma&quot;                                                                                             
+##  [80] &quot;Chronic.Bronchitis&quot;                                                                                 
+##  [81] &quot;Cystic.Fibrosis&quot;                                                                                    
+##  [82] &quot;Pleural.Effusion&quot;                                                                                   
+##  [83] &quot;COPD&quot;                                                                                               
+##  [84] &quot;Emphysema&quot;                                                                                          
+##  [85] &quot;Pneumonia&quot;                                                                                          
+##  [86] &quot;Tuberculosis&quot;                                                                                       
+##  [87] &quot;Acne&quot;                                                                                               
+##  [88] &quot;Dandruff&quot;                                                                                           
+##  [89] &quot;Loss.Hair&quot;                                                                                          
+##  [90] &quot;Psoriasis&quot;                                                                                          
+##  [91] &quot;Vitiligo&quot;                                                                                           
+##  [92] &quot;Eczema&quot;                                                                                             
+##  [93] &quot;Ichthyossis&quot;                                                                                        
+##  [94] &quot;Pressure.Ulcers&quot;                                                                                    
+##  [95] &quot;Seborrheic.dermatitis&quot;                                                                              
+##  [96] &quot;Addison.Disease&quot;                                                                                    
+##  [97] &quot;Gestational.Diabetes&quot;                                                                               
+##  [98] &quot;Hashimoto.Thyroiditis&quot;                                                                              
+##  [99] &quot;Prediabetes&quot;                                                                                        
+## [100] &quot;Diabetes2&quot;                                                                                          
+## [101] &quot;Cushing.Syndrome&quot;                                                                                   
+## [102] &quot;Grave.Disease&quot;                                                                                      
+## [103] &quot;Osteoporosis&quot;                                                                                       
+## [104] &quot;Diabetes1&quot;                                                                                          
+## [105] &quot;Celiac.Disease&quot;                                                                                     
+## [106] &quot;Cirrhosis&quot;                                                                                          
+## [107] &quot;Gallstones&quot;                                                                                         
+## [108] &quot;Hemorrhoids&quot;                                                                                        
+## [109] &quot;Irritable.Bowel&quot;                                                                                    
+## [110] &quot;Crohn.Disease&quot;                                                                                      
+## [111] &quot;Diverticulitis&quot;                                                                                     
+## [112] &quot;Gastroesophageal.Reflux&quot;                                                                            
+## [113] &quot;Hepatitis&quot;                                                                                          
+## [114] &quot;Ulcerative.Colitis&quot;                                                                                 
+## [115] &quot;Interstitial.Cystitis&quot;                                                                              
+## [116] &quot;Ostomy&quot;                                                                                             
+## [117] &quot;Urinary.Tract.Infections&quot;                                                                           
+## [118] &quot;Kidney.Stones&quot;                                                                                      
+## [119] &quot;Urinary.Incontinence&quot;                                                                               
+## [120] &quot;Gout&quot;                                                                                               
+## [121] &quot;Psoriatic.Arthritis&quot;                                                                                
+## [122] &quot;Tendonitis&quot;                                                                                         
+## [123] &quot;Osteoarthritis&quot;                                                                                     
+## [124] &quot;Rheumatoid.Arthritis&quot;                                                                               
+## [125] &quot;Alzheimer&quot;                                                                                          
+## [126] &quot;Depression&quot;                                                                                         
+## [127] &quot;Fibromyalgia&quot;                                                                                       
+## [128] &quot;Parkinson&quot;                                                                                          
+## [129] &quot;Traumatic.Brain.Injury&quot;                                                                             
+## [130] &quot;Anxiety&quot;                                                                                            
+## [131] &quot;Epilepsy&quot;                                                                                           
+## [132] &quot;Migraines&quot;                                                                                          
+## [133] &quot;Seizures&quot;                                                                                           
+## [134] &quot;Elevated.PSA&quot;                                                                                       
+## [135] &quot;Endometriosis&quot;                                                                                      
+## [136] &quot;Uterine.Fibroids&quot;                                                                                   
+## [137] &quot;Enlarged.Prostate&quot;                                                                                  
+## [138] &quot;Polycystic.Ovary&quot;                                                                                   
+## [139] &quot;HIV&quot;                                                                                                
+## [140] &quot;Lupus&quot;                                                                                              
+## [141] &quot;Myasthenia.Gravis&quot;                                                                                  
+## [142] &quot;Vasculitis&quot;                                                                                         
+## [143] &quot;Guillain.Barre.syndrome&quot;                                                                            
+## [144] &quot;Multiple.Sclerosis&quot;                                                                                 
+## [145] &quot;Severe.combined.immunodeficiency&quot;                                                                   
+## [146] &quot;Cytomegalovirus&quot;                                                                                    
+## [147] &quot;Bladder.Cancer&quot;                                                                                     
+## [148] &quot;Breast.Cancer&quot;                                                                                      
+## [149] &quot;Cervical.Cancer&quot;                                                                                    
+## [150] &quot;Colorectal.Cancer&quot;                                                                                  
+## [151] &quot;Gynecologic.Cancer&quot;                                                                                 
+## [152] &quot;Head.Cancer&quot;                                                                                        
+## [153] &quot;Neck.Cancer&quot;                                                                                        
+## [154] &quot;Kidney.Cancer&quot;                                                                                      
+## [155] &quot;Liver.Cancer&quot;                                                                                       
+## [156] &quot;Lung.Cancer&quot;                                                                                        
+## [157] &quot;Lymphoma.Cancer&quot;                                                                                    
+## [158] &quot;Mesothelioma.Cancer&quot;                                                                                
+## [159] &quot;Myeloma.Cancer&quot;                                                                                     
+## [160] &quot;Ovarian.Cancer&quot;                                                                                     
+## [161] &quot;Prostate.Cancer&quot;                                                                                    
+## [162] &quot;Skin.Cancer&quot;                                                                                        
+## [163] &quot;Thyroid.Cancer&quot;                                                                                     
+## [164] &quot;Uterine.Cancer&quot;                                                                                     
+## [165] &quot;Vaginal.Vulvar.Cancer&quot;                                                                              
+## [166] &quot;Recreational.Drug.Use.any&quot;                                                                          
+## [167] &quot;Drug.Alcohol.mother&quot;                                                                                
+## [168] &quot;Drug.Alcohol.father&quot;                                                                                
+## [169] &quot;Main.Diet.Factor&quot;                                                                                   
+## [170] &quot;FactorV&quot;                                                                                            
+## [171] &quot;MTHFR&quot;                                                                                              
+## [172] &quot;APOE&quot;                                                                                               
+## [173] &quot;BRCA1_BRCA2&quot;                                                                                        
+## [174] &quot;Hannum.PC&quot;                                                                                          
+## [175] &quot;Horvath.PC&quot;                                                                                         
+## [176] &quot;Telomere.Values.PC&quot;                                                                                 
+## [177] &quot;GrimAge.PC&quot;                                                                                         
+## [178] &quot;PhenoAge.PC&quot;                                                                                        
+## [179] &quot;SystemsAge.Blood&quot;                                                                                   
+## [180] &quot;SystemsAge.Brain&quot;                                                                                   
+## [181] &quot;SystemsAge.Inflammation&quot;                                                                            
+## [182] &quot;SystemsAge.Heart&quot;                                                                                   
+## [183] &quot;SystemsAge.Hormone&quot;                                                                                 
+## [184] &quot;SystemsAge.Immune&quot;                                                                                  
+## [185] &quot;SystemsAge.Kidney&quot;                                                                                  
+## [186] &quot;SystemsAge.Liver&quot;                                                                                   
+## [187] &quot;SystemsAge.Metabolic&quot;                                                                               
+## [188] &quot;SystemsAge.Lung&quot;                                                                                    
+## [189] &quot;SystemsAge.MusculoSkeletal&quot;                                                                         
+## [190] &quot;SystemsAge&quot;                                                                                         
+## [191] &quot;OMICmAge&quot;                                                                                           
+## [192] &quot;DunedinPACE&quot;                                                                                        
+## [193] &quot;fasting&quot;                                                                                            
+## [194] &quot;NAD&quot;                                                                                                
+## [195] &quot;TA65&quot;                                                                                               
+## [196] &quot;sulforaphane&quot;                                                                                       
+## [197] &quot;DHEA_new&quot;                                                                                           
+## [198] &quot;Rapamycin_new&quot;                                                                                      
+## [199] &quot;SASP_supressors&quot;                                                                                    
+## [200] &quot;Metformin_new&quot;                                                                                      
+## [201] &quot;Resveratrol_new&quot;                                                                                    
+## [202] &quot;Exosomes&quot;                                                                                           
+## [203] &quot;stem_cells&quot;                                                                                         
+## [204] &quot;HRT&quot;                                                                                                
+## [205] &quot;spermidine&quot;                                                                                         
+## [206] &quot;semaglutide&quot;                                                                                        
+## [207] &quot;vitaminD&quot;                                                                                           
+## [208] &quot;AKG&quot;                                                                                                
+## [209] &quot;sedentary_level_objective&quot;                                                                          
+## [210] &quot;sedentary_level&quot;                                                                                    
+## [211] &quot;Tobacco.Use.Numeric&quot;                                                                                
+## [212] &quot;BMI&quot;                                                                                                
+## [213] &quot;Education_levels_numeric&quot;                                                                           
+## [214] &quot;Level.of.Education&quot;                                                                                 
+## [215] &quot;Alcohol_per_week_numeric&quot;                                                                           
+## [216] &quot;Alcohol.per.week&quot;                                                                                   
+## [217] &quot;Exercise.per.week_numeric&quot;                                                                          
+## [218] &quot;Exercise.per.week&quot;</code></pre>
 </div>
 <div id="plot-outliers" class="section level1">
 <h1>Plot outliers</h1>

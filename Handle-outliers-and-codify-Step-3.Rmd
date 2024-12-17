@@ -268,6 +268,33 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ```
 
+### Codify exercise per week
+```{r}
+unique(data_with_outliers_removed$Exercise.per.week)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Exercise.per.week levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Exercise.per.week_numeric = case_when(
+    Exercise.per.week == "Never" ~ 0,
+    Exercise.per.week == "1-2 times per week" ~ 1,
+    Exercise.per.week == "3-4 times per week" ~ 2,
+    Exercise.per.week == "5-7 times per week" ~ 3,
+    Exercise.per.week == "8 or more times per week" ~ 4,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Exercise.per.week, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Exercise.per.week_numeric)
+
+```
+
 ### Save Rdata
 ```{r}
 save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
