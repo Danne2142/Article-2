@@ -55,9 +55,9 @@ amount_zero_and_negatives_before_removal<-count_zero_and_negatives(data, exclude
 ```
 
 
-### removal of zeroes and negatives
+### Replace 0 and negative values with NA
 ```{r}
-
+# Replace 0 and negative values with NA
 data_with_outliers_removed <- replace_zero_negatives(data, cols=c("Hannum.PC", "Horvath.PC",
   "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood",
   "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",

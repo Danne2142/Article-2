@@ -5,105 +5,31 @@ date: "2024-11-01"
 ---
 ```{r}
 # #Set working directory
-# setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program")
+# setwd("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
 
 #import functions
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/modeling functions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/plot_forest().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
 
 
 ```
 
 ```{r}
 library(mice)
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey1.RData")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1.RData")
 #rename object
 imp_data_surv1 <- imputed_data
-df1_imp_data_surv1<-complete(imp_data_surv1, 2)
+df1_imp_data_surv1<-imputed_data$completedDatasets[[1]]
 
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey2.RData")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData")
 #rename object
 imp_data_surv2 <- imputed_data
-df1_imp_data_surv2<-complete(imp_data_surv2, 2)
-
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey3.RData")
+df1_imp_data_surv2<-imputed_data$completedDatasets[[1]]
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData")
 #rename object
 imp_data_surv3 <- imputed_data
-df1_imp_data_surv3<-complete(imp_data_surv3, 2)
+df1_imp_data_surv3<-imputed_data$completedDatasets[[1]]
 ```
-
-## Survey 1
-### check how many values are missing (looked at png that is saved in directory)
-```{r}
-labels_abbrev <- abbreviate(names(df1_imp_data_surv1), minlength = 13)
-
-# Define the absolute path and new file name
-file_path <- "C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputation_results_survey1.png"
-
-# Save the plot to the specified path with the new file name
-png(filename = file_path, width = 10000, height = 800, res = 150)
-aggr_plot <- VIM::aggr(
-  df1_imp_data_surv1,
-  col = c('green', 'red'),
-  numbers = TRUE,
-  sortVars = TRUE,
-  labels = labels_abbrev,
-  cex.axis = 0.7,
-  gap = 3,
-  ylab = c("Proportion of missing", "Missing pattern with proportion")
-)
-dev.off()
-
-```
-## Survey 2
-### check how many values are missing (looked at png that is saved in directory)
-```{r}
-labels_abbrev <- abbreviate(names(df1_imp_data_surv2), minlength = 13)
-
-# Define the absolute path and new file name
-file_path <- "C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputation_results_survey2.png"
-
-# Save the plot to the specified path with the new file name
-png(filename = file_path, width = 10000, height = 800, res = 150)
-aggr_plot <- VIM::aggr(
-  df1_imp_data_surv2,
-  col = c('green', 'red'),
-  numbers = TRUE,
-  sortVars = TRUE,
-  labels = labels_abbrev,
-  cex.axis = 0.7,
-  gap = 3,
-  ylab = c("Proportion of missing", "Missing pattern with proportion")
-)
-dev.off()
-
-```
-
-## Survey 3
-### check how many values are missing (looked at png that is saved in directory)
-```{r}
-labels_abbrev <- abbreviate(names(df1_imp_data_surv3), minlength = 13)
-
-# Define the absolute path and new file name
-file_path <- "C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputation_results_survey3.png"
-
-# Save the plot to the specified path with the new file name
-png(filename = file_path, width = 10000, height = 800, res = 150)
-aggr_plot <- VIM::aggr(
-  df1_imp_data_surv3,
-  col = c('green', 'red'),
-  numbers = TRUE,
-  sortVars = TRUE,
-  labels = labels_abbrev,
-  cex.axis = 0.7,
-  gap = 3,
-  ylab = c("Proportion of missing", "Missing pattern with proportion")
-)
-dev.off()
-
-```
-
-
 
 ### Model 1 - Survey1
 ```{r}
@@ -114,7 +40,7 @@ lifestyle_covariates_survey1<-c("Marital.Status", "Level.of.Education", "Stress.
 covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey1.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -136,7 +62,7 @@ lifestyle_covariates_survey1<-c("Marital.Status", "Level.of.Education", "Stress.
 ```{r}
 covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey1 ))
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey1.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -172,7 +98,7 @@ lifestyle_covariates_survey2<-c("Level.of.Education", "Stress.Level", "Tobacco.U
 covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey2), covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey2), covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -190,7 +116,7 @@ OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 ```{r}
 covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey2 ))
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -225,7 +151,7 @@ lifestyle_covariates_survey3<-c("Level.of.Education", "Stress.Level", "Tobacco.U
 
 covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey3), covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey3), covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -242,7 +168,7 @@ OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 
 covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey3 ))
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
 
 plot_forest(combined_results_df[["DunedinPACE"]])
 plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
