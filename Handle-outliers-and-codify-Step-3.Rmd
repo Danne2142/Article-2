@@ -23,11 +23,6 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_outliers_sd().R")
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/create_histogram().R")
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/handle_hours_sedentary_remaining_awake().R")
-
-
-
-
-
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2")
 
 # Rename dataframe in this new script
@@ -55,9 +50,9 @@ amount_zero_and_negatives_before_removal<-count_zero_and_negatives(data, exclude
 ```
 
 
-### Replace 0 and negative values with NA
+### Remove rows with zero, negative or NA values in outcome columns
 ```{r}
-# Replace 0 and negative values with NA
+# Remove rows with zero, negative or NA values in outcome columns
 data_with_outliers_removed <- replace_zero_negatives(data, cols=c("Hannum.PC", "Horvath.PC",
   "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood",
   "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
@@ -87,8 +82,6 @@ amount_zero_and_negatives_after_removal<-count_zero_and_negatives(data_with_outl
                                                       "SystemsAgeAgeDev", "OMICmAgeAgeDev"))
 
 ```
-
-
 
 ### Add sedentary level based on fixed thresholds (objective)
 ```{r}
