@@ -21,15 +21,15 @@ load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsc
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
 
-# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData")
-# #rename object
-# imp_data_surv2 <- imputed_data
-# df1_imp_data_surv1<-complete(imputed_data, 1)
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData")
+#rename object
+imp_data_surv2 <- imputed_data
+df1_imp_data_surv1<-complete(imputed_data, 1)
 
-# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData")
-# #rename object
-# imp_data_surv3 <- imputed_data
-# df1_imp_data_surv1<-complete(imputed_data, 1)
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData")
+#rename object
+imp_data_surv3 <- imputed_data
+df1_imp_data_surv1<-complete(imputed_data, 1)
 ```
 
 ### Model 1 - Survey1
