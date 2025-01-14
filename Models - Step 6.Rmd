@@ -67,10 +67,39 @@ DunedinPACE_Model1_Survey1<-combined_results_df[["DunedinPACE"]]
 GrimAge_PCAgeDev_Model2_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 OMICmAgeAgeDev_Model1_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
+remove_terms_if_p_large <- function(terms, dfs) {
+  remaining_terms <- c()
+  for (term in terms) {
+    # Check if p.value is more than 0.15 in all dataframes
+    all_over_15 <- all(sapply(dfs, function(df) {
+      row_match <- df[df$term == term, ]
+      if(nrow(row_match) == 0 || is.na(row_match$p.value)) {
+        FALSE
+      } else {
+        all(row_match$p.value > 0.15)
+      }
+    }))
+    if(!all_over_15) {
+      remaining_terms <- c(remaining_terms, term)
+    }
+  }
+  return(remaining_terms)
+}
+
+
+lifestyle_covariates_survey1_updated <- remove_terms_if_p_large(
+  lifestyle_covariates_survey1, 
+  list(DunedinPACE_Model1_Survey1, 
+    GrimAge_PCAgeDev_Model2_Survey1, 
+    OMICmAgeAgeDev_Model1_Survey1))
+
+interventions_updated <- remove_terms_if_p_large(
+    interventions, 
+    list(DunedinPACE_Model1_Survey1, 
+        GrimAge_PCAgeDev_Model2_Survey1, 
+        OMICmAgeAgeDev_Model1_Survey1))
 
 ```
-
-
 
 ### Model 2 -survey 1
 ```{r}
@@ -122,6 +151,8 @@ p9 <- plot_forest(model3_OMICmAgeAgeDev)
 ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_Survey1_plot.png", plot = p9)
 # Save as dataframes
 OMICmAgeAgeDev_Model3_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
+
+
 ```
 
 

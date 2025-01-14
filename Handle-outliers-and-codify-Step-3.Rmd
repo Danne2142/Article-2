@@ -288,6 +288,89 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ```
 
+
+### Codify Caffeine.Use
+```{r}
+unique(data_with_outliers_removed$Caffeine.Use)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Caffeine.Use consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Caffeine.Use_numeric = case_when(
+    Caffeine.Use == "Never" ~ 0,
+    Caffeine.Use == "On special occasions" ~ 1,
+    Caffeine.Use == "Once per week" ~ 2,
+    Caffeine.Use == "Regularly" ~ 3,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Caffeine.Use, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Caffeine.Use_numeric)
+
+```
+
+
+### Codify Caffeine.Use
+```{r}
+unique(data_with_outliers_removed$Sexual.Frequency)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Caffeine.Use consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Sexual.Frequency_numeric = case_when(
+    Sexual.Frequency == "Inactive" ~ 0,
+    Sexual.Frequency == "Occasionally" ~ 1,
+    Sexual.Frequency == "Regularly" ~ 2,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Sexual.Frequency, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Sexual.Frequency_numeric)
+
+```
+
+
+### Codify Caffeine.Use
+```{r}
+unique(data_with_outliers_removed$Marital.Status)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Caffeine.Use consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Marital.Status_numeric = case_when(
+    Marital.Status == "Single" ~ 0,
+    Marital.Status == "Divorced" ~ 0,
+    Marital.Status == "Widowed" ~ 0,
+    Marital.Status == "Separated" ~ 0,
+    Marital.Status == "Partner" ~ 1,
+    Marital.Status == "Married" ~ 2,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+  
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Marital.Status, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Marital.Status_numeric)
+
+```
+
 ### Save Rdata
 ```{r}
 save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
