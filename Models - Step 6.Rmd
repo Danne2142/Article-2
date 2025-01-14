@@ -237,8 +237,8 @@ ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 # Save as dataframes
 OMICmAgeAgeDev_Model3_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
-
 ```
+
 ### model 1 - Survey2
 ```{r}
 interventions<-c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "HRT", "spermidine", "semaglutide", "vitaminD", "AKG")
