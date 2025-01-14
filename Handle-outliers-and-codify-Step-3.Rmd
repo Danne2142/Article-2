@@ -316,7 +316,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 ```
 
 
-### Codify Caffeine.Use
+### Codify Sexual.Frequency
 ```{r}
 unique(data_with_outliers_removed$Sexual.Frequency)
 
@@ -342,7 +342,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 ```
 
 
-### Codify Caffeine.Use
+### Codify Marital.Status
 ```{r}
 unique(data_with_outliers_removed$Marital.Status)
 
