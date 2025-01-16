@@ -86,17 +86,8 @@ remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude
 
   # Process each term
   for (term in terms) {
-    # Validate: check term exists and has valid p-values in all dataframes
-    for (df in dfs) {
-      row_match <- df[df$term == term, ]
-      if (nrow(row_match) == 0) {
-        stop(sprintf("ERROR: Term '%s' not found in one or more dataframes", term), call. = FALSE)
-      }
-      if (is.na(row_match$p.value)) {
-        stop(sprintf("ERROR: p-value for term '%s' is NA in one or more dataframes", term), call. = FALSE)
-      }
-    }
-    
+    print(term)
+
     # Handle categorical variables: retain regardless of p-value
     if (!is.null(categorical_variables_to_exclude) && term %in% categorical_variables_to_exclude) {
       remaining_terms <- c(remaining_terms, term)

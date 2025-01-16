@@ -369,6 +369,34 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Marital.Status_numeric)
 
+
+```
+
+### Codify Marital.Status
+```{r}
+unique(data_with_outliers_removed$Hours.of.sleep.per.night)
+
+# Load the dplyr package
+library(dplyr)
+
+# Define the mapping for the Caffeine.Use consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Hours.of.sleep.per.night_numeric = case_when(
+    Hours.of.sleep.per.night == "6 hours or less" ~ 0,
+    Hours.of.sleep.per.night == "6 to 8 hours" ~ 1,
+    Hours.of.sleep.per.night == "More than 8 hours" ~ 2,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+  
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Hours.of.sleep.per.night, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Hours.of.sleep.per.night_numeric)
+
+
 ```
 
 ### Save Rdata
