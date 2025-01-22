@@ -372,7 +372,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ```
 
-### Codify Marital.Status
+### Codify Hours.of.sleep.per.night
 ```{r}
 unique(data_with_outliers_removed$Hours.of.sleep.per.night)
 

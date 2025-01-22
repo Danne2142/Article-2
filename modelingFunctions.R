@@ -1,4 +1,56 @@
 
+#' Remove terms from models if p-value > 0.15 across all models
+#' 
+#' @description
+#' Evaluates terms across multiple models and removes those with p-value > 0.15 in all models.
+#' Categorical variables can be excluded from this evaluation.
+#' 
+#' @param terms Vector of term names to evaluate
+#' @param dfs List of dataframes containing model results with columns 'term' and 'p.value'
+#' @param categorical_variables_to_exclude Optional vector of categorical variable names to retain
+#' 
+#' @return Vector of remaining terms after removal
+#' 
+remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude = NULL) {
+  # Initialize storage vectors
+  remaining_terms <- c()
+  removed_terms <- c()
+
+  # Process each term
+  for (term in terms) {
+    print(term)
+
+    # Handle categorical variables: retain regardless of p-value
+    if (!is.null(categorical_variables_to_exclude) && term %in% categorical_variables_to_exclude) {
+      remaining_terms <- c(remaining_terms, term)
+      next
+    }
+    
+    # Check if p-value exceeds threshold in all models
+    all_over_15 <- all(sapply(dfs, function(df) {
+      row_match <- df[df$term == term, ]
+      row_match$p.value > 0.15
+    }))
+    
+    # Track results: keep term if significant in any model
+    if (!all_over_15) {
+      remaining_terms <- c(remaining_terms, term)
+    } else {
+      removed_terms <- c(removed_terms, term)
+    }
+  }
+  
+  # Report results
+  if (length(removed_terms) > 0) {
+    cat("\nRemoved terms with p > 0.15 in all models:\n")
+    cat(paste("-", removed_terms), sep = "\n")
+  } else {
+    cat("\nNo terms were removed\n")
+  }
+  
+  return(remaining_terms)
+}
+
 fit_imputed_lm <- function(imputedData, outcome, exposures, covariates) {
   
   # Load necessary library
@@ -90,5 +142,3 @@ model_exposure_wise<- function(path,outcome_vars, exposure_vars, covariate_vars)
   return(combined_results_df)
 
 }
-
-

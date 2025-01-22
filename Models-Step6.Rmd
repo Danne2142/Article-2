@@ -40,8 +40,8 @@ interventions<-c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65",
 
 lifestyle_covariates_survey1<-c("Alcohol_per_week_numeric",  
 "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "Exercise.Type",  
-"Hours.of.sleep.per.night", "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric")
+"Exercise.per.week_numeric", "Exercise.Type",
+"Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric")
 
 covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
@@ -67,57 +67,6 @@ DunedinPACE_Model1_Survey1<-combined_results_df[["DunedinPACE"]]
 GrimAge_PCAgeDev_Model2_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 OMICmAgeAgeDev_Model1_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
-#' Remove terms from models if p-value > 0.15 across all models
-#' 
-#' @description
-#' Evaluates terms across multiple models and removes those with p-value > 0.15 in all models.
-#' Categorical variables can be excluded from this evaluation.
-#' 
-#' @param terms Vector of term names to evaluate
-#' @param dfs List of dataframes containing model results with columns 'term' and 'p.value'
-#' @param categorical_variables_to_exclude Optional vector of categorical variable names to retain
-#' 
-#' @return Vector of remaining terms after removal
-#' 
-remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude = NULL) {
-  # Initialize storage vectors
-  remaining_terms <- c()
-  removed_terms <- c()
-
-  # Process each term
-  for (term in terms) {
-    print(term)
-
-    # Handle categorical variables: retain regardless of p-value
-    if (!is.null(categorical_variables_to_exclude) && term %in% categorical_variables_to_exclude) {
-      remaining_terms <- c(remaining_terms, term)
-      next
-    }
-    
-    # Check if p-value exceeds threshold in all models
-    all_over_15 <- all(sapply(dfs, function(df) {
-      row_match <- df[df$term == term, ]
-      row_match$p.value > 0.15
-    }))
-    
-    # Track results: keep term if significant in any model
-    if (!all_over_15) {
-      remaining_terms <- c(remaining_terms, term)
-    } else {
-      removed_terms <- c(removed_terms, term)
-    }
-  }
-  
-  # Report results
-  if (length(removed_terms) > 0) {
-    cat("\nRemoved terms with p > 0.15 in all models:\n")
-    cat(paste("-", removed_terms), sep = "\n")
-  } else {
-    cat("\nNo terms were removed\n")
-  }
-  
-  return(remaining_terms)
-}
 
 lifestyle_covariates_survey1_updated <- remove_terms_if_p_large(
   lifestyle_covariates_survey1, categorical_variables_to_exclude=c("Main.Diet.Factor", "Exercise.Type"),
@@ -163,13 +112,13 @@ OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 ### Model 3_HRT - Survey 1
 ```{r}
 # Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("DHEA"))
+exclusions <- c("DHEA")
 # Filter out the exclusions
 filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
 
+all_model_terms<-c(interventions_large_p, covariates_to_always_include)
 
-model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
-
+model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save DunedinPACE plot
 p7 <- plot_forest(model3_DunedinPACE)
 ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_HRT_Survey1_plot.png", plot = p7)
@@ -177,7 +126,7 @@ ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 DunedinPACE_Model3_HRT_Survey1<-combined_results_df[["DunedinPACE"]]
 
 
-model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
+model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save GrimAge.PCAgeDev plot
 p8 <- plot_forest(model3_GrimAge_PCAgeDev)
 ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_HRT_Survey1_plot.png", plot = p8)
@@ -185,7 +134,7 @@ ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 GrimAge_PCAgeDev_Model3_HRT_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 
 
-model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
+model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save OMICmAgeAgeDev plot
 p9 <- plot_forest(model3_OMICmAgeAgeDev)
 ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_HRT_Survey1_plot.png", plot = p9)
@@ -198,32 +147,33 @@ OMICmAgeAgeDev_Model3_HRT_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 ### Model 3_DHEA - Survey 1
 ```{r}
 # Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("HRT"))
+exclusions <- c("HRT")
 # Filter out the exclusions
 filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
+all_model_terms<-c(interventions_large_p, covariates_to_always_include)
 
 
-model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
+model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=all_model_terms, covariates=c())
 
 # Save DunedinPACE plot
 p10 <- plot_forest(model3_DunedinPACE)
-ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_DHEA_Survey1_plot.png", plot = p7)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_DHEA_Survey1_plot.png", plot = p10)
 # Save as dataframes
 DunedinPACE_Model3_DHEA_Survey1<-combined_results_df[["DunedinPACE"]]
 
 
-model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
+model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=all_model_terms, covariates=c())
 # Save GrimAge.PCAgeDev plot
 p11 <- plot_forest(model3_GrimAge_PCAgeDev)
-ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_DHEA_Survey1_plot.png", plot = p8)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_DHEA_Survey1_plot.png", plot = p11)
 # Save as dataframes
 GrimAge_PCAgeDev_Model3_DHEA_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 
 
-model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev", exposures=filtered_interventions_large_p, covariates=covariates_to_always_include)
+model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev",  exposures=all_model_terms, covariates=c())
 # Save OMICmAgeAgeDev plot
 p12 <- plot_forest(model3_OMICmAgeAgeDev)
-ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_DHEA_Survey1_plot.png", plot = p9)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_DHEA_Survey1_plot.png", plot = p12)
 # Save as dataframes
 OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
