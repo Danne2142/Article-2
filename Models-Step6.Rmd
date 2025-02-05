@@ -7,6 +7,7 @@ date: "2024-11-01"
 # #Set working directory
 # setwd("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
 
+
 #import functions
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
