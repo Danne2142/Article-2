@@ -3,7 +3,6 @@
 # install.packages("pacman")
 library(pacman)
 
-
 p_load(dplyr)
 # Load the necessary packages
 p_load(ggplot2)

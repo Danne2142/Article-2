@@ -75,7 +75,8 @@ amount_zero_and_negatives_after_removal<-count_zero_and_negatives(data_with_outl
 
 
 # Using dplyr and case_when
-library(dplyr)
+library(pacman)
+p_load(dplyr)
 
 data_with_outliers_removed <- data_with_outliers_removed %>%
   mutate(sedentary_level_objective = case_when(
@@ -168,7 +169,7 @@ print(class(data_with_outliers_removed$Tobacco.Use.Numeric))
 
 
 ## -----------------------------------------------------------------------------
-library(dplyr)
+p_load(dplyr)
 
 # Create a new data frame with only the removed rows (BMI < 15 and not NA)
 removed_low_BMI_rows <- data_with_outliers_removed %>%
@@ -219,7 +220,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Alcohol.per.week)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the alcohol consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -245,7 +246,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Exercise.per.week)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the Exercise.per.week levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -271,7 +272,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Caffeine.Use)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -296,7 +297,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Sexual.Frequency)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -320,7 +321,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Marital.Status)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -349,7 +350,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 unique(data_with_outliers_removed$Hours.of.sleep.per.night)
 
 # Load the dplyr package
-library(dplyr)
+p_load(dplyr)
 
 # Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
