@@ -18,16 +18,15 @@ p_load(ggplot2)
 
 ### Import all data
 ```{r}
-df_EPICv1_EPICv2_new <- read.csv("C:/Users/danie/Documents/Project 2 - Vscode/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+df_EPICv1_EPICv2_new <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 
-# #Remove unwated samples 
 # df_EPICv1_EPICv2_new<-remove_patient_case("206084850048_R07C01",df_EPICv1_EPICv2_new)
 # df_EPICv1_EPICv2_new<-remove_patient_case("206103060090_R03C01", df_EPICv1_EPICv2_new)
 
 # Rename collumn DunedinPoAm to DunedinPACE as it was misnamed according to Natalia
 names(df_EPICv1_EPICv2_new)[names(df_EPICv1_EPICv2_new) == "DunedinPoAm"] <- "DunedinPACE"
 
-# df_EPICv1_old <- read.csv("C:/Users/danie/Documents/Project 2 - Vscode/Data/EPICv1 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+# df_EPICv1_old <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 ```
 
 ### Replace all empty strings with NA
@@ -39,7 +38,7 @@ names(df_EPICv1_EPICv2_new)[names(df_EPICv1_EPICv2_new) == "DunedinPoAm"] <- "Du
 ### Remove unnecessary text in searchword collumns
 ```{r}
 #Remove unnecessary text in searchword collumns
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/remove_unnecessary_strings().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_unnecessary_strings().R")
 # Define the parameters
 remove_list <- c("Senolytic therapy (dasatinib, quercetin, rapamycin, etc.)", "Digestive support: probiotic, digestive enzymes, etc.", "Herbal supplements",
                  "Fish oil/Omega fatty acids",
@@ -55,12 +54,12 @@ df_EPICv1_EPICv2_new<-remove_unnecessary_strings(df_EPICv1_EPICv2_new, remove_li
 ### Import functions
 
 ```{r}
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/survey_version_functions.R")
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/process_supplement_data().R")
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/process_diet().R")
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/Users_without_searchwords().R")
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/replace_na_with_false().R")
-source("C:/Users/danie/Documents/Project 2 - Vscode/Program/seperate_survey().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/survey_version_functions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_supplement_data().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_diet().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Users_without_searchwords().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/replace_na_with_false().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/seperate_survey().R")
 
 ```
 
@@ -157,7 +156,7 @@ filtered_df_crossectional_harmonized <- df_EPICv1_EPICv2_new[new_columns]
 ### Updates the changes to df_EPICv1_EPICv2_new
 ```{r}
 ### VERY IMPORTANT: Updates the changes to df_EPICv1_EPICv2_new so that your functions will actually use them, as they load the file path of df_EPICv1_EPICv2_new.csv and not the object df_EPICv1_EPICv2_new
-write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv", row.names = FALSE) # nolint
+write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv", row.names = FALSE) # nolint
 
 ```
 
@@ -167,7 +166,7 @@ write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danie/Documents/Project 2 - Vsc
 ```{r}
 
 result_fasting <- process_diet(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "fasting",
   searchwords_case_unsensitive = "Fasting|Caloric restriction|Time-restricted eating|Time-restricted fasting|intermittent fast|calorie restrict",
   searchwords_case_sensitive = "",
@@ -223,7 +222,7 @@ filtered_df_crossectional_harmonized$Main.Diet <- ifelse(
 
 
 result_nad <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "NAD",
   searchwords_case_unsensitive = "NMN|nad|nicotinamide|B3|Niagen|Niacin|Elysium Signal|Elysium Health's Basis|Nuchido Time+|elysium Basis|Basis+",
   searchwords_case_sensitive = "NR|NDA",
@@ -238,7 +237,7 @@ filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmoniz
 filtered_df_crossectional_harmonized<-replace_na_with_false(filtered_df_crossectional_harmonized, "NAD")
 
 #Compare searchword method to not using searchwords
-file_path <- "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
 no_searchword_results <- count_true_values(file_path, "NR.NAD", "Antiaging.NAD")
 # Print the result
 print(paste("Number of users without using searchwords:", no_searchword_results))
@@ -257,7 +256,7 @@ NAD_removed_rows<-result_nad$df_removed_rows
 
 
 result_TA65 <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "TA65",
   searchwords_case_unsensitive = "TA.65|TA-65|TA65|TA 65|Astragalus|Astragaloside|Cycloastragenol",
   searchwords_case_sensitive = "",
@@ -286,7 +285,7 @@ TA65_searchword_findings<-result_TA65$searchword_findings
 
 
 result_sulforaphane <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "sulforaphane",
   searchwords_case_unsensitive = "Sulforaphane|Sulphoraphane|broccoli|brocoli|SFN|Avmacol|suphlorophane",
   searchwords_case_sensitive = "",
@@ -315,7 +314,7 @@ sulforaphane_searchword_findings<-result_sulforaphane$searchword_findings
 
 
 result_DHEA <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "DHEA_new",
   searchwords_case_unsensitive = "DHEA|Dehydroepiandrosterone|Prasterone|Androstenolone",
   searchwords_case_sensitive = "",
@@ -349,7 +348,7 @@ DHEA_removed_rows<-result_DHEA$df_removed_rows
 
 
 result_Rapamycin <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "Rapamycin_new",
   searchwords_case_unsensitive = "Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune",
   searchwords_case_sensitive = "",
@@ -378,7 +377,7 @@ Rapamycin_searchword_findings<-result_Rapamycin$searchword_findings
 
 
 result_SASP_supressors <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "SASP_supressors",
   searchwords_case_unsensitive = "Rapamycin|Sirolimus|Fyarro|Hyftor|Rapamune|Senolytic|quercetin|dasatanib|dasatinib|Fisetin|Senomorphic|SASP|MitoQ|Mito Q|apigenin|Curcumin|fisatine|TA.65|TA-65|TA 65|Astragalus|Astragaloside|Cycloastragenol|Metformin|Berberine|berbarine",
   searchwords_case_sensitive = "",
@@ -393,7 +392,7 @@ filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmoniz
 filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "SASP_supressors")
 
 #Compare searchword method to not using searchwords
-file_path <- "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
 no_searchword_results <- count_true_values(file_path, "Rapamycin", "Antiaging.Senolytics", "Metformin", "TA.65")
 # Print the result
 print(paste("Number of users without using searchwords:", no_searchword_results))
@@ -412,7 +411,7 @@ SASP_supressors_removed_rows<-result_SASP_supressors$df_removed_rows
 
 
 result_Metformin <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "Metformin_new",
   searchwords_case_unsensitive = "Metformin|Berberine|berbarine",
   searchwords_case_sensitive = "",
@@ -444,7 +443,7 @@ Metformin_removed_rows<-result_Metformin$df_removed_rows
 
 
 result_Resveratrol <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "Resveratrol_new",
   searchwords_case_unsensitive = "Resveratrol|resveraCel|resverotrol|Pterostilbene",
   searchwords_case_sensitive = "",
@@ -475,7 +474,7 @@ Resveratrol_removed_rows<-result_Resveratrol$df_removed_rows
 
 
 result_Exosomes <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "Exosomes",
   searchwords_case_unsensitive = "Exosome|vesic",
   searchwords_case_sensitive = "",
@@ -504,7 +503,7 @@ Exosomes_searchword_findings<-result_Exosomes$searchword_findings
 
 
 result_stem_cells <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "stem_cells",
   searchwords_case_unsensitive = "CELULAS MADRES|Stem cell",
   searchwords_case_sensitive = "",
@@ -536,7 +535,7 @@ stem_cells_removed_rows<-result_stem_cells$df_removed_rows
 
 
 result_HRT <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "HRT",
   searchwords_case_unsensitive = "HRT|Estrogen|Estradiol|Alora|Cenestin|Climara|Divigel|Elestrin|Enjuvia|Esclim|Estrace|Estraderm|Estrasorb|EstroGel|Evamist|Femtrace|Menest|Menostar|Minivelle|Ogen|Ortho-est|Osphena|Premarin|Vivelle|Activella|Angeliq|ClimaraPro|Femhrt|Prefest|Prempro|Duavee|Estriol|TRT|testosterone|Androforte|Testorone|Cypionate|Androderm|AndroGel|Aveed|undecanoate|Depo-Testosterone|Fortesta|Jatenzo|Kyzatrex|undecanoate|Natesto|Testim|Testopel|Tlando|Vogelxo|Xyosted|enanthate",
   searchwords_case_sensitive = "",
@@ -551,7 +550,7 @@ filtered_df_crossectional_harmonized <- merge(filtered_df_crossectional_harmoniz
 filtered_df_crossectional_harmonized <- replace_na_with_false(filtered_df_crossectional_harmonized, "HRT")
 
 #Compare searchword method to not using searchwords
-file_path <- "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
+file_path <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv"
 no_searchword_results <- count_true_values(file_path, "Antiaging.Hormone.Replacement", "DHEA")
 # Print the result
 print(paste("Number of users without using searchwords:", no_searchword_results))
@@ -570,7 +569,7 @@ HRT_removed_rows<-result_HRT$df_removed_rows
 
 
 result_spermidine <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "spermidine",
   searchwords_case_unsensitive = "Spermidine|Primeadine|Spermedine",
   searchwords_case_sensitive = "",
@@ -604,7 +603,7 @@ spermidine_removed_rows<-result_spermidine$df_removed_rows
 
 
 result_semaglutide <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "semaglutide",
   searchwords_case_unsensitive = "GLP|semaglutide|Ozempic|Wegovy|Saxenda|liraglutide|semautide|Ozemoic",
   searchwords_case_sensitive = "",
@@ -633,7 +632,7 @@ semaglutide_searchword_findings<-result_semaglutide$searchword_findings
 
 
 result_vitaminD <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "vitaminD",
   searchwords_case_unsensitive = "Vit-D|Vitamin D|vit D|D3 |v itiam D|Vitamine D|Vitamins D",
   searchwords_case_sensitive = "",
@@ -662,7 +661,7 @@ vitaminD_searchword_findings<-result_vitaminD$searchword_findings
 
 
 result_AKG <- process_supplement_data(
-  file_path = "C:/Users/danie/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
+  file_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
   supplement = "AKG",
   searchwords_case_unsensitive = "AKG|Alfa-keto|Alpha-keto|Alpha keto|Alfa keto",
   searchwords_case_sensitive = "",
@@ -703,7 +702,7 @@ df_EPICv1_EPICv2_new <- df_EPICv1_EPICv2_new %>% arrange(desc(BMI))
 
 ### Save results
 ```{r}
-write.csv(filtered_df_crossectional_harmonized, file = "C:/Users/danie/Documents/Project 2 - Vscode/Output/data_after_step1", row.names = FALSE)
+write.csv(filtered_df_crossectional_harmonized, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step1", row.names = FALSE)
 
 ```
 
