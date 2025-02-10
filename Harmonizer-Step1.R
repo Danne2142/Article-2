@@ -12,7 +12,6 @@ p_load(ggplot2)
 ## -----------------------------------------------------------------------------
 df_EPICv1_EPICv2_new <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 
-# #Remove unwated samples 
 # df_EPICv1_EPICv2_new<-remove_patient_case("206084850048_R07C01",df_EPICv1_EPICv2_new)
 # df_EPICv1_EPICv2_new<-remove_patient_case("206103060090_R03C01", df_EPICv1_EPICv2_new)
 

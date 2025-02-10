@@ -16,7 +16,9 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 ```
 
 ```{r}
-library(mice)
+library(pacman)
+
+p_load(mice)
 load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 #rename object
 imp_data_surv1 <- imputed_data
@@ -49,7 +51,7 @@ covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
 combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
 
-library(ggplot2)
+p_load(ggplot2)
 
 # Save DunedinPACE plot
 p1 <- plot_forest(combined_results_df[["DunedinPACE"]])
