@@ -110,75 +110,34 @@ OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 ```
 
-### Model 3_HRT - Survey 1
+### Model 3 - Survey 1
 ```{r}
-# Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("DHEA")
-# Filter out the exclusions
-filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
-
-all_model_terms<-c(interventions_large_p, covariates_to_always_include)
 
 model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save DunedinPACE plot
 p7 <- plot_forest(model3_DunedinPACE)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_HRT_Survey1_plot.png", plot = p7)
+ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_Survey1_plot.png", plot = p7)
 # Save as dataframes
-DunedinPACE_Model3_HRT_Survey1<-combined_results_df[["DunedinPACE"]]
+DunedinPACE_Model3_Survey1<-combined_results_df[["DunedinPACE"]]
 
 
 model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save GrimAge.PCAgeDev plot
 p8 <- plot_forest(model3_GrimAge_PCAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_HRT_Survey1_plot.png", plot = p8)
+ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_Survey1_plot.png", plot = p8)
 # Save as dataframes
-GrimAge_PCAgeDev_Model3_HRT_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
+GrimAge_PCAgeDev_Model3_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 
 
 model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save OMICmAgeAgeDev plot
 p9 <- plot_forest(model3_OMICmAgeAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_HRT_Survey1_plot.png", plot = p9)
+ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_Survey1_plot.png", plot = p9)
 # Save as dataframes
-OMICmAgeAgeDev_Model3_HRT_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
+OMICmAgeAgeDev_Model3_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 ```
 
-
-### Model 3_DHEA - Survey 1
-```{r}
-# Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("HRT")
-# Filter out the exclusions
-filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
-all_model_terms<-c(interventions_large_p, covariates_to_always_include)
-
-
-model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=all_model_terms, covariates=c())
-
-# Save DunedinPACE plot
-p10 <- plot_forest(model3_DunedinPACE)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_DHEA_Survey1_plot.png", plot = p10)
-# Save as dataframes
-DunedinPACE_Model3_DHEA_Survey1<-combined_results_df[["DunedinPACE"]]
-
-
-model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=all_model_terms, covariates=c())
-# Save GrimAge.PCAgeDev plot
-p11 <- plot_forest(model3_GrimAge_PCAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_DHEA_Survey1_plot.png", plot = p11)
-# Save as dataframes
-GrimAge_PCAgeDev_Model3_DHEA_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
-
-
-model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev",  exposures=all_model_terms, covariates=c())
-# Save OMICmAgeAgeDev plot
-p12 <- plot_forest(model3_OMICmAgeAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_DHEA_Survey1_plot.png", plot = p12)
-# Save as dataframes
-OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
-
-```
 
 ### model 1 - Survey2
 ```{r}
