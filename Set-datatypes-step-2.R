@@ -1,12 +1,4 @@
----
-title: "Set datatypes step 2"
-output: html_document
-date: "2024-10-28"
----
-
-
-### Import data and functions
-```{r}
+## -----------------------------------------------------------------------------
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_integer().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R")
@@ -17,26 +9,20 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 
 data <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step1", header=TRUE, stringsAsFactors=FALSE)
 
-```
 
 
-
-### Remove non binary biological sex 
-```{r}
+## -----------------------------------------------------------------------------
 data<- remove_other(data, "Biological.Sex")
 
-```
 
 
-```{r}
+## -----------------------------------------------------------------------------
 # Konvertera till Date-format
 data$Collection.Date <- as.Date(data$Collection.Date, format = "%m/%d/%Y")
 
-```
 
 
-### Fix datatypes
-```{r}
+## -----------------------------------------------------------------------------
 
 data_fixed_datatypes<-convert_to_logical(data, column_name="Diagnosed.with.low.or.high.calcium", false_values="No")
 
@@ -132,27 +118,22 @@ data_fixed_datatypes$Tobacco.Use <- ordered(data$Tobacco.Use,
 print(class(data_fixed_datatypes$Tobacco.Use))
 
 
-```
 
-### True/false values need to på converted to 0/1 for stdReg package
-```{r}
+
+## -----------------------------------------------------------------------------
 data_fixed_datatypes <- logical_to_integer(data_fixed_datatypes)
 
 
-```
 
 
-```{r}
+## -----------------------------------------------------------------------------
 
 data_fixed_datatypes <- char_cols_to_factors(data_fixed_datatypes,uniq_val_thresh=9, cols_to_skip = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version"))
 
-```
 
 
-### Save data
-```{r}
+## -----------------------------------------------------------------------------
 # write.csv(data_fixed_datatypes, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2", row.names = FALSE)
 save(data_fixed_datatypes, file ="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2")
 
-```
 

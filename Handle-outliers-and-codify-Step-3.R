@@ -1,11 +1,4 @@
-l---
-title: "Handle outliers"
-output: html_document
-date: "2024-10-28"
----
-
-### Import data and functions
-```{r}
+## -----------------------------------------------------------------------------
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_numeric().R")
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R")
@@ -29,10 +22,9 @@ load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsco
 data<-data_fixed_datatypes 
 rm(data_fixed_datatypes) # Remove old dataframe
 
-```
 
-### Count zeros and negatives before removal
-```{r}
+
+## -----------------------------------------------------------------------------
 amount_zero_and_negatives_before_removal<-count_zero_and_negatives(data, exclude_cols=c("Patient.ID", "PID", "survey_version", "Array", 
                                                       "Collection.Date", "Decimal.Chronological.Age", 
                                                       "Stress.Level",  
@@ -47,11 +39,9 @@ amount_zero_and_negatives_before_removal<-count_zero_and_negatives(data, exclude
                                                       "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev", 
                                                       "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev", 
                                                       "SystemsAgeAgeDev", "OMICmAgeAgeDev"))
-```
 
 
-### Remove rows with zero, negative or NA values in outcome columns
-```{r}
+## -----------------------------------------------------------------------------
 # Remove rows with zero, negative or NA values in outcome columns
 data_with_outliers_removed <- replace_zero_negatives(data, cols=c("Hannum.PC", "Horvath.PC",
   "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood",
@@ -60,11 +50,9 @@ data_with_outliers_removed <- replace_zero_negatives(data, cols=c("Hannum.PC", "
   "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
   "SystemsAge.MusculoSkeletal", "SystemsAge", "OMICmAge", "DunedinPACE"))
 
-```
 
 
-### Test removal of zeroe and negative epigenetic ages
-```{r}
+## -----------------------------------------------------------------------------
 
 amount_zero_and_negatives_after_removal<-count_zero_and_negatives(data_with_outliers_removed, exclude_cols=c("Patient.ID", "PID", "survey_version", "Array", 
                                                       "Collection.Date", "Decimal.Chronological.Age", 
@@ -81,10 +69,9 @@ amount_zero_and_negatives_after_removal<-count_zero_and_negatives(data_with_outl
                                                       "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev", 
                                                       "SystemsAgeAgeDev", "OMICmAgeAgeDev"))
 
-```
 
-### Add sedentary level based on fixed thresholds (objective)
-```{r}
+
+## -----------------------------------------------------------------------------
 
 
 # Using dplyr and case_when
@@ -99,28 +86,26 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     TRUE ~ NA_real_
   ))
 
-```
-### Print colnames: can be removed later
-```{r}
+
+
+## -----------------------------------------------------------------------------
 
 # # Using names() with seq_along()
 # column_names <- names(data_with_outliers_removed)
 # column_indices <- seq_along(data_with_outliers_removed)
 # 
 # print(column_names)
-```
 
-### Add sedentary level based on quartiles
-```{r}
+
+## -----------------------------------------------------------------------------
 data_with_outliers_removed <- handle_hours_sedentary_remaining_awake(
   data = data_with_outliers_removed,
   column_name = "Hours.Sedentary.Remaining.Awake"
 )
 
-```
 
-### Compare different ways to codify hours sedentary
-```{r message=TRUE, warning=TRUE}
+
+## ----message=TRUE, warning=TRUE-----------------------------------------------
 count_frequencies <- function(data, column_name) {
   # Ensure the column exists in the data frame
   if (!column_name %in% names(data)) {
@@ -150,10 +135,9 @@ print(result)
 result <- count_frequencies(data_with_outliers_removed, "sedentary_level_objective")
 print(result)
 
-```
 
-### test linear relationships of hours sedentary
-```{r}
+
+## -----------------------------------------------------------------------------
 # Plot the scatter plot
 # plot(data_with_outliers_removed$sedentary_level, data_with_outliers_removed$DunedinPACE, main = "Scatter Plot with Regression Line",
 #      xlab = "X-axis", ylab = "Y-axis",
@@ -164,11 +148,9 @@ print(result)
 
 # lm(data_with_outliers_removed$DunedinPACE ~ data_with_outliers_removed$sedentary_level)
 
-```
 
 
-### Codify current smoking level numerically
-```{r}
+## -----------------------------------------------------------------------------
 print(class(data_with_outliers_removed$Tobacco.Use))
 
 # Convert the ordered factor to numeric, starting at zero, preserving NAs
@@ -183,10 +165,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   relocate(Tobacco.Use.Numeric, .after = last_col())
 
 print(class(data_with_outliers_removed$Tobacco.Use.Numeric))
-```
 
-### Remove all BMI under 15
-```{r}
+
+## -----------------------------------------------------------------------------
 library(dplyr)
 
 # Create a new data frame with only the removed rows (BMI < 15 and not NA)
@@ -210,11 +191,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 removed_low_BMI_rows <- removed_low_BMI_rows %>%
   relocate(BMI, .after = last_col())
 
-```
 
 
-### Codify education level
-```{r}
+## -----------------------------------------------------------------------------
 
 # Define the mapping for the education levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -234,10 +213,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Education_levels_numeric)
-```
 
-### Codify alcohol level
-```{r}
+
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Alcohol.per.week)
 
 # Load the dplyr package
@@ -261,10 +239,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Alcohol_per_week_numeric)
 
-```
 
-### Codify exercise per week
-```{r}
+
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Exercise.per.week)
 
 # Load the dplyr package
@@ -288,11 +265,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Exercise.per.week_numeric)
 
-```
 
 
-### Codify Caffeine.Use
-```{r}
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Caffeine.Use)
 
 # Load the dplyr package
@@ -315,11 +290,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Caffeine.Use_numeric)
 
-```
 
 
-### Codify Sexual.Frequency
-```{r}
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Sexual.Frequency)
 
 # Load the dplyr package
@@ -341,11 +314,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Sexual.Frequency_numeric)
 
-```
 
 
-### Codify Marital.Status
-```{r}
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Marital.Status)
 
 # Load the dplyr package
@@ -372,10 +343,9 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Marital.Status_numeric)
 
 
-```
 
-### Codify Hours.of.sleep.per.night
-```{r}
+
+## -----------------------------------------------------------------------------
 unique(data_with_outliers_removed$Hours.of.sleep.per.night)
 
 # Load the dplyr package
@@ -399,23 +369,19 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Hours.of.sleep.per.night_numeric)
 
 
-```
 
-### Save Rdata
-```{r}
+
+## -----------------------------------------------------------------------------
 save(data_with_outliers_removed, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
 
-```
 
-### Print colnames
-```{r}
+
+## -----------------------------------------------------------------------------
 # Assuming your data frame is named df
 colnames(data_with_outliers_removed)
-```
 
 
-# Plot outliers
-```{r}
+## -----------------------------------------------------------------------------
 # # Define the output directory
 # output_dir <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Visualization of outliers after removal"
 
@@ -444,4 +410,4 @@ colnames(data_with_outliers_removed)
 #   dev.off()
 # }
 
-```
+

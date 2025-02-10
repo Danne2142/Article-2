@@ -1,0 +1,43 @@
+
+---
+title: "Master"
+output: html_document
+date: "2024-07-09"
+---
+
+### Codify current smoking level numerically
+```{r}
+# Run files in order
+
+library(knitr)
+
+# Harmonizer-Step1.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
+
+# Set-datatypes-step-2.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
+
+# Handle-outliers-and-codify-Step-3.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
+
+# Calc_ageDev-Step-4.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
+
+# Imputation-Step5.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.R")
+
+# Models-Step6.Rmd
+purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6.Rmd", 
+     output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6.R")
+```

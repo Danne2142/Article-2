@@ -1,21 +1,15 @@
-
-### Import packages
-
+## -----------------------------------------------------------------------------
 
 # install.packages("pacman")
 library(pacman)
 
-p_load(BiocManager)
-
-p_load(vscDebugger)
-
-231
 
 p_load(dplyr)
 # Load the necessary packages
 p_load(ggplot2)
 
-### Import all data
+
+## -----------------------------------------------------------------------------
 df_EPICv1_EPICv2_new <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 and v2 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 
 # #Remove unwated samples 
@@ -28,12 +22,11 @@ names(df_EPICv1_EPICv2_new)[names(df_EPICv1_EPICv2_new) == "DunedinPoAm"] <- "Du
 # df_EPICv1_old <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/EPICv1 data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 
 
-### Replace all empty strings with NA
+## -----------------------------------------------------------------------------
   df_EPICv1_EPICv2_new[df_EPICv1_EPICv2_new == ""] <- NA
 
 
-
-### Remove unnecessary text in searchword collumns
+## -----------------------------------------------------------------------------
 #Remove unnecessary text in searchword collumns
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_unnecessary_strings().R")
 # Define the parameters
@@ -46,10 +39,7 @@ columns_to_process <- c("Anti.Aging.Interventions", "Supplements.Medication", "N
 df_EPICv1_EPICv2_new<-remove_unnecessary_strings(df_EPICv1_EPICv2_new, remove_list, columns_to_process)
 
 
-
-
-### Import functions
-
+## -----------------------------------------------------------------------------
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/survey_version_functions.R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_supplement_data().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/process_diet().R")
@@ -59,7 +49,7 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 
 
 
-### Add survey version collumn
+## -----------------------------------------------------------------------------
 cols_survey2_3 <-c("Hours.Sedentary.Remaining.Awake", "Primary.Diet.Past.Year","Strictly.Followed.","Red.Meat.times.per.week","Processed.Food.times.per.week","Feel.Well.Rested.days.per.week","Screens.before.bed","Track.Sleep.Wearable.Device")
 #Remove rows with "other" in biological sex collumn
 
@@ -73,17 +63,14 @@ df_EPICv1_EPICv2_new <- add_surv_version_col(df_EPICv1_EPICv2_new, cols_survey2_
 #   ggplot2::labs(title = "Histogram of Survey Classifications", x = "Survey Version", y = "Count")
 
 
-### Choose if you only want to see only one survey to check searchword results. Otherwise comment out
-
+## -----------------------------------------------------------------------------
 # # #
 # df_EPICv1_EPICv2_new <- filter(df_EPICv1_EPICv2_new, survey_version=="2"|survey_version=="3")
 # # #
 # # #
 
 
-
-
-### Here you select what columns to keep
+## -----------------------------------------------------------------------------
 new_columns <- c(
   "Patient.ID", "PID", "survey_version", "Array", "Collection.Date", "Decimal.Chronological.Age", "Biological.Sex",
   "Menopause", "Given.Birth", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications",
@@ -146,15 +133,13 @@ filtered_df_crossectional_harmonized <- df_EPICv1_EPICv2_new[new_columns]
 
 
 
-### Updates the changes to df_EPICv1_EPICv2_new
+## -----------------------------------------------------------------------------
 ### VERY IMPORTANT: Updates the changes to df_EPICv1_EPICv2_new so that your functions will actually use them, as they load the file path of df_EPICv1_EPICv2_new.csv and not the object df_EPICv1_EPICv2_new
 write.csv(df_EPICv1_EPICv2_new, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv", row.names = FALSE) # nolint
 
 
 
-
-### Harmonize fasting
-
+## -----------------------------------------------------------------------------
 
 result_fasting <- process_diet(
   file_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/df_EPICv1_EPICv2_new.csv",
@@ -180,7 +165,7 @@ fasting_searchword_findings<-result_fasting$searchword_findings
 
 
 
-### Harmonize Main.Diet
+## -----------------------------------------------------------------------------
 # Check if the 'Main.Diet' column exists in the dataframe
 if (!"Main.Diet" %in% colnames(filtered_df_crossectional_harmonized)) {
   stop("Error: The 'Main.Diet' column is missing from 'filtered_df_crossectional_harmonized' dataframe.")
@@ -204,10 +189,7 @@ filtered_df_crossectional_harmonized$Main.Diet <- ifelse(
 
 
 
-
-
-### Harmonize NAD
-
+## -----------------------------------------------------------------------------
 
 
 result_nad <- process_supplement_data(
@@ -237,8 +219,7 @@ NAD_searchword_findings<-result_nad$searchword_findings
 NAD_removed_rows<-result_nad$df_removed_rows
 
 
-### Harmonize TA65
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -266,8 +247,8 @@ print(paste("Total number of users using searchwords and previous cathegorizatio
 print(paste("To see text answers cathegorized as true see: TA65_searchword_findings"))
 TA65_searchword_findings<-result_TA65$searchword_findings
 
-### Harmonize sulforaphane
 
+## -----------------------------------------------------------------------------
 
 
 
@@ -294,8 +275,7 @@ print(paste("To see text answers cathegorized as true see: sulforaphane_searchwo
 sulforaphane_searchword_findings<-result_sulforaphane$searchword_findings
 
 
-### Harmonize DHEA
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -326,9 +306,7 @@ DHEA_removed_rows<-result_DHEA$df_removed_rows
 
 
 
-
-### Harmonize Rapamycin
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -355,8 +333,7 @@ print(paste("To see text answers cathegorized as true see: Rapamycin_searchword_
 Rapamycin_searchword_findings<-result_Rapamycin$searchword_findings
 
 
-### Harmonize SASP_supressors
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -388,8 +365,7 @@ SASP_supressors_removed_rows<-result_SASP_supressors$df_removed_rows
 
 
 
-### Harmonize Metformin (includes berberine)
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -419,8 +395,7 @@ Metformin_removed_rows<-result_Metformin$df_removed_rows
 
 
 
-### Harmonize Resveratrol
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -449,8 +424,8 @@ Resveratrol_searchword_findings<-result_Resveratrol$searchword_findings
 Resveratrol_removed_rows<-result_Resveratrol$df_removed_rows
 
 
-### Harmonize Exosomes
 
+## -----------------------------------------------------------------------------
 
 
 
@@ -477,8 +452,7 @@ print(paste("To see text answers cathegorized as true see: Exosomes_searchword_f
 Exosomes_searchword_findings<-result_Exosomes$searchword_findings
 
 
-### Harmonize Stem cells
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -508,8 +482,7 @@ stem_cells_removed_rows<-result_stem_cells$df_removed_rows
 
 
 
-### Harmonize HRT
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -518,8 +491,8 @@ result_HRT <- process_supplement_data(
   supplement = "HRT",
   searchwords_case_unsensitive = "HRT|Estrogen|Estradiol|Alora|Cenestin|Climara|Divigel|Elestrin|Enjuvia|Esclim|Estrace|Estraderm|Estrasorb|EstroGel|Evamist|Femtrace|Menest|Menostar|Minivelle|Ogen|Ortho-est|Osphena|Premarin|Vivelle|Activella|Angeliq|ClimaraPro|Femhrt|Prefest|Prempro|Duavee|Estriol|TRT|testosterone|Androforte|Testorone|Cypionate|Androderm|AndroGel|Aveed|undecanoate|Depo-Testosterone|Fortesta|Jatenzo|Kyzatrex|undecanoate|Natesto|Testim|Testopel|Tlando|Vogelxo|Xyosted|enanthate",
   searchwords_case_sensitive = "",
-  old_columns = c("Antiaging.Hormone.Replacement", "DHEA"),
-  rows_to_remove = c("204229100153_R06C01", "204229100143_R04C01")
+  old_columns = c("Antiaging.Hormone.Replacement"),
+  rows_to_remove = c("205832320041_R03C01", "208418800162_R07C01", "207127950020_R02C01", "206693320090_R06C01", "205676380171_R01C01", "205832320160_R06C01", "205121980070_R04C01", "207248530036_R03C01", "206084850020_R01C01", "205832310107_R08C01", "207510060055_R03C01", "206699840103_R04C01", "207429030027_R07C01", "207131900012_R01C01", "204316970061_R03C01", "208492350084_R02C01", "207321570023_R06C01", "208410670008_R01C01")
 )
 
 #add HRT to filtered_df_crossectional_harmonized
@@ -540,9 +513,7 @@ HRT_searchword_findings<-result_HRT$searchword_findings
 HRT_removed_rows<-result_HRT$df_removed_rows
 
 
-
-### Harmonize spermidine
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -572,10 +543,7 @@ spermidine_removed_rows<-result_spermidine$df_removed_rows
 
 
 
-
-
-### Harmonize semaglutide
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -602,8 +570,7 @@ print(paste("To see text answers cathegorized as true see: semaglutide_searchwor
 semaglutide_searchword_findings<-result_semaglutide$searchword_findings
 
 
-### Harmonize vitaminD
-
+## -----------------------------------------------------------------------------
 
 
 
@@ -630,8 +597,8 @@ print(paste("To see text answers cathegorized as true see: vitaminD_searchword_f
 vitaminD_searchword_findings<-result_vitaminD$searchword_findings
 
 
-### Harmonize AKG
 
+## -----------------------------------------------------------------------------
 
 
 
@@ -658,8 +625,7 @@ print(paste("To see text answers cathegorized as true see: AKG_searchword_findin
 AKG_searchword_findings<-result_AKG$searchword_findings
 
 
-
-### Make new CSV with harmonized data
+## -----------------------------------------------------------------------------
 
 
 # Sortera dataframe efter en kollumn som bara finns i survey 2-3 för quality control
@@ -674,13 +640,12 @@ df_EPICv1_EPICv2_new <- df_EPICv1_EPICv2_new %>% arrange(desc(BMI))
 
 
 
-### Save results
+## -----------------------------------------------------------------------------
 write.csv(filtered_df_crossectional_harmonized, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step1", row.names = FALSE)
 
 
 
-
-### Make a DF to check what free text was used to categorize each user
+## -----------------------------------------------------------------------------
 p_load(dplyr)
 all_searchword_findings<-merge(AKG_searchword_findings, DHEA_searchword_findings, all = TRUE)
 all_searchword_findings<-merge(all_searchword_findings, Exosomes_searchword_findings, all = TRUE)
@@ -714,9 +679,7 @@ all_searchword_findings <- all_searchword_findings %>% relocate(sups_meds_interv
 
 
 
-
+## -----------------------------------------------------------------------------
 # filtered_df_crossectional_harmonized <- filter(filtered_df_crossectional_harmonized, survey_version=="2"|survey_version=="3")
-
-
 
 

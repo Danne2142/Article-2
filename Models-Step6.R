@@ -1,9 +1,4 @@
----
-title: "Model 1"
-output: html_document
-date: "2024-11-01"
----
-```{r}
+## -----------------------------------------------------------------------------
 # #Set working directory
 # setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
 
@@ -13,9 +8,9 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
 
 
-```
 
-```{r}
+
+## -----------------------------------------------------------------------------
 library(mice)
 load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 #rename object
@@ -31,10 +26,9 @@ df1_imp_data_surv1<-complete(imputed_data, 1)
 # #rename object
 # imp_data_surv3 <- imputed_data
 # df1_imp_data_surv1<-complete(imputed_data, 1)
-```
 
-### Model 1 - Survey1
-```{r}
+
+## -----------------------------------------------------------------------------
 interventions<-c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
 "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
 "HRT", "spermidine", "semaglutide", "vitaminD", "AKG")
@@ -82,10 +76,9 @@ interventions_large_p <- remove_terms_if_p_large(
     GrimAge_PCAgeDev_Model2_Survey1, 
     OMICmAgeAgeDev_Model1_Survey1))
 
-```
 
-### Model 2 -survey 1
-```{r}
+
+## -----------------------------------------------------------------------------
 covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex", lifestyle_covariates_survey1_updated ))
 
 combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
@@ -108,10 +101,9 @@ GrimAge_PCAgeDev_Model2_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 
-```
 
-### Model 3_HRT - Survey 1
-```{r}
+
+## -----------------------------------------------------------------------------
 # Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
 exclusions <- c("DHEA")
 # Filter out the exclusions
@@ -142,11 +134,9 @@ ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 # Save as dataframes
 OMICmAgeAgeDev_Model3_HRT_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
-```
 
 
-### Model 3_DHEA - Survey 1
-```{r}
+## -----------------------------------------------------------------------------
 # Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
 exclusions <- c("HRT")
 # Filter out the exclusions
@@ -178,10 +168,9 @@ ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 # Save as dataframes
 OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
-```
 
-### model 1 - Survey2
-```{r}
+
+## -----------------------------------------------------------------------------
 # interventions<-c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "HRT", "spermidine", "semaglutide", "vitaminD", "AKG")
 
 # lifestyle_covariates_survey2<-c("Level.of.Education", "Stress.Level", "Tobacco.Use", "Hours.Sedentary.Remaining.Awake", "Strictly.Followed.Main.Diet", "Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week", "Screens.before.bed")
@@ -199,12 +188,9 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 # GrimAge.PCAgeDev<-combined_results_df[["GrimAge.PCAgeDev"]]
 # OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 
-```
 
 
-
-### Model 2 -survey 2
-```{r}
+## -----------------------------------------------------------------------------
 # covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey2 ))
 
 # combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
@@ -218,10 +204,9 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 # OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 
 
-```
 
-### Model 3 -survey 2
-```{r}
+
+## -----------------------------------------------------------------------------
 
 # model3_DunedinPACE<-fit_imputed_lm(imp_data_surv2, outcome = "DunedinPACE", exposures=interventions, covariates=covariates_to_always_include)
 # plot_forest(model3_DunedinPACE)
@@ -231,10 +216,9 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 # model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv2, outcome = "OMICmAgeAgeDev", exposures=interventions, covariates=covariates_to_always_include)
 # plot_forest(model3_OMICmAgeAgeDev)
-```
 
-### model 1 - Survey3
-```{r}
+
+## -----------------------------------------------------------------------------
 # interventions<-c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "HRT", "spermidine", "semaglutide", "vitaminD", "AKG")
 
 # lifestyle_covariates_survey3<-c("Level.of.Education", "Stress.Level", "Tobacco.Use", "Hours.of.sleep.per.night", "Hours.Sedentary.Remaining.Awake", "Strictly.Followed.Main.Diet", "Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week", "Screens.before.bed",  "BMI")
@@ -251,10 +235,9 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 # GrimAge.PCAgeDev<-combined_results_df[["GrimAge.PCAgeDev"]]
 # OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 
-```
 
-### Model 2 -survey 3
-```{r}
+
+## -----------------------------------------------------------------------------
 
 # covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey3 ))
 
@@ -269,10 +252,9 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 # OMICmAgeAgeDev<-combined_results_df[["OMICmAgeAgeDev"]]
 
 
-```
 
-### Model 3 -survey 3
-```{r}
+
+## -----------------------------------------------------------------------------
 
 # model3_DunedinPACE<-fit_imputed_lm(imp_data_surv3, outcome = "DunedinPACE", exposures=interventions, covariates=covariates_to_always_include)
 # plot_forest(model3_DunedinPACE)
@@ -282,5 +264,4 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 # model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv3, outcome = "OMICmAgeAgeDev", exposures=interventions, covariates=covariates_to_always_include)
 # plot_forest(model3_OMICmAgeAgeDev)
-```
 

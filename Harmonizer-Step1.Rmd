@@ -540,8 +540,8 @@ result_HRT <- process_supplement_data(
   supplement = "HRT",
   searchwords_case_unsensitive = "HRT|Estrogen|Estradiol|Alora|Cenestin|Climara|Divigel|Elestrin|Enjuvia|Esclim|Estrace|Estraderm|Estrasorb|EstroGel|Evamist|Femtrace|Menest|Menostar|Minivelle|Ogen|Ortho-est|Osphena|Premarin|Vivelle|Activella|Angeliq|ClimaraPro|Femhrt|Prefest|Prempro|Duavee|Estriol|TRT|testosterone|Androforte|Testorone|Cypionate|Androderm|AndroGel|Aveed|undecanoate|Depo-Testosterone|Fortesta|Jatenzo|Kyzatrex|undecanoate|Natesto|Testim|Testopel|Tlando|Vogelxo|Xyosted|enanthate",
   searchwords_case_sensitive = "",
-  old_columns = c("Antiaging.Hormone.Replacement", "DHEA"),
-  rows_to_remove = c("204229100153_R06C01", "204229100143_R04C01")
+  old_columns = c("Antiaging.Hormone.Replacement"),
+  rows_to_remove = c("205832320041_R03C01", "208418800162_R07C01", "207127950020_R02C01", "206693320090_R06C01", "205676380171_R01C01", "205832320160_R06C01", "205121980070_R04C01", "207248530036_R03C01", "206084850020_R01C01", "205832310107_R08C01", "207510060055_R03C01", "206699840103_R04C01", "207429030027_R07C01", "207131900012_R01C01", "204316970061_R03C01", "208492350084_R02C01", "207321570023_R06C01", "208410670008_R01C01")
 )
 
 #add HRT to filtered_df_crossectional_harmonized

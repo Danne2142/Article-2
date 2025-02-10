@@ -1,11 +1,4 @@
----
-title: "Calc_ageDev"
-output: html_document
-date: "2024-10-29"
----
-
-### Import data and functions
-```{r}
+## -----------------------------------------------------------------------------
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_numeric().R")
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R")
@@ -26,12 +19,9 @@ load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsco
 # Rename dataframe in this new script
 data<-data_with_outliers_removed
 rm(data_with_outliers_removed) # Remove old dataframe
-```
 
 
-
-### Calculate AgeDev
-```{r}
+## -----------------------------------------------------------------------------
 data_with_ageDev<-data
 biological_age_markers <- c("Hannum.PC","Horvath.PC",
                   "GrimAge.PC","PhenoAge.PC","OMICmAge","SystemsAge.Blood","SystemsAge.Brain","SystemsAge.Inflammation",
@@ -41,10 +31,9 @@ for (variable in biological_age_markers) {
 data_with_ageDev<- calc_AgeDev(data_with_ageDev, variable)
 }
 
-```
 
-### Plot variables
-```{r}
+
+## -----------------------------------------------------------------------------
 col_numbers<- get_Numeric_and_int_cols(data_with_ageDev, exclude_cols= c("Patient.ID", "PID", "survey_version", "Array", "Collection.Date", "Decimal.Chronological.Age", "Hannum.PC", "Horvath.PC",
   "Telomere.Values.PC", "GrimAge.PC", "PhenoAge.PC", "SystemsAge.Blood",
   "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
@@ -58,12 +47,9 @@ for (i in col_numbers) {
 
 }
 
-```
 
 
-### Save data
-```{r}
+## -----------------------------------------------------------------------------
 save(data_with_ageDev, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 
-```
 

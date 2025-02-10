@@ -1,4 +1,4 @@
 {
     "markdown.copyFiles.overwriteBehavior": "overwrite",
-    "r.debugger.timeouts.startup": 20000
+    "r.debugger.timeouts.startup": 200000
 }

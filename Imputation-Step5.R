@@ -1,23 +1,13 @@
----
-title: "Imputation"
-output: html_document
-date: "2024-10-25"
----
-
-
-#Import functions
-```{r}
+## -----------------------------------------------------------------------------
 library(dplyr)
 
 
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
-```
 
 
-### Calculate corr matrix
-```{r}
+## -----------------------------------------------------------------------------
   # Remove unnecessary columns
   # data4_without_cols <- subset(data4, select = -c(Hannum.PC, Horvath.PC, Telomere.Values.PC, GrimAge.PC, PhenoAge.PC,
   #                                        SystemsAge.Heart, SystemsAge.Hormone, SystemsAge.Blood, SystemsAge.Brain, 
@@ -38,11 +28,9 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 
 # corr_df<-mixed_correlation_matrix(data4, cols_to_skip = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version"))
 
-```
 
 
-### Impute survey 1
-```{r}
+## -----------------------------------------------------------------------------
 # Adjust this according to each survey
 surveyVersion=1
 missing_threshold=50
@@ -149,10 +137,9 @@ print(running_time) # check how long it runs
 # stripplot(imputed_data)
 
 
-```
 
-### Impute survey 2
-```{r}
+
+## -----------------------------------------------------------------------------
 # # Adjust this according to each survey
 # surveyVersion=2
 # missing_threshold=50
@@ -223,10 +210,9 @@ print(running_time) # check how long it runs
 # # stripplot(imputed_data)
 
 
-```
 
-### Impute survey 3
-```{r}
+
+## -----------------------------------------------------------------------------
 # # Adjust this according to each survey
 # surveyVersion=3
 # missing_threshold=50
@@ -302,9 +288,6 @@ print(running_time) # check how long it runs
 # # # inspect results
 # # densityplot(imputed_data)
 # # stripplot(imputed_data)
-
-
-```
 
 
 
