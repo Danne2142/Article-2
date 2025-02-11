@@ -1,10 +1,12 @@
 ## -----------------------------------------------------------------------------
-library(dplyr)
+
+library(pacman)
+p_load(dplyr)
 
 
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
 
 
 ## -----------------------------------------------------------------------------
@@ -38,7 +40,7 @@ amount_of_mice_datasets_to_impute=5 #!!!!!!!!!!!!!!!!!!!!
 max_iterations_per_dataset = 30 #!!!!!!!!!!!!!!!!
 #------------------------------------
 #Load data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data_to_drop_cols_from<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -50,7 +52,7 @@ data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surve
 #   save_missing_data_plot(
 #     data =  data_to_drop_cols_from,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
 #   )
 #Prepare data for imputation by removing columns with more missing data than threshold
@@ -72,7 +74,7 @@ df_to_impute <- df_to_impute[, !(names(df_to_impute) %in% cols_to_exclude_from_i
 # save_missing_data_plot(
 #   data = df_to_impute,
 #   survey_version_filter = surveyVersion,
-#   output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #   filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
 # )
   
@@ -117,12 +119,12 @@ max_iterations=max_iterations_per_dataset,  cols_to_exclude_from_predictors = c(
 # save_missing_data_plot(
 #   data = imputed_dataframe1,
 #   survey_version_filter = surveyVersion,
-#   output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #   filename_prefix = "missing_data_after_imputation_for_survey_version_"
 # )
 
 # Save the imputed datasets to a file
-save(imputed_data, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+save(imputed_data, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 
 
 
@@ -146,7 +148,7 @@ print(running_time) # check how long it runs
 # max_iterations_per_dataset = 5
 # #------------------------------------
 # #Load data
-# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # Rename dataframe in this new script
 # data_to_drop_cols_from<-data_with_ageDev
 # rm(data_with_ageDev) # Remove old dataframe
@@ -159,7 +161,7 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data =  data_to_drop_cols_from,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
 #   )
   
@@ -170,7 +172,7 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data = df_to_impute,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
 #   )
   
@@ -198,12 +200,12 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data = complete(imputed_data, 1),
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_imputation_for_survey_version_"
 #   )
 
 # # Save the imputed datasets to a file
-# save(imputed_data, file = paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
+# save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
 
 # # # inspect results
 # # densityplot(imputed_data)
@@ -220,7 +222,7 @@ print(running_time) # check how long it runs
 # max_iterations_per_dataset = 5
 # #------------------------------------
 # #Load data
-# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # Rename dataframe in this new script
 # data_to_drop_cols_from<-data_with_ageDev
 # rm(data_with_ageDev) # Remove old dataframe
@@ -238,7 +240,7 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data =  data_to_drop_cols_from,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
 #   )
   
@@ -249,7 +251,7 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data = df_to_impute,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
 #   )
   
@@ -278,12 +280,12 @@ print(running_time) # check how long it runs
 #   save_missing_data_plot(
 #     data = complete(imputed_data, 1),
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_imputation_for_survey_version_"
 #   )
 
 # # Save the imputed datasets to a file
-# save(imputed_data, file = paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
+# save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
 
 # # # inspect results
 # # densityplot(imputed_data)

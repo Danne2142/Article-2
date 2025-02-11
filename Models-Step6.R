@@ -1,28 +1,30 @@
 ## -----------------------------------------------------------------------------
 # #Set working directory
-# setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
+# setwd("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
 
 
 #import functions
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
 
 
 
 
 ## -----------------------------------------------------------------------------
-library(mice)
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+library(pacman)
+
+p_load(mice)
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 #rename object
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
 
-# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData")
+# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData")
 # #rename object
 # imp_data_surv2 <- imputed_data
 # df1_imp_data_surv1<-complete(imputed_data, 1)
 
-# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData")
+# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData")
 # #rename object
 # imp_data_surv3 <- imputed_data
 # df1_imp_data_surv1<-complete(imputed_data, 1)
@@ -41,21 +43,21 @@ lifestyle_covariates_survey1<-c("Alcohol_per_week_numeric",
 covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
 
-library(ggplot2)
+p_load(ggplot2)
 
 # Save DunedinPACE plot
 p1 <- plot_forest(combined_results_df[["DunedinPACE"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model1_Survey1_plot.png", plot = p1)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model1_Survey1_plot.png", plot = p1)
 
 # Save GrimAge.PCAgeDev plot
 p2 <- plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model1_Survey1_plot.png", plot = p2)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model1_Survey1_plot.png", plot = p2)
 
 # Save OMICmAgeAgeDev plot
 p3 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model1_Survey1_plot.png", plot = p3)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model1_Survey1_plot.png", plot = p3)
 
 # Save as dataframes
 DunedinPACE_Model1_Survey1<-combined_results_df[["DunedinPACE"]]
@@ -81,19 +83,19 @@ interventions_large_p <- remove_terms_if_p_large(
 ## -----------------------------------------------------------------------------
 covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex", lifestyle_covariates_survey1_updated ))
 
-combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
+combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
 
 # Save DunedinPACE plot
 p4 <- plot_forest(combined_results_df[["DunedinPACE"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model2_Survey1_plot.png", plot = p4)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model2_Survey1_plot.png", plot = p4)
 
 # Save GrimAge.PCAgeDev plot
 p5 <- plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model2_Survey1_plot.png", plot = p5)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model2_Survey1_plot.png", plot = p5)
 
 # Save OMICmAgeAgeDev plot
 p6 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]])
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model2_Survey1_plot.png", plot = p6)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model2_Survey1_plot.png", plot = p6)
 
 # Save as dataframes
 DunedinPACE_Model2_Survey1<-combined_results_df[["DunedinPACE"]]
@@ -104,69 +106,29 @@ OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 
 ## -----------------------------------------------------------------------------
-# Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("DHEA")
-# Filter out the exclusions
-filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
-
-all_model_terms<-c(interventions_large_p, covariates_to_always_include)
 
 model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save DunedinPACE plot
 p7 <- plot_forest(model3_DunedinPACE)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_HRT_Survey1_plot.png", plot = p7)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_Survey1_plot.png", plot = p7)
 # Save as dataframes
-DunedinPACE_Model3_HRT_Survey1<-combined_results_df[["DunedinPACE"]]
+DunedinPACE_Model3_Survey1<-combined_results_df[["DunedinPACE"]]
 
 
 model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save GrimAge.PCAgeDev plot
 p8 <- plot_forest(model3_GrimAge_PCAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_HRT_Survey1_plot.png", plot = p8)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_Survey1_plot.png", plot = p8)
 # Save as dataframes
-GrimAge_PCAgeDev_Model3_HRT_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
+GrimAge_PCAgeDev_Model3_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
 
 
 model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev", exposures=interventions_large_p, covariates=covariates_to_always_include)
 # Save OMICmAgeAgeDev plot
 p9 <- plot_forest(model3_OMICmAgeAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_HRT_Survey1_plot.png", plot = p9)
+ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_Survey1_plot.png", plot = p9)
 # Save as dataframes
-OMICmAgeAgeDev_Model3_HRT_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
-
-
-
-## -----------------------------------------------------------------------------
-# Remove terms that are included in other terms (for example, if 'DHEA' is included, 'HRT') when running full models
-exclusions <- c("HRT")
-# Filter out the exclusions
-filtered_interventions_large_p <- interventions_large_p[!interventions_large_p %in% exclusions]
-all_model_terms<-c(interventions_large_p, covariates_to_always_include)
-
-
-model3_DunedinPACE<-fit_imputed_lm(imp_data_surv1, outcome = "DunedinPACE", exposures=all_model_terms, covariates=c())
-
-# Save DunedinPACE plot
-p10 <- plot_forest(model3_DunedinPACE)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/DunedinPACE_Model3_DHEA_Survey1_plot.png", plot = p10)
-# Save as dataframes
-DunedinPACE_Model3_DHEA_Survey1<-combined_results_df[["DunedinPACE"]]
-
-
-model3_GrimAge_PCAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "GrimAge.PCAgeDev", exposures=all_model_terms, covariates=c())
-# Save GrimAge.PCAgeDev plot
-p11 <- plot_forest(model3_GrimAge_PCAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_DHEA_Survey1_plot.png", plot = p11)
-# Save as dataframes
-GrimAge_PCAgeDev_Model3_DHEA_Survey1<-combined_results_df[["GrimAge.PCAgeDev"]]
-
-
-model3_OMICmAgeAgeDev<-fit_imputed_lm(imp_data_surv1, outcome = "OMICmAgeAgeDev",  exposures=all_model_terms, covariates=c())
-# Save OMICmAgeAgeDev plot
-p12 <- plot_forest(model3_OMICmAgeAgeDev)
-ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/OMICmAgeAgeDev_Model3_DHEA_Survey1_plot.png", plot = p12)
-# Save as dataframes
-OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
+OMICmAgeAgeDev_Model3_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 
 
@@ -178,7 +140,7 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 # covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
 
-# combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey2), covariate_vars = covariates_to_always_include)
+# combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey2), covariate_vars = covariates_to_always_include)
 
 # plot_forest(combined_results_df[["DunedinPACE"]])
 # plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -193,7 +155,7 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 ## -----------------------------------------------------------------------------
 # covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey2 ))
 
-# combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
+# combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
 
 # plot_forest(combined_results_df[["DunedinPACE"]])
 # plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -225,7 +187,7 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 # covariates_to_always_include<-c("Decimal.Chronological.Age", "Biological.Sex" )
 
-# combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey3), covariate_vars = covariates_to_always_include)
+# combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey3), covariate_vars = covariates_to_always_include)
 
 # plot_forest(combined_results_df[["DunedinPACE"]])
 # plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
@@ -241,7 +203,7 @@ OMICmAgeAgeDev_Model3_DHEA_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 
 # covariates_to_always_include<-c(c("Decimal.Chronological.Age", "Biological.Sex",lifestyle_covariates_survey3 ))
 
-# combined_results_df<-model_exposure_wise(path="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
+# combined_results_df<-model_exposure_wise(path="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3.RData", outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions, covariate_vars = covariates_to_always_include)
 
 # plot_forest(combined_results_df[["DunedinPACE"]])
 # plot_forest(combined_results_df[["GrimAge.PCAgeDev"]])
