@@ -1,4 +1,4 @@
-plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", conf.high_col = "97.5 %", label_col = "term", group_col = NULL, pvalue_col = "p.value", xlab = "", ylab = "") {
+plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", conf.high_col = "97.5 %", label_col = "term", group_col = NULL, pvalue_col = "p.value", xlab = "", ylab = "", vertical_line = 0) {
   library(ggplot2)
   library(dplyr)
   
@@ -56,7 +56,7 @@ plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", c
   }
   
   p <- p +
-    geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+    geom_vline(xintercept = vertical_line, linetype = "dashed", color = "red") +
     expand_limits(x = x_max + 0.2 * x_range) +
     labs(x = xlab, y = ylab) +
     theme_minimal() +
