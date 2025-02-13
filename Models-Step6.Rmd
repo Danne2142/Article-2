@@ -1,0 +1,26 @@
+
+
+
+```{r}
+
+#import functions
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models_survey1().R")
+
+```
+
+
+```{r}
+#Generate main models
+run_models_survey1(suffix = "_Main")
+
+
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_Excercise_excluded") 
+
+```
