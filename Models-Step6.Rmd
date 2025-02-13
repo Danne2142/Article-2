@@ -13,7 +13,7 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 #Generate main models
 run_models_survey1(suffix = "_Main")
 
-
+#Generate Sensitivity analysis for excluding exercise
 run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
                      "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
                      "HRT", "spermidine"), 
@@ -22,5 +22,6 @@ run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new"
                                     "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
                                     "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
                                     cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_Excercise_excluded") 
+
 
 ```

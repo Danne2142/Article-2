@@ -11,7 +11,9 @@ run_models_survey1 <- function(
                                     "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
                                     "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
                                     cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-                                    suffix = ""  # new parameter for file name suffix
+                                    suffix = ""  # new parameter for file name suffix,
+                                    , data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1"
+                                  
                                     ) {
   # Import functions and libraries
   source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
@@ -21,7 +23,7 @@ run_models_survey1 <- function(
   p_load(mice, ggplot2)
   
   # Load imputed survey1 data
-  load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+  load(data_path)
   imp_data_surv1 <- imputed_data
   df1_imp_data_surv1 <- complete(imputed_data, 1)
   
