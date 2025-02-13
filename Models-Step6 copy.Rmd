@@ -34,6 +34,7 @@ df1_imp_data_surv1<-complete(imputed_data, 1)
 # #rename object
 # imp_data_surv3 <- imputed_data
 # df1_imp_data_surv1<-complete(imputed_data, 1)
+
 ```
 
 ### Model 1 Supplement - Survey1
