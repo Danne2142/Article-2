@@ -43,115 +43,70 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 ```
 
 
-### Impute survey 1
+### Impute survey 1 - All participants
 ```{r}
-# Adjust this according to each survey
-surveyVersion=1
-missing_threshold=50
-amount_of_mice_datasets_to_impute=2 #!!!!!!!!!!!!!!!!!!!!
-max_iterations_per_dataset = 1 #!!!!!!!!!!!!!!!!
-#------------------------------------
 #Load data
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
-data_to_drop_cols_from<-data_with_ageDev
+data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
 
-data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surveyVersion) ##Important row!!
-# str(data_to_drop_cols_from)
-
-# # Save a plot of how the data looks before cols with more missing data than the threshold is dropped
-#   save_missing_data_plot(
-#     data =  data_to_drop_cols_from,
-#     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
-#     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
-#   )
-#Prepare data for imputation by removing columns with more missing data than threshold
-df_to_impute<-set_NA_percent_and_imp_cols(data = data_to_drop_cols_from, survey_version_filter = surveyVersion, missing_threshold = missing_threshold)
-
 # Separate columns to keep unimputed
-cols_to_exclude_from_imputation_entirely = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
   "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
 
-#Debugging
-missing_cols <- setdiff(cols_to_exclude_from_imputation_entirely, names(df_to_impute))
-print(missing_cols)
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 
-cols_not_to_impute <- df_to_impute[, cols_to_exclude_from_imputation_entirely, drop = FALSE]
-df_to_impute <- df_to_impute[, !(names(df_to_impute) %in% cols_to_exclude_from_imputation_entirely)]
-  
-  
-# # Save a plot of how the data looks before imputation
-# save_missing_data_plot(
-#   data = df_to_impute,
-#   survey_version_filter = surveyVersion,
-#   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
-#   filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
-# )
-  
-#Set amount_of_mice_datasets_to_impute
-avg_missing_data <-average_missing(df_to_impute) #These days there is a rule of thumb to use whatever the average percentage rate of missingness is
-print(paste0("Average proportion of missing data: ", avg_missing_data))
-
-# Perform imputation
-start <- Sys.time()
-imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, 
-missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, 
-max_iterations=max_iterations_per_dataset,  cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
-                                                      "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
-                                                      "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
-                                                      "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
-                                                      "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
-                                                      "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
-                                                      "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
-                                                      "SystemsAgeAgeDev", "OMICmAge", "GrimAge.PC","Hannum.PC", "Horvath.PC",
-  "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
-  "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
-  "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
-  "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
-  "SystemsAge.MusculoSkeletal", "SystemsAge", "DunedinPACE"))
-  
-# # Add unimputed columns back to each imputed dataset
-# completed_datasets <- list()
-# for (i in 1:amount_of_mice_datasets_to_impute) {
-#   completed_data <- complete(imputed_data, i)
-#   completed_data <- cbind(completed_data, cols_not_to_impute)
-#   completed_datasets[[i]] <- completed_data
-# }
-# imputed_data$completedDatasets <- completed_datasets
-
-# imputed_dataframe1 <-imputed_data$completedDatasets[[1]]
-
-# # Sort for testing
-#   imputed_dataframe1 <- imputed_dataframe1 %>%
-#   arrange(Exercise.per.week)
-
-# Save a plot of how the data looks after imputation (first data frame)
-# save_missing_data_plot(
-#   data = imputed_dataframe1,
-#   survey_version_filter = surveyVersion,
-#   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
-#   filename_prefix = "missing_data_after_imputation_for_survey_version_"
-# )
-
-# Save the imputed datasets to a file
-save(imputed_data, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+```
 
 
+### Impute survey 1 - only females
+```{r}
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+# Remove males from data
+data <- data %>% filter(Biological.Sex == "Female")
+# Separate columns to keep unimputed
+cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
 
 
-running_time = Sys.time() - start
-print(running_time) # check how long it runs
-
-# #Inspect imputation
-# plot(imputed_data)
-# autocorr.plot(imputed_data)
-# densityplot(imputed_data)
-# stripplot(imputed_data)
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
 
 
 ```
+
+### Impute survey 1 - only males
+```{r}
+
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+# Remove females from data
+data <- data %>% filter(Biological.Sex == "Male")
+
+# Separate columns to keep unimputed
+cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males")
+
+
+```
+
 
 ### Impute survey 2
 ```{r}

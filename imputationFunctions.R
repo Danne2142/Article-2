@@ -230,3 +230,103 @@ average_missing <- function(df) {
   return(average_missing)
 }
 
+
+impute_survey_data <- function(data_to_drop_cols_from, surveyVersion, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = NULL, savePath = NULL){
+  # Adjust this according to each survey
+
+  #------------------------------------
+
+  # str(data_to_drop_cols_from)
+  data_to_drop_cols_from <- subset(data_to_drop_cols_from, survey_version == surveyVersion) ##Important row!!
+
+
+  # # Save a plot of how the data looks before cols with more missing data than the threshold is dropped
+  #   save_missing_data_plot(
+  #     data =  data_to_drop_cols_from,
+  #     survey_version_filter = surveyVersion,
+  #     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+  #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
+  #   )
+  #Prepare data for imputation by removing columns with more missing data than threshold
+  df_to_impute<-set_NA_percent_and_imp_cols(data = data_to_drop_cols_from, survey_version_filter = surveyVersion, missing_threshold = missing_threshold)
+
+
+  #Debugging
+  missing_cols <- setdiff(cols_to_exclude_from_imputation_entirely, names(df_to_impute))
+  print(missing_cols)
+
+  cols_not_to_impute <- df_to_impute[, cols_to_exclude_from_imputation_entirely, drop = FALSE]
+  df_to_impute <- df_to_impute[, !(names(df_to_impute) %in% cols_to_exclude_from_imputation_entirely)]
+    
+    
+  # # Save a plot of how the data looks before imputation
+  # save_missing_data_plot(
+  #   data = df_to_impute,
+  #   survey_version_filter = surveyVersion,
+  #   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+  #   filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
+  # )
+    
+  #Set amount_of_mice_datasets_to_impute
+  avg_missing_data <-average_missing(df_to_impute) #These days there is a rule of thumb to use whatever the average percentage rate of missingness is
+  print(paste0("Average proportion of missing data: ", avg_missing_data))
+
+  # Perform imputation
+  start <- Sys.time()
+  imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, 
+  missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, 
+  max_iterations=max_iterations_per_dataset,  cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                        "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                        "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                        "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                        "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                        "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                        "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                        "SystemsAgeAgeDev", "OMICmAge", "GrimAge.PC","Hannum.PC", "Horvath.PC",
+    "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+    "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+    "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+    "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+    "SystemsAge.MusculoSkeletal", "SystemsAge", "DunedinPACE"))
+    
+  # # Add unimputed columns back to each imputed dataset
+  # completed_datasets <- list()
+  # for (i in 1:amount_of_mice_datasets_to_impute) {
+  #   completed_data <- complete(imputed_data, i)
+  #   completed_data <- cbind(completed_data, cols_not_to_impute)
+  #   completed_datasets[[i]] <- completed_data
+  # }
+  # imputed_data$completedDatasets <- completed_datasets
+
+  # imputed_dataframe1 <-imputed_data$completedDatasets[[1]]
+
+  # # Sort for testing
+  #   imputed_dataframe1 <- imputed_dataframe1 %>%
+  #   arrange(Exercise.per.week)
+
+  # Save a plot of how the data looks after imputation (first data frame)
+  # save_missing_data_plot(
+  #   data = imputed_dataframe1,
+  #   survey_version_filter = surveyVersion,
+  #   output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+  #   filename_prefix = "missing_data_after_imputation_for_survey_version_"
+  # )
+
+  # Save the imputed datasets to a file
+  save(imputed_data, file = savePath)
+
+
+
+
+  running_time = Sys.time() - start
+  print(running_time) # check how long it runs
+
+  # #Inspect imputation
+  # plot(imputed_data)
+  # autocorr.plot(imputed_data)
+  # densityplot(imputed_data)
+  # stripplot(imputed_data)
+
+}
