@@ -48,8 +48,8 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 # Adjust this according to each survey
 surveyVersion=1
 missing_threshold=50
-amount_of_mice_datasets_to_impute=5 #!!!!!!!!!!!!!!!!!!!!
-max_iterations_per_dataset = 30 #!!!!!!!!!!!!!!!!
+amount_of_mice_datasets_to_impute=2 #!!!!!!!!!!!!!!!!!!!!
+max_iterations_per_dataset = 1 #!!!!!!!!!!!!!!!!
 #------------------------------------
 #Load data
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
