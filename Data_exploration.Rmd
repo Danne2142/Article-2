@@ -7,7 +7,7 @@ date: "2024-07-05"
 ## Table 1 code
 
 ```{r}
-df_crossectional <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
+df_crossectional <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Data/All_metrics_crossectional_samples.csv", header=TRUE, stringsAsFactors=FALSE)
 
 df_crossectional <- df_crossectional[df_crossectional$Array == "EPICv1", ]
 

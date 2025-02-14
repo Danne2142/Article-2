@@ -17,6 +17,19 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
 ```
 
+# Data exploration can be removed later
+```{r}
+# #Load data
+# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# # Rename dataframe in this new script
+# data<-data_with_ageDev
+# rm(data_with_ageDev) # Remove old dataframe
+
+# print(colnames(data))
+
+```
+
+
 
 ### Calculate corr matrix
 ```{r}
@@ -42,6 +55,103 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 
 ```
 
+# Do imputation for diabetics - not done
+```{r}
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+data <- data %>% filter(Diabetes2 == 1)
+
+# Separate columns to keep unimputed
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
+
+
+```
+
+
+# Do imputation for prediabetics - not done
+```{r}
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+data <- data %>% filter(Prediabetes == 1)
+# Separate columns to keep unimputed
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
+
+
+```
+
+
+# Do imputation for non-diabetics non prediabetics - Not done
+```{r}
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+data <- data %>% filter(Prediabetes == 0 & Diabetes2 == 0)
+# Separate columns to keep unimputed
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
+
+
+```
+
+# Do age-wise imputation
+```{r}
+#Load data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+# Calculate the median age
+median_age <- median(data$Decimal.Chronological.Age, na.rm = TRUE)
+print(paste("median:", median_age))
+
+# Split the data into two data frames
+data_lower <- data[data$Decimal.Chronological.Age < median_age, ]
+data_upper <- data[data$Decimal.Chronological.Age >= median_age, ]
+
+# Separate columns to keep unimputed
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+#Run imputation for older group
+impute_survey_data(data_to_drop_cols_from=data_upper, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_older")
+
+#Run imputation for younger group
+impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_younger")
+
+```
 
 ### Impute survey 1 - All participants
 ```{r}
@@ -52,7 +162,7 @@ data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
 
 # Separate columns to keep unimputed
-cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
   "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
@@ -73,7 +183,7 @@ rm(data_with_ageDev) # Remove old dataframe
 # Remove males from data
 data <- data %>% filter(Biological.Sex == "Female")
 # Separate columns to keep unimputed
-cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
   "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
 
 
@@ -97,7 +207,7 @@ rm(data_with_ageDev) # Remove old dataframe
 data <- data %>% filter(Biological.Sex == "Male")
 
 # Separate columns to keep unimputed
-cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
   "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
@@ -106,6 +216,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 
 
 ```
+
 
 
 ### Impute survey 2
