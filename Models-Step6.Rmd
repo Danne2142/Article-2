@@ -8,10 +8,8 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 
 ```
 
-
+# Generate main models
 ```{r}
-#Generate main models
-run_models_survey1(suffix = "_Main")
 
 #Generate Sensitivity analysis for excluding exercise
 run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
@@ -21,7 +19,130 @@ run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new"
                                     "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
                                     "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
                                     "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
-                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_Excercise_excluded") 
+                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_main", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1") 
+
 
 
 ```
+
+Generate sensitivity analysis for diabetics
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_only_diabetics", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2") 
+
+```
+
+
+Generate sensitivity analysis for prediabetics
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_only_prediabetes", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_prediabetes") 
+
+```
+
+
+Generate sensitivity analysis for non diabetic type 2 and non prediabetic
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"), suffix = "_only_healthy", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_healthy") 
+
+```
+
+
+Generate sensitivity analysis for males
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age"), suffix = "_only_males", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males") 
+
+```
+
+
+Generate sensitivity analysis for females
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age"), suffix = "_only_females", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females") 
+
+```
+
+
+
+Generate sensitivity analysis for old
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age"), suffix = "_only_old", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_older") 
+
+```
+
+
+Generate sensitivity analysis for young
+```{r}
+
+#Generate Sensitivity analysis for excluding exercise
+run_models_survey1(Anti_aging_interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
+                     "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
+                     "HRT", "spermidine"), 
+                     covariates = c("Alcohol_per_week_numeric",  
+                                    "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+                                    "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", 
+                                    "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"), 
+                                    cov_to_always_include = c("Decimal.Chronological.Age"), suffix = "_only_young", 
+                                    data_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_younger") 
+
+```
+
+
