@@ -137,14 +137,12 @@ fit_multiple_models <- function(imputedData, exposures, outcomes, covariates) {
 
 
 
-model_exposure_wise<- function(path,outcome_vars, exposure_vars, covariate_vars){
+model_exposure_wise<- function(imputed_data,outcome_vars, exposure_vars, covariate_vars){
   #Import functions
   # source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/fit_imputed_lm().R")
   # source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/fit_multiple_models().R")
   
-  #import data
-  load(path)
-  
+
   combined_results_df <- fit_multiple_models(
     imputedData = imputed_data,
     exposures = exposure_vars,
