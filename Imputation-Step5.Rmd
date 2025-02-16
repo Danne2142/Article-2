@@ -78,7 +78,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 ```
 
 
-# Do imputation for prediabetics - not done
+# Do imputation for prediabetics 
 ```{r}
 #Load data
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
@@ -100,7 +100,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 ```
 
 
-# Do imputation for non-diabetics non prediabetics - Not done
+# Do imputation for non-diabetics non prediabetics 
 ```{r}
 #Load data
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
