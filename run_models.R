@@ -1,11 +1,5 @@
 
 
-# #Set working directory
-# setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
-
-
-
-
 ### Model 1 Supplement - Survey1
 
 run_models <- function(
@@ -115,10 +109,6 @@ run_models <- function(
   OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 }
 
-
-
-
-
 ### Model 2 SD - Survey1
  if (saveModel2SD==TRUE) {# Save DunedinPACE plot
   combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
@@ -190,3 +180,11 @@ run_models <- function(
     ggsave(paste0(savePath,"fused_Model3_Survey1_plot", suffix, ".png"), plot = fused_plot_model3)
  }
 }
+
+
+# Generate sensitivity analysis for diabetics
+# Load corresponding data
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
+#rename object
+imputed_survey1_only_diabetes2 <- imputed_data
+df1_imp_data_surv1_only_diabetes2<-complete(imputed_data, 1)

@@ -18,6 +18,8 @@ format_pvalues <- function(df) {
                          sprintf("%.2f", as.numeric(df$p.value)))
   } else {
     warning("Column 'p.value' not found in the dataframe.")
+    #warning(paste0("Column 'p.value' in data frame: ", df, "not found in the dataframe."))
+
   }
   return(df)
 }
@@ -40,7 +42,12 @@ remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude
     # Check if p-value exceeds threshold in all models
     all_over_15 <- all(sapply(dfs, function(df) {
       row_match <- df[df$term == term, ]
-      row_match$p.value > 0.15
+      if(nrow(row_match) == 0) {
+        # If term is not found, return FALSE (do not remove)
+        return(FALSE)
+      } else {
+        row_match$p.value > 0.15
+      }
     }))
     
     # Track results: keep term if significant in any model
@@ -150,8 +157,9 @@ model_exposure_wise<- function(imputed_data,outcome_vars, exposure_vars, covaria
     covariates = covariate_vars
   )
 
-  combined_results_df<-format_pvalues(combined_results_df)
+  # Comment out or remove the following line to avoid processing a list:
+  # combined_results_df<-format_pvalues(combined_results_df)
+  
   return(combined_results_df)
 
 }
-
