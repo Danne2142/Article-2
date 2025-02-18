@@ -2,17 +2,17 @@
 
 ```{r}
 # import functions: note the file has been renamed to remove parentheses
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 
 
   library(pacman)
   p_load(mice)
 
   # Test to run functions
-  load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+  load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
   #rename object
   imp_data_surv1 <- imputed_data
   df1_imp_data_surv1<-complete(imputed_data, 1)
@@ -39,7 +39,7 @@ run_models(
   saveModel2SD=TRUE,
   saveModel3=TRUE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main") 
 
 
@@ -64,7 +64,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_diabetics") 
 
 ```
@@ -87,7 +87,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_prediadetics")
 ```
 
@@ -109,7 +109,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_non_prediabetics_non_diabetics")
 ```
 
@@ -131,7 +131,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_males")
 ```
 
@@ -153,7 +153,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_females")
 ```
 
@@ -175,7 +175,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_old")
 ```
 
@@ -197,7 +197,7 @@ run_models(
   saveModel2SD=FALSE,
   saveModel3=FALSE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_young")
 ```
 
