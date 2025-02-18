@@ -10,7 +10,7 @@ library(pacman)
 p_load(mice)
 
 # Generate sensitivity analysis for diabetics
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
 imputed_survey1_only_diabetes2 <- imputed_data
 df1_imp_data_surv1_only_diabetes2 <- complete(imputed_data, 1)
 imp_data_surv1<-imputed_survey1_only_diabetes2
