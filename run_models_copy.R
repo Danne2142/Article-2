@@ -1,19 +1,5 @@
 
 
-# #Set working directory
-# setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
-
-
-#import functions
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
-
-
-
-
-### Model 1 Supplement - Survey1
-
 run_models <- function(
   interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
