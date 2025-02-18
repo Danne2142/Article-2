@@ -21,12 +21,19 @@ run_models <- function(
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main") { 
 
+  # Check that the column values compatible with analysis
+  inspect_columns(complete(imp_data, 1), c(interventions, lifestyle_covariates_survey1, covariates_to_always_include))
+
+
   # Import libraries
 
   p_load(ggplot2)
 
 
   # Run model1 to select significant variables
+  print("Run model1 to select significant variables")
+
+  #Run model 1
   combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
 
 
@@ -64,10 +71,11 @@ run_models <- function(
 
 
 
-### Model 1 SD - Survey1
+### Model 1 SD 
 
 
   if (saveModel1SD==TRUE) {
+    print("Run Model 1 SD ")
     combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), exposure_vars=c(interventions,lifestyle_covariates_survey1), covariate_vars = covariates_to_always_include)
 
     # Save as dataframes
@@ -85,10 +93,14 @@ run_models <- function(
  }
 
 
-  ### Model 2 -survey 1
+  ### Model 2 
+
+
   covariates_to_always_include<-c(covariates_to_always_include, lifestyle_covariates_survey1_updated)
 
  if (saveModel2==TRUE) {# Save DunedinPACE plot
+  print("Run Model 2")
+
   combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
 
   p4 <- plot_forest(combined_results_df[["DunedinPACE"]], ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
@@ -109,8 +121,12 @@ run_models <- function(
   OMICmAgeAgeDev_Model2_Survey1<-combined_results_df[["OMICmAgeAgeDev"]]
 }
 
-### Model 2 SD - Survey1
+### Model 2 SD 
+
+
  if (saveModel2SD==TRUE) {# Save DunedinPACE plot
+  print("Run Model 2 SD")
+
   combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
 
   # Save as dataframes
@@ -128,8 +144,11 @@ run_models <- function(
 }
 
 
-### Model 3 - Survey 1
+### Model 3
+
  if (saveModel3==TRUE) {# Save DunedinPACE plot
+ print("Run Model 3")
+
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     DunedinPACE <- subset(model3_DunedinPACE, term %in% interventions_large_p)
@@ -154,8 +173,10 @@ run_models <- function(
 
 
 
-### Model 3 SD - Survey1
+### Model 3 SD
+
  if (saveModel3SD==TRUE) {# Save DunedinPACE plot
+    print("Run Model 3 SD")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     DunedinPACE <- subset(model3_DunedinPACE, term %in% interventions_large_p)
@@ -180,11 +201,3 @@ run_models <- function(
     ggsave(paste0(savePath,"fused_Model3_Survey1_plot", suffix, ".png"), plot = fused_plot_model3)
  }
 }
-
-
-# Generate sensitivity analysis for diabetics
-# Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
-#rename object
-imputed_survey1_only_diabetes2 <- imputed_data
-df1_imp_data_surv1_only_diabetes2<-complete(imputed_data, 1)

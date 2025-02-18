@@ -1,10 +1,11 @@
+
 ### Model 1 Supplement - Survey1
 
 # Source additional R scripts
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 
 library(pacman)
 p_load(mice)
@@ -14,6 +15,11 @@ load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsco
 imputed_survey1_only_diabetes2 <- imputed_data
 df1_imp_data_surv1_only_diabetes2 <- complete(imputed_data, 1)
 imp_data_surv1<-imputed_survey1_only_diabetes2
+
+print(colnames(imp_data_surv1))
+
+
+
 
 # Define default parameters (formerly function arguments)
 interventions <- c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
@@ -30,9 +36,13 @@ saveModel1SD <- FALSE
 saveModel2 <- FALSE
 saveModel2SD <- FALSE
 saveModel3 <- FALSE
-saveModel3SD <- FALSE
+saveModel3SD <- TRUE
 savePath <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/"
 suffix <- "_main"
+
+## ADD THIS TO OTHER SCRIPT (TEMPORARY COMMENT)
+inspect_columns(df1_imp_data_surv1_only_diabetes2, c(interventions, lifestyle_covariates_survey1, covariates_to_always_include))
+
 
 # Import libraries
 p_load(ggplot2)

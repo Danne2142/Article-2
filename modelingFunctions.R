@@ -142,7 +142,25 @@ fit_multiple_models <- function(imputedData, exposures, outcomes, covariates) {
   return(results_list)
 }
 
-
+inspect_columns <- function(df, cols) {
+  for (col in cols) {
+    if (!col %in% names(df)) {
+      stop(sprintf("Error: Column '%s' does not exist in the dataframe.", col))
+    }
+    col_data <- df[[col]]
+    na_count <- sum(is.na(col_data))
+    unique_vals <- unique(na.omit(col_data))
+    
+    if (length(unique_vals) <= 1) {
+      stop(sprintf("Error: Column '%s' is uniform%s.", col,
+                   if(na_count > 0) sprintf(" with %d NA(s)", na_count) else ""))
+    } else if (na_count > 0) {
+      stop(sprintf("Error: Column '%s' has %d NA(s) and varying values.", col, na_count))
+    } else {
+      cat(sprintf("Column '%s' has varying values and no NAs.\n", col))
+    }
+  }
+}
 
 model_exposure_wise<- function(imputed_data,outcome_vars, exposure_vars, covariate_vars){
   #Import functions
