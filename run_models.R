@@ -4,12 +4,6 @@
 # setwd("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program")
 
 
-#import functions
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
-
-
 
 
 ### Model 1 Supplement - Survey1
@@ -195,3 +189,4 @@ run_models <- function(
 
     ggsave(paste0(savePath,"fused_Model3_Survey1_plot", suffix, ".png"), plot = fused_plot_model3)
  }
+}
