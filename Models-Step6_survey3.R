@@ -15,7 +15,7 @@ p_load(mice)
 print("Generate main models")
 
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3")
 #rename object
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
@@ -41,8 +41,9 @@ run_models(
   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
   "spermidine"),
   lifestyle_covariates_survey1 = c("Alcohol_per_week_numeric",  
-  "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-  "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
+  "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
+  "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", 
+  "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv1,
   saveModel1=TRUE,
@@ -52,5 +53,5 @@ run_models(
   saveModel3=TRUE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_main_survey2") 
+  suffix = "_main_survey3") 
 

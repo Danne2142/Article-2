@@ -12,15 +12,15 @@ library(pacman)
 p_load(dplyr)
 
 
-# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
 ```
 
 # Data exploration can be removed later
 ```{r}
 # #Load data
-# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # Rename dataframe in this new script
 # data<-data_with_ageDev
 # rm(data_with_ageDev) # Remove old dataframe
@@ -62,7 +62,7 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 
 print("Running gestation diabetes")
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -75,7 +75,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_gestational_diabetes")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_gestational_diabetes")
 
 
 ```
@@ -85,7 +85,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 # Do imputation for diabetics
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -99,7 +99,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes")
 
 
 ```
@@ -108,7 +108,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 # Do imputation for prediabetics 
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -121,7 +121,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_prediabetics")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_prediabetics")
 
 
 ```
@@ -131,7 +131,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 # Do imputation for non-diabetics non prediabetics 
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -144,7 +144,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_healthy")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_healthy")
 
 
 ```
@@ -152,7 +152,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 # Do age-wise imputation
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -172,19 +172,19 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 #Run imputation for older group
 impute_survey_data(data_to_drop_cols_from=data_upper, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_older")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_older")
 
 #Run imputation for younger group
 impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_younger")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_younger")
 
 ```
 
 ### Impute survey 1 - All participants
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -195,7 +195,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
 
 ```
 
@@ -203,7 +203,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 ### Impute survey 1 - only females
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -217,7 +217,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
 
 
 ```
@@ -226,7 +226,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 ```{r}
 
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
@@ -240,7 +240,7 @@ cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.p
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males")
 
 
 ```
@@ -248,17 +248,17 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_thres
 ### Impute survey 2 - All participants
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
 
 # Separate columns to keep unimputed (because will not be used in the later analysis)
-cols_to_exclude <- c()
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use")
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 2, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
 
 ```
 
@@ -266,17 +266,17 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 2, missing_thres
 ### Impute survey 3 - All participants
 ```{r}
 #Load data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # Rename dataframe in this new script
 data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
 
 # Separate columns to keep unimputed (because will not be used in the later analysis)
-cols_to_exclude <- c()
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Hours.of.sleep.per.night")
 
 impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_threshold = 50, 
                                  amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3")
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3")
 
 ```
 
@@ -289,7 +289,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 # max_iterations_per_dataset = 5
 # #------------------------------------
 # #Load data
-# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # Rename dataframe in this new script
 # data_to_drop_cols_from<-data_with_ageDev
 # rm(data_with_ageDev) # Remove old dataframe
@@ -302,7 +302,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data =  data_to_drop_cols_from,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
 #   )
   
@@ -313,7 +313,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data = df_to_impute,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
 #   )
   
@@ -341,12 +341,12 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data = complete(imputed_data, 1),
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_imputation_for_survey_version_"
 #   )
 
 # # Save the imputed datasets to a file
-# save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
+# save(imputed_data, file = paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
 
 # # # inspect results
 # # densityplot(imputed_data)
@@ -364,7 +364,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 # max_iterations_per_dataset = 5
 # #------------------------------------
 # #Load data
-# load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # Rename dataframe in this new script
 # data_to_drop_cols_from<-data_with_ageDev
 # rm(data_with_ageDev) # Remove old dataframe
@@ -382,7 +382,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data =  data_to_drop_cols_from,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_before_removal_of_cols_for_survey_version_"
 #   )
   
@@ -393,7 +393,7 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data = df_to_impute,
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_removal_of_cols_for_survey_version_"
 #   )
   
@@ -422,12 +422,12 @@ impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 3, missing_thres
 #   save_missing_data_plot(
 #     data = complete(imputed_data, 1),
 #     survey_version_filter = surveyVersion,
-#     output_dir= "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
+#     output_dir= "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output", # Replace with your desired directory,
 #     filename_prefix = "missing_data_after_imputation_for_survey_version_"
 #   )
 
 # # Save the imputed datasets to a file
-# save(imputed_data, file = paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
+# save(imputed_data, file = paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey",surveyVersion,".RData"))
 
 # # # inspect results
 # # densityplot(imputed_data)

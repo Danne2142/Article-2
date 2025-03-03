@@ -40,15 +40,15 @@ run_models <- function(
   if (saveModel1==TRUE) {
     # Save DunedinPACE plot
     p1 <- plot_forest(combined_results_df[["DunedinPACE"]], ylab ="Term", xlab = " Aging Pace (biological year/chronological year)")
-    ggsave(paste0(savePath,"DunedinPACE_Model1_Survey1_plot", suffix, ".png"), plot = p1)
+    ggsave(paste0(savePath,"DunedinPACE_Model1_plot", suffix, ".png"), plot = p1)
 
     # Save GrimAge.PCAgeDev plot
     p2 <- plot_forest(combined_results_df[["GrimAge.PCAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
-    ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model1_Survey1_plot", suffix, ".png"), plot = p2)
+    ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model1_plot", suffix, ".png"), plot = p2)
 
     # Save OMICmAgeAgeDev plot
     p3 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
-    ggsave(paste0(savePath,"OMICmAgeAgeDev_Model1_Survey1_plot", suffix, ".png"), plot = p3)
+    ggsave(paste0(savePath,"OMICmAgeAgeDev_Model1_plot", suffix, ".png"), plot = p3)
   }
   # Save as dataframes
   DunedinPACE_Model1_Survey1<-combined_results_df[["DunedinPACE"]]
@@ -89,7 +89,7 @@ run_models <- function(
                                     source_names = c("DunedinPACE", "GrimAge", "OmicAge"),
                                     color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
 
-    ggsave(paste0(savePath,"fused_Model1SD_Survey1_plot", suffix, ".png"), plot = fused_plot_model1)
+    ggsave(paste0(savePath,"fused_Model1SD_plot", suffix, ".png"), plot = fused_plot_model1)
  }
 
 
@@ -104,15 +104,15 @@ run_models <- function(
   combined_results_df<-model_exposure_wise(imputed_data=imp_data, outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), exposure_vars=interventions_large_p, covariate_vars = covariates_to_always_include)
 
   p4 <- plot_forest(combined_results_df[["DunedinPACE"]], ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
-  ggsave(paste0(savePath,"DunedinPACE_Model2_Survey1_plot", suffix, ".png"), plot = p4)
+  ggsave(paste0(savePath,"DunedinPACE_Model2_plot", suffix, ".png"), plot = p4)
 
   # Save GrimAge.PCAgeDev plot
   p5 <- plot_forest(combined_results_df[["GrimAge.PCAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
-  ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model2_Survey1_plot", suffix, ".png"), plot = p5)
+  ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model2_plot", suffix, ".png"), plot = p5)
 
   # Save OMICmAgeAgeDev plot
   p6 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
-  ggsave(paste0(savePath,"OMICmAgeAgeDev_Model2_Survey1_plot", suffix, ".png"), plot = p6)
+  ggsave(paste0(savePath,"OMICmAgeAgeDev_Model2_plot", suffix, ".png"), plot = p6)
  
 
   # Save as dataframes
@@ -140,7 +140,7 @@ run_models <- function(
                                   source_names = c("DunedinPACE", "GrimAge", "OmicAge"),
                                   color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
 
-  ggsave(paste0(savePath,"fused_Model2SD_Survey1_plot", suffix, ".png"), plot = fused_plot_model2)
+  ggsave(paste0(savePath,"fused_Model2SD_plot", suffix, ".png"), plot = fused_plot_model2)
 }
 
 
@@ -154,21 +154,21 @@ run_models <- function(
     DunedinPACE <- subset(model3_DunedinPACE, term %in% interventions_large_p)
     # Save DunedinPACE plot
     p7 <- plot_forest(DunedinPACE, ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
-    ggsave(paste0(savePath,"DunedinPACE_Model3_Survey1_plot", suffix, ".png"), plot = p7)
+    ggsave(paste0(savePath,"DunedinPACE_Model3_plot", suffix, ".png"), plot = p7)
 
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     GrimAge <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
     # Save GrimAge.PCAgeDev plot
     p8 <- plot_forest(GrimAge, ylab ="Term", xlab = "Age Deviation (years)")
-    ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model3_Survey1_plot", suffix, ".png"), plot = p8)
+    ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model3_plot", suffix, ".png"), plot = p8)
 
     model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     OmicAge <- subset(model3_OMICmAgeAgeDev, term %in% interventions_large_p)
     # Save OMICmAgeAgeDev plot
     p9 <- plot_forest(OmicAge, ylab ="Term", xlab = "Age Deviation (years)")
-    ggsave(paste0(savePath,"OMICmAgeAgeDev_Model3_Survey1_plot", suffix, ".png"), plot = p9)
+    ggsave(paste0(savePath,"OMICmAgeAgeDev_Model3_plot", suffix, ".png"), plot = p9)
 }
 
 
@@ -198,6 +198,6 @@ run_models <- function(
                                     source_names = c("DunedinPACE", "GrimAge", "OmicAge"),
                                     color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
 
-    ggsave(paste0(savePath,"fused_Model3_Survey1_plot", suffix, ".png"), plot = fused_plot_model3)
+    ggsave(paste0(savePath,"fused_Model3_plot", suffix, ".png"), plot = fused_plot_model3)
  }
 }

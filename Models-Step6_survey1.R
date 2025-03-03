@@ -20,6 +20,22 @@ load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsco
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
 
+
+# For all columns in your dataset, calculate missing percentage
+missing_summary <- sapply(df1_imp_data_surv1, function(x) mean(is.na(x)) * 100)
+missing_df <- data.frame(
+  Column = names(missing_summary),
+  Missing_Percentage = missing_summary
+)
+
+# Check if not all values in each column are identical (i.e., at least 2 distinct values)
+Identical_summary <- sapply(df1_imp_data_surv1, function(x) length(unique(x)) == 1)
+Identical_df <- data.frame(
+  Column = names(Identical_summary),
+  All_Identical = Identical_summary
+)
+
+
 run_models(
   interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
