@@ -37,13 +37,13 @@ run_models(
   saveModel3=TRUE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_main") 
+  suffix = "_main_survey1") 
 
 
 # Generate sensitivity analysis for diabetics
 print("Generate sensitivity analysis for diabetics")
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes")
 #rename object
 imputed_survey1_only_diabetes2 <- imputed_data
 df1_imp_data_surv1_only_diabetes2<-complete(imputed_data, 1)
@@ -65,7 +65,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_diabetics") 
+  suffix = "_only_diabetics_survey1") 
 
 
 
@@ -95,7 +95,7 @@ run_models(
   saveModel3 = FALSE,
   saveModel3SD = TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_prediadetics"
+  suffix = "_only_prediadetics_survey1"
 )
 
 # Generate sensitivity analysis for non diabetic type 2 and non prediabetic
@@ -124,7 +124,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_non_prediabetics_non_diabetics")
+  suffix = "_only_non_prediabetics_non_diabetics_survey1")
 
 
 # Generate sensitivity analysis for males
@@ -153,7 +153,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_males")
+  suffix = "_only_males_survey1")
 
 
 # Generate sensitivity analysis for females
@@ -181,7 +181,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_females")
+  suffix = "_only_females_survey1")
 
 
 # Generate sensitivity analysis for old
@@ -200,7 +200,7 @@ run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "Exercise.per.week_numeric", "Exercise.Type",
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Biological.Sex"),
+  covariates_to_always_include=c("Biological.Sex", "Decimal.Chronological.Age"),
   imp_data = imputed_survey1_older,
   saveModel1=FALSE,
   saveModel1SD=FALSE,
@@ -209,7 +209,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_old")
+  suffix = "_only_old_survey1")
 
 
 # Generate sensitivity analysis for young
@@ -228,7 +228,7 @@ run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "Exercise.per.week_numeric", "Exercise.Type",
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Biological.Sex"),
+  covariates_to_always_include=c("Biological.Sex", "Decimal.Chronological.Age"),
   imp_data = imputed_survey1_younger,
   saveModel1=FALSE,
   saveModel1SD=FALSE,
@@ -237,7 +237,7 @@ run_models(
   saveModel3=FALSE,
   saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
-  suffix = "_only_young")
+  suffix = "_only_young_survey1")
 
 
 

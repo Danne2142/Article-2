@@ -11,10 +11,10 @@ library(pacman)
 p_load(mice)
 
 # Generate sensitivity analysis for diabetics
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_diabetes2")
-imputed_survey1_only_diabetes2 <- imputed_data
-df1_imp_data_surv1_only_diabetes2 <- complete(imputed_data, 1)
-imp_data_surv1<-imputed_survey1_only_diabetes2
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_prediabetics")
+imputed_survey1_only_prediabetes <- imputed_data
+df1_imp_data_surv1_only_prediabetes <- complete(imputed_data, 1)
+imp_data_surv1<-imputed_survey1_only_prediabetes
 
 print(colnames(imp_data_surv1))
 
@@ -41,12 +41,13 @@ savePath <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2
 suffix <- "_main"
 
 ## ADD THIS TO OTHER SCRIPT (TEMPORARY COMMENT)
-inspect_columns(df1_imp_data_surv1_only_diabetes2, c(interventions, lifestyle_covariates_survey1, covariates_to_always_include))
+inspect_columns(df1_imp_data_surv1_only_prediabetes, c(interventions, lifestyle_covariates_survey1, covariates_to_always_include))
 
 
 # Import libraries
 p_load(ggplot2)
 
+print("Running model 1")
 # Run model1 to select significant variables
 combined_results_df <- model_exposure_wise(
   imputed_data = imp_data,
@@ -113,6 +114,7 @@ if (saveModel1SD == TRUE) {
 ### Model 2 - survey 1
 covariates_to_always_include <- c(covariates_to_always_include, lifestyle_covariates_survey1_updated)
 if (saveModel2 == TRUE) {
+  print("Running model 2")
   combined_results_df <- model_exposure_wise(
     imputed_data = imp_data,
     outcome_vars = c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"),
@@ -142,6 +144,7 @@ if (saveModel2 == TRUE) {
 
 ### Model 2 SD - Survey1
 if (saveModel2SD == TRUE) {
+  print("Running model 2 SD")
   combined_results_df <- model_exposure_wise(
     imputed_data = imp_data,
     outcome_vars = c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"),
@@ -164,6 +167,7 @@ if (saveModel2SD == TRUE) {
 
 ### Model 3 - Survey 1
 if (saveModel3 == TRUE) {
+  print("Running model 3")
   model3_DunedinPACE <- fit_imputed_lm(
     imp_data, outcome = "DunedinPACE",
     exposures = interventions_large_p,
@@ -197,6 +201,7 @@ if (saveModel3 == TRUE) {
 
 ### Model 3 SD - Survey1
 if (saveModel3SD == TRUE) {
+  print("Running model 3 SD")
   model3_DunedinPACE <- fit_imputed_lm(
     imp_data, outcome = "DunedinPACE_z",
     exposures = interventions_large_p,
