@@ -1,10 +1,10 @@
 
 
 
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 
 
 library(pacman)
@@ -15,7 +15,7 @@ p_load(mice)
 print("Generate main models")
 
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
 #rename object
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
@@ -40,7 +40,7 @@ run_models(
   interventions = c("Metformin_new", "NAD", "TA65", 
   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
   "spermidine"),
-  lifestyle_covariates_survey1 = c("Alcohol_per_week_numeric",  
+  lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
@@ -51,6 +51,6 @@ run_models(
   saveModel2SD=TRUE,
   saveModel3=TRUE,
   saveModel3SD=TRUE,
-  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main_survey2") 
 
