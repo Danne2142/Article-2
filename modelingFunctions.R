@@ -104,7 +104,8 @@ fit_imputed_lm <- function(imputedData, outcome, exposures, covariates) {
   # Convert summary to a dataframe
   results_df <- as.data.frame(summary_pooled)
   
-  results_df<-format_pvalues(results_df)
+  results_df <- format_pvalues(results_df)
+  results_df$Outcome <- outcome  # Added column for the outcome measure
 
   return(results_df)
 }
