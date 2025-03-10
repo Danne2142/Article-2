@@ -1,6 +1,6 @@
+
 library(meta)
 # p_load(metafor)
-
 
 # Meta analysis for Model 1
 
@@ -39,12 +39,12 @@ term_results <- lapply(common_terms, function(exp) {
   combined <- rbind(res1, res2, res3)
   return(combined)
 })
-
 names(term_results) <- common_terms
 
 # # To view the dataframe for a specific term (for example, the first one):
 # View(term_results[[2]])
 
+model1_results <- data.frame()  # initialize empty dataframe for Model 1
 
 # Loop through each term and create a forest plot
 for (i in seq_along(term_results)) {
@@ -61,11 +61,32 @@ for (i in seq_along(term_results)) {
     } else { 
          ma_gen <-ma_fixed
     }
-    outcome <- term_results[[i]]$Outcome[1]
-    print(paste0("Outcome: ", outcome))
-    print(paste0("Term: ", names(term_results)[i]))
 
-    print(summary(ma_gen))
+    # All rows have the same value in otcome, so we can just take the first one
+    outcome <- term_results[[i]]$Outcome[1]
+    # print(paste0("Outcome: ", outcome))
+    # print(paste0("Term: ", names(term_results)[i]))
+
+
+    #Create  dataframe
+    result_row <- data.frame(
+      Outcome      = outcome,
+      Term         = names(term_results)[i],
+      I2           = ma_gen$I2,
+      pval_Q       = ma_gen$pval.Q,
+      TE_random    = ma_gen$TE.random,
+      lower_random = ma_gen$lower.random,
+      upper_random = ma_gen$upper.random,
+      pval_random  = ma_gen$pval.random,
+      TE_common    = ma_gen$TE.common,
+      lower_common = ma_gen$lower.common,
+      upper_common = ma_gen$upper.common,
+      pval_common  = ma_gen$pval.common,
+      stringsAsFactors = FALSE
+    )
+    model1_results <- rbind(model1_results, result_row)
+
+    # print(summary(ma_gen))
 
     # Start png device with Outcome in file name
     png(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_model1_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
@@ -76,6 +97,11 @@ for (i in seq_along(term_results)) {
     # Close the graphics device
     dev.off()
 }
+rm(term_results) # Remove old term_results
+
+#Save df
+save(model1_results, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/model1_meta_results.RData")
+
 
 
 # Meta analysis for Model 2
@@ -121,6 +147,7 @@ names(term_results) <- common_terms
 # # To view the dataframe for a specific term (for example, the first one):
 # View(term_results[[2]])
 
+model2_results <- data.frame()  # initialize empty dataframe for Model 2
 
 # Loop through each term and create a forest plot
 for (i in seq_along(term_results)) {
@@ -137,11 +164,29 @@ for (i in seq_along(term_results)) {
     } else { 
          ma_gen <-ma_fixed
     }
-    outcome <- term_results[[i]]$Outcome[1]
-    print(paste0("Outcome: ", outcome))
-    print(paste0("Term: ", names(term_results)[i]))
 
-    print(summary(ma_gen))
+    # All rows have the same value in otcome, so we can just take the first one
+    outcome <- term_results[[i]]$Outcome[1]
+    # print(paste0("Outcome: ", outcome))
+    # print(paste0("Term: ", names(term_results)[i]))
+
+    #Create  dataframe
+    result_row <- data.frame(
+      Outcome      = outcome,
+      Term         = names(term_results)[i],
+      I2           = ma_gen$I2,
+      pval_Q       = ma_gen$pval.Q,
+      TE_random    = ma_gen$TE.random,
+      lower_random = ma_gen$lower.random,
+      upper_random = ma_gen$upper.random,
+      pval_random  = ma_gen$pval.random,
+      TE_common    = ma_gen$TE.common,
+      lower_common = ma_gen$lower.common,
+      upper_common = ma_gen$upper.common,
+      pval_common  = ma_gen$pval.common,
+      stringsAsFactors = FALSE
+    )
+    model2_results <- rbind(model2_results, result_row)
 
     png(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_model2_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
   
@@ -151,6 +196,9 @@ for (i in seq_along(term_results)) {
   # Close the graphics device
   dev.off()
 }
+rm(term_results) # Remove old term_results
+#save df
+save(model2_results, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/model2_meta_results.RData")
 
 
 # Meta analysis for Model 3
@@ -197,6 +245,7 @@ names(term_results) <- common_terms
 # # To view the dataframe for a specific term (for example, the first one):
 # View(term_results[[2]])
 
+model3_results <- data.frame()  # initialize empty dataframe for Model 3
 
 # Loop through each term and create a forest plot
 for (i in seq_along(term_results)) {
@@ -213,11 +262,29 @@ for (i in seq_along(term_results)) {
     } else { 
          ma_gen <-ma_fixed
     }
-    outcome <- term_results[[i]]$Outcome[1]
-    print(paste0("Outcome: ", outcome))
-    print(paste0("Term: ", names(term_results)[i]))
 
-    print(summary(ma_gen))
+    # All rows have the same value in otcome, so we can just take the first one
+    outcome <- term_results[[i]]$Outcome[1]
+    # print(paste0("Outcome: ", outcome))
+    # print(paste0("Term: ", names(term_results)[i]))
+
+    #Create  dataframe
+    result_row <- data.frame(
+      Outcome      = outcome,
+      Term         = names(term_results)[i],
+      I2           = ma_gen$I2,
+      pval_Q       = ma_gen$pval.Q,
+      TE_random    = ma_gen$TE.random,
+      lower_random = ma_gen$lower.random,
+      upper_random = ma_gen$upper.random,
+      pval_random  = ma_gen$pval.random,
+      TE_common    = ma_gen$TE.common,
+      lower_common = ma_gen$lower.common,
+      upper_common = ma_gen$upper.common,
+      pval_common  = ma_gen$pval.common,
+      stringsAsFactors = FALSE
+    )
+    model3_results <- rbind(model3_results, result_row)
 
   # Start png device with Outcome in file name
   png(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_Model3_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
@@ -228,3 +295,6 @@ for (i in seq_along(term_results)) {
   # Close the graphics device
   dev.off()
 }
+rm(term_results) # Remove old term_results
+#save df
+save(model3_results, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/model3_meta_results.RData")
