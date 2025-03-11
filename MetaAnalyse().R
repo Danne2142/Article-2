@@ -1,4 +1,6 @@
-MetaAnalyse <- function(survey1 = NULL, survey2 = NULL, survey3 = NULL, savePath = NULL, model_no = NULL) {
+
+
+MetaAnalyse <- function(survey1 = NULL, survey2 = NULL, survey3 = NULL, savePath = NULL, model_name = NULL) {
 
 library(meta)
 
@@ -32,6 +34,11 @@ model_results <- data.frame()  # initialize empty dataframe for Model 1
 
 # Loop through each term and create a forest plot
 for (i in seq_along(term_results)) {
+    # All rows have the same value in otcome, so we can just take the first one
+    # print(paste0("Outcome: ", outcome))
+    # print(paste0("Term: ", names(term_results)[i]))
+    outcome <- term_results[[i]]$Outcome[1]
+
   # Generate meta-analysis for the current term
     # Calculate both models
     ma_random <- meta::metagen(TE = term_results[[i]]$estimate, seTE = term_results[[i]]$std.error, sm = "MD",
@@ -41,39 +48,39 @@ for (i in seq_along(term_results)) {
                                
     # Choose model based on heterogeneity condition  print(paste0("Term: ", names(term_results)[i]))
     if (ma_random$I2 > 0.50 && ma_random$pval.Q < 0.05) {
-         ma_gen <- ma_random
-    } else { 
-         ma_gen <-ma_fixed
-    }
+      ma_gen <- ma_random
 
-    # All rows have the same value in otcome, so we can just take the first one
-    outcome <- term_results[[i]]$Outcome[1]
-    # print(paste0("Outcome: ", outcome))
-    # print(paste0("Term: ", names(term_results)[i]))
-
-
-    #Create  dataframe
-    result_row <- data.frame(
+      result_row <- data.frame(
       Outcome      = outcome,
       Term         = names(term_results)[i],
       I2           = ma_gen$I2,
       pval_Q       = ma_gen$pval.Q,
-      TE_random    = ma_gen$TE.random,
-      lower_random = ma_gen$lower.random,
-      upper_random = ma_gen$upper.random,
-      pval_random  = ma_gen$pval.random,
-      TE_common    = ma_gen$TE.common,
-      lower_common = ma_gen$lower.common,
-      upper_common = ma_gen$upper.common,
-      pval_common  = ma_gen$pval.common,
-      stringsAsFactors = FALSE
-    )
+      Estimate    = ma_gen$TE.random,
+      lower_CI = ma_gen$lower.random,
+      upper_CI = ma_gen$upper.random,
+      pval  = "Random effects",
+      stringsAsFactors = FALSE)
+    } else { 
+      ma_gen <-ma_fixed
+
+      result_row <- data.frame(
+      Outcome      = outcome,
+      Term         = names(term_results)[i],
+      I2           = ma_gen$I2,
+      pval_Q       = ma_gen$pval.Q,
+      Estimate    = ma_gen$TE.common,
+      lower_CI = ma_gen$lower.common,
+      upper_CI = ma_gen$upper.common,
+      pval  = "Fixed effects",
+      stringsAsFactors = FALSE)
+    }
+    #Bind df
     model_results <- rbind(model_results, result_row)
 
     # print(summary(ma_gen))
 
     # Start png device with Outcome in file name
-    png(paste0(savePath, "forest_plot_model", model_no, "_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
+    png(paste0(savePath, "forest_plot_", model_name, "_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
     
     # Create the plot
     meta::forest(ma_gen)
@@ -84,7 +91,7 @@ for (i in seq_along(term_results)) {
 rm(term_results) # Remove old term_results
 
 #Save df
-save(model_results, file = paste0(savePath, "model", model_no, "_meta_results.RData"))
+save(model_results, file = paste0(savePath, model_name, "_meta_results.RData"))
 
 return(model_results)
 }
@@ -108,5 +115,5 @@ return(model_results)
 # imp_survey3<-DunedinPACE_Model1
 # rm(DunedinPACE_Model1) # Remove old dataframe
 
-# MetaAnalyse(survey1 = imp_survey1, survey2 = imp_survey2, survey3 = imp_survey3, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", model_no = 1)
+# MetaAnalyse(survey1 = imp_survey1, survey2 = imp_survey2, survey3 = imp_survey3, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", model_name = 1)
 
