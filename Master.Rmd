@@ -48,4 +48,8 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 # Models_Step6_survey3.Rmd
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6_survey3.R")
 
+# Run meta-analysis
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/.R")
+
+
 ```
