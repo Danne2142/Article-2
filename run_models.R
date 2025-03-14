@@ -53,8 +53,8 @@ run_models <- function(
   # Save as dataframes
   DunedinPACE_Model1<-combined_results_df[["DunedinPACE"]]
   save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
-  GrimAge_PCAgeDev_Model2<-combined_results_df[["GrimAge.PCAgeDev"]]
-  save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
+  GrimAge_PCAgeDev_Model1<-combined_results_df[["GrimAge.PCAgeDev"]]
+  save(GrimAge_PCAgeDev_Model1, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
   OMICmAgeAgeDev_Model1<-combined_results_df[["OMICmAgeAgeDev"]]
   save(OMICmAgeAgeDev_Model1, file = paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
 
@@ -62,14 +62,14 @@ run_models <- function(
   lifestyle_covariates_updated <- remove_terms_if_p_large(
     lifestyle_covariates, categorical_variables_to_exclude=c("Main.Diet.Factor", "Exercise.Type"),
     list(DunedinPACE_Model1, 
-      GrimAge_PCAgeDev_Model2, 
+      GrimAge_PCAgeDev_Model1, 
       OMICmAgeAgeDev_Model1))
 
 
   interventions_large_p <- remove_terms_if_p_large(
     interventions, 
     list(DunedinPACE_Model1, 
-      GrimAge_PCAgeDev_Model2, 
+      GrimAge_PCAgeDev_Model1, 
       OMICmAgeAgeDev_Model1))
 
 
@@ -189,7 +189,7 @@ run_models <- function(
     model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     OmicAge_Model3 <- subset(model3_OMICmAgeAgeDev, term %in% interventions_large_p)
-    save(OmicAge_Model3, file = paste0(savePath,"OmicAge_Model3", suffix))
+    save(OmicAge_Model3, file = paste0(savePath,"OmicAgeAgeDev_Model3", suffix))
     # Save OMICmAgeAgeDev plot
     p9 <- plot_forest(OmicAge_Model3, ylab ="Term", xlab = "Age Deviation (years)")
     ggsave(paste0(savePath,"OMICmAgeAgeDev_Model3_plot", suffix, ".png"), plot = p9)
@@ -208,7 +208,7 @@ run_models <- function(
 
 
     # Save as dataframes
-    DunedinPACE_Model3<-combined_results_df[["DunedinPACE_z"]]
+    DunedinPACE_Model3<-combined_results_df[["DunedinPACE_z"]] 
 
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot

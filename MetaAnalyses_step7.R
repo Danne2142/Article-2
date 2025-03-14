@@ -201,7 +201,7 @@ rm(GrimAge_PCAgeDev_Model3) # Remove old dataframe
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/GrimAge_PCAgeDev_Model3_main_survey3")
 # Rename dataframe in this new script
 imp_survey3<-GrimAge_PCAgeDev_Model3
-rm(OmicAgGrimAge_PCAgeDev_Model3) # Remove old dataframe
+rm(GrimAge_PCAgeDev_Model3) # Remove old dataframe
 
 # Run MetaAnalyse
 Model3_results_GrimAge<-MetaAnalyse(survey1 = imp_survey1, survey2 = imp_survey2, survey3 = imp_survey3, model_name = "model_3", savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/")
