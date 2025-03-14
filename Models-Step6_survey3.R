@@ -17,20 +17,20 @@ print("Generate main models")
 # Load corresponding data
 load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3")
 #rename object
-imp_data_surv1 <- imputed_data
-df1_imp_data_surv1<-complete(imputed_data, 1)
-print(colnames(df1_imp_data_surv1))
+imp_data_surv3 <- imputed_data
+df1_imp_data_surv3<-complete(imputed_data, 1)
+print(colnames(df1_imp_data_surv3))
 
 
 # # For all columns in your dataset, calculate missing percentage
-# missing_summary <- sapply(df1_imp_data_surv1, function(x) mean(is.na(x)) * 100)
+# missing_summary <- sapply(df1_imp_data_surv3, function(x) mean(is.na(x)) * 100)
 # missing_df <- data.frame(
 #   Column = names(missing_summary),
 #   Missing_Percentage = missing_summary
 # )
 
 # # Check if not all values in each column are identical (i.e., at least 2 distinct values)
-# Identical_summary <- sapply(df1_imp_data_surv1, function(x) length(unique(x)) == 1)
+# Identical_summary <- sapply(df1_imp_data_surv3, function(x) length(unique(x)) == 1)
 # Identical_df <- data.frame(
 #   Column = names(Identical_summary),
 #   All_Identical = Identical_summary
@@ -45,7 +45,7 @@ run_models(
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", 
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
-  imp_data = imp_data_surv1,
+  imp_data = imp_data_surv3,
   saveModel1=TRUE,
   saveModel1SD=TRUE,
   saveModel2=TRUE,

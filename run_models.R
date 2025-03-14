@@ -54,7 +54,7 @@ run_models <- function(
   DunedinPACE_Model1<-combined_results_df[["DunedinPACE"]]
   save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
   GrimAge_PCAgeDev_Model2<-combined_results_df[["GrimAge.PCAgeDev"]]
-  save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
+  save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
   OMICmAgeAgeDev_Model1<-combined_results_df[["OMICmAgeAgeDev"]]
   save(OMICmAgeAgeDev_Model1, file = paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
 
@@ -181,7 +181,7 @@ run_models <- function(
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     # Filter to only include exposures in the forest plot
     GrimAge_Model3 <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
-    save(GrimAge_Model3, file = paste0(savePath,"GrimAge_Model3", suffix))
+    save(GrimAge_Model3, file = paste0(savePath,"GrimAge_PCAgeDev_Model3", suffix))
     # Save GrimAge.PCAgeDev plot
     p8 <- plot_forest(GrimAge_Model3, ylab ="Term", xlab = "Age Deviation (years)")
     ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model3_plot", suffix, ".png"), plot = p8)

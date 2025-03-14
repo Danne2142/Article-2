@@ -58,7 +58,7 @@ for (i in seq_along(term_results)) {
       Estimate    = ma_gen$TE.random,
       lower_CI = ma_gen$lower.random,
       upper_CI = ma_gen$upper.random,
-      pval  = "Random effects",
+      effects  = "Random effects",
       stringsAsFactors = FALSE)
     } else { 
       ma_gen <-ma_fixed
@@ -71,7 +71,7 @@ for (i in seq_along(term_results)) {
       Estimate    = ma_gen$TE.common,
       lower_CI = ma_gen$lower.common,
       upper_CI = ma_gen$upper.common,
-      pval  = "Fixed effects",
+      effects  = "Fixed effects",
       stringsAsFactors = FALSE)
     }
     #Bind df
