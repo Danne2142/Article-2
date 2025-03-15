@@ -36,7 +36,7 @@ df1_imp_data_surv1<-complete(imputed_data, 1)
 # )
 
 
-run_models(
+results<-run_models(
   interventions = c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
   "HRT", "spermidine"),

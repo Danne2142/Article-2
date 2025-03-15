@@ -91,7 +91,7 @@ for (i in seq_along(term_results)) {
 rm(term_results) # Remove old term_results
 
 #Save df
-save(model_results, file = paste0(savePath, model_name, "_meta_results.RData"))
+# save(model_results, file = paste0(savePath, model_name, "_meta_results.RData"))
 
 return(model_results)
 }
