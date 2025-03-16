@@ -1,4 +1,6 @@
-plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", conf.high_col = "97.5 %", label_col = "term", group_col = NULL, pvalue_col = "p.value", xlab = "", ylab = "", vertical_line = 0) {
+plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", 
+conf.high_col = "97.5 %", label_col = "term", group_col = NULL, pvalue_col = "p.value", 
+xlab = "", ylab = "", vertical_line = 0, plot_title = "", savePath = NULL) {
   library(ggplot2)
   library(dplyr)
   
@@ -8,7 +10,7 @@ plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", c
   label <- sym(label_col)
   
   if(!pvalue_col %in% colnames(df)) {
-    stop(paste("The p-value column", pvalue_col, "is not in the dataframe."))
+    stop(paste("The p-value column", pvalue_col, "is not in the dataframe.")) 
   }
   pvalue <- sym(pvalue_col)
   
@@ -58,13 +60,18 @@ plot_forest <- function(df, estimate_col = "estimate", conf.low_col = "2.5 %", c
   p <- p +
     geom_vline(xintercept = vertical_line, linetype = "dashed", color = "red") +
     expand_limits(x = x_max + 0.2 * x_range) +
-    labs(x = xlab, y = ylab) +
+    labs(x = xlab, y = ylab, title = plot_title) +
     theme_minimal() +
     theme(axis.text.y = element_text(size = 10))
   
   if(!is.null(group_col) && group_col %in% colnames(df)) {
     p <- p + facet_wrap(as.formula(paste("~", group_col)), scales = "free_y", ncol = 1)
   }
-
+  
+  # Added saving option if savePath is provided
+  if(!is.null(savePath)) {
+    ggsave(filename = savePath, plot = p)
+  }
+  
   return(p)
 }
