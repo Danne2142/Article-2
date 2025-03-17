@@ -35,21 +35,9 @@ knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
 
 # Imputation-Step5.Rmd
-knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.Rmd", 
-            output = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation-Step5.R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation_step5.R")
 
-# Models_Step6_survey1.Rmd
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6_survey1.R")
 
-# Models_Step6_survey2.Rmd
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6_survey2.R")
-
-# Models_Step6_survey3.Rmd
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models-Step6_survey3.R")
-
-# Run meta-analysis step 7
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyses_step7.R")
-
+#
 
 ```

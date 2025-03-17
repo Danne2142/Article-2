@@ -87,7 +87,7 @@ set_NA_percent_and_imp_cols <- function(data, survey_version_filter, missing_thr
   # Print missing percentage for each column in a readable format
   cat("Percentage of Missing Values by Column:\n")
   for (col_name in names(column_missing)) {
-    cat(sprintf(" - %s: %.2f%% missing\n", col_name, column_missing[col_name]))
+    # cat(sprintf(" - %s: %.2f%% missing\n", col_name, column_missing[col_name]))
   }
   
   # # Optionally, calculate and print missing values for each row
@@ -99,9 +99,9 @@ set_NA_percent_and_imp_cols <- function(data, survey_version_filter, missing_thr
   cat("\nColumns Exceeding Missing Threshold:\n")
   if (length(columns_above_threshold) > 0) {
     for (col_index in columns_above_threshold) {
-      cat(sprintf(" - %s: %.2f%% missing (dropped)\n", 
-                  names(survey)[col_index], 
-                  column_missing[col_index]))
+      # cat(sprintf(" - %s: %.2f%% missing (dropped)\n", 
+      #             names(survey)[col_index], 
+      #             column_missing[col_index]))
     }
     cat(sprintf("Total number of columns dropped: %d\n", length(columns_above_threshold)))
     
@@ -330,3 +330,161 @@ impute_survey_data <- function(data_to_drop_cols_from, surveyVersion, missing_th
   # stripplot(imputed_data)
 
 }
+
+
+
+# Function to impute data
+impute_survey_and_sensitivity_analysis <- function(
+  path_to_data=NULL, 
+  cols_to_exclude = NULL,
+  surv_number = NULL,
+  missing_threshold_to_remove = NULL,
+  number_of_mice_datasets_to_impute = NULL,
+  maximum_iterations_per_dataset = NULL,
+  ) {
+  # Load necessary libraries
+  library(dplyr)
+  library(mice)
+  library(VIM)
+  
+
+# Load the data{
+load(paste0(path_to_data, "data_after_step4"))
+
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+### Impute  - All participants
+print("Imputing for all participants...")
+
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1"))
+
+
+
+
+# Do imputation for gestational diabetes
+print("Imputing for gestational diabetes...")
+
+data_only_gestational_diabetes <- data %>% filter(Gestational.Diabetes == 1)
+
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_gestational_diabetes, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_gestational_diabetes"))
+
+
+
+
+
+
+# Do imputation for diabetics
+print("Imputing for diabetics...")
+
+
+#Load data
+data_only_diabetes2 <- data %>% filter(Diabetes2 == 1)
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_diabetes2, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_diabetes"))
+
+
+
+
+
+# Do imputation for prediabetics
+print("Imputing for prediabetics...")
+
+#Load data
+data_only_prediabetics <- data %>% filter(Prediabetes == 1)
+
+impute_survey_data(data_to_drop_cols_from=data_only_prediabetics, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_prediabetics"))
+
+
+
+
+
+
+# Do imputation for non-diabetics non prediabetics 
+print("Imputing for non-diabetics and non-prediabetics...")
+#Load data
+data_only_healthy <- data %>% filter(Prediabetes == 0 & Diabetes2 == 0)
+
+impute_survey_data(data_to_drop_cols_from=data_only_healthy, surveyVersion =surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_healthy(diabeteswise)"))
+
+
+
+
+# Do age-wise imputation
+print("Imputing for age groups...")
+
+#Load data
+# Calculate the median age
+median_age <- median(data$Decimal.Chronological.Age, na.rm = TRUE)
+print(paste("median:", median_age))
+
+# Split the data into two data frames
+data_lower <- data[data$Decimal.Chronological.Age < median_age, ]
+data_upper <- data[data$Decimal.Chronological.Age >= median_age, ]
+
+
+#Run imputation for older group
+impute_survey_data(data_to_drop_cols_from=data_upper, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_older"))
+
+#Run imputation for younger group
+impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_younger"))
+
+
+
+
+
+
+### Impute - only females
+print("Imputing for females")
+
+#Load data
+# Remove males from data
+data_only_females <- data %>% filter(Biological.Sex == "Female")
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_females, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_females"))
+
+
+
+
+### Impute survey 1 - only males
+print("Imputing for males")
+
+
+#Load data
+# Remove females from data
+data_only_males <- data %>% filter(Biological.Sex == "Male")
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_males, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey1_only_males"))
+
+
+
+
+
+
+  print(paste0("Imputation results for survey: ", surv_number, " saved to ", path_to_data))
+} 

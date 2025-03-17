@@ -41,12 +41,6 @@ lifestyle_covariates = c("Alcohol_per_week_numeric", "Education_levels_numeric",
                           "Main.Diet.Factor", "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", 
                           "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-saveModel1 = TRUE,
-saveModel1SD = TRUE,
-saveModel2 = TRUE,
-saveModel2SD = TRUE,
-saveModel3 = TRUE,
-saveModel3SD = TRUE,
 savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
 suffix = "_survey_and_model_not_specified") {
   
@@ -61,7 +55,6 @@ suffix = "_survey_and_model_not_specified") {
                                              exposure_vars=c(interventions, lifestyle_covariates), 
                                              covariate_vars=covariates_to_always_include)
   
-  if (saveModel1==TRUE) {
     # Save plots for DunedinPACE, GrimAge.PCAgeDev and OMICmAgeAgeDev
     # p1 <- plot_forest(combined_results_df[["DunedinPACE"]], ylab ="Term", xlab = " Aging Pace (biological year/chronological year)")
     # ggsave(paste0(savePath,"DunedinPACE_Model1_plot", suffix, ".png"), plot = p1)
@@ -69,7 +62,7 @@ suffix = "_survey_and_model_not_specified") {
     # ggsave(paste0(savePath,"GrimAge_PCAgeDev_Model1_plot", suffix, ".png"), plot = p2)
     # p3 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
     # ggsave(paste0(savePath,"OMICmAgeAgeDev_Model1_plot", suffix, ".png"), plot = p3)
-  }
+  
   # Save dataframes
   DunedinPACE_Model1 <- combined_results_df[["DunedinPACE"]]
   save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
@@ -87,7 +80,6 @@ suffix = "_survey_and_model_not_specified") {
     list(DunedinPACE_Model1, GrimAge_PCAgeDev_Model1, OMICmAgeAgeDev_Model1))
   
   ### Model 1 SD 
-  if (saveModel1SD==TRUE) {
     print("Run Model 1 SD ")
     combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                                outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), 
@@ -105,11 +97,10 @@ suffix = "_survey_and_model_not_specified") {
     #                                        source_names = c("DunedinPACE_Model1_z", "GrimAge_Model1_z", "OMICmAge_Model1_z"),
     #                                        color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
     # ggsave(paste0(savePath,"fused_Model1SD_plot", suffix, ".png"), plot = fused_plot_model1)
-  }
+  
   
   ### Model 2 
   covariates_to_always_include <- c(covariates_to_always_include, lifestyle_covariates_updated)
-  if (saveModel2==TRUE) {
     print("Run Model 2")
     combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                                outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), 
@@ -127,10 +118,9 @@ suffix = "_survey_and_model_not_specified") {
     save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
     OMICmAgeAgeDev_Model2 <- combined_results_df[["OMICmAgeAgeDev"]]
     save(OMICmAgeAgeDev_Model2, file = paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
-  }
+  
   
   ### Model 2 SD 
-  if (saveModel2SD==TRUE) {
     print("Run Model 2 SD")
     combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                                outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), 
@@ -148,10 +138,9 @@ suffix = "_survey_and_model_not_specified") {
     #                                        source_names = c("DunedinPACE_Model2_z", "GrimAge_Model2_z", "OMICmAge_Model2_z"),
     #                                        color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
     # ggsave(paste0(savePath,"fused_Model2SD_plot", suffix, ".png"), plot = fused_plot_model2)
-  }
+  
   
   ### Model 3
-  if (saveModel3==TRUE) {
     print("Run Model 3")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE", exposures = interventions_large_p, covariates = covariates_to_always_include)
     DunedinPACE_Model3 <- subset(model3_DunedinPACE, term %in% interventions_large_p)
@@ -168,10 +157,9 @@ suffix = "_survey_and_model_not_specified") {
     save(OMICmAgeAgeDev_Model3, file = paste0(savePath,"OMICmAgeAgeDev_Model3", suffix))
     # p9 <- plot_forest(OMICmAgeAgeDev_Model3, ylab ="Term", xlab = "Age Deviation (years)")
     # ggsave(paste0(savePath,"OMICmAgeAgeDev_Model3_plot", suffix, ".png"), plot = p9)
-  }
+  
   
   ### Model 3 SD
-  if (saveModel3SD==TRUE) {
     print("Run Model 3 SD")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     DunedinPACE_Model3_z <- subset(model3_DunedinPACE, term %in% interventions_large_p)
@@ -188,7 +176,7 @@ suffix = "_survey_and_model_not_specified") {
     #                                        source_names = c("DunedinPACE_Model3_z", "GrimAge_Model3_z", "OMICmAge_Model3_z"),
     #                                        color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
     # ggsave(paste0(savePath,"fused_Model3_plot", suffix, ".png"), plot = fused_plot_model3)
-  }
+  
   
   #Package raw results
   surv_results_model1_raw <- list(

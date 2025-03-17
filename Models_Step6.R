@@ -47,12 +47,6 @@ results_surv1<-run_models(
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv1,
-  saveModel1=TRUE,
-  saveModel1SD=TRUE,
-  saveModel2=TRUE,
-  saveModel2SD=TRUE,
-  saveModel3=TRUE,
-  saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main_survey1") 
 
@@ -74,12 +68,6 @@ results_surv2<-run_models(
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv2,
-  saveModel1=TRUE,
-  saveModel1SD=TRUE,
-  saveModel2=TRUE,
-  saveModel2SD=TRUE,
-  saveModel3=TRUE,
-  saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main_survey2") 
 
@@ -104,12 +92,6 @@ results_surv3<-run_models(
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv3,
-  saveModel1=TRUE,
-  saveModel1SD=TRUE,
-  saveModel2=TRUE,
-  saveModel2SD=TRUE,
-  saveModel3=TRUE,
-  saveModel3SD=TRUE,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_main_survey3") 
 
@@ -117,7 +99,7 @@ results_surv3<-run_models(
 
 print("Generating meta analysis for raw models")
 
-#Run models for Model 1 raw
+#Run meta models for raw
 meta_model1_DunedinPACE<-MetaAnalyse(
     survey1 = results_surv1$surv_results_raw$surv_results_model1_raw$DunedinPACE_Model1, 
     survey2 = results_surv2$surv_results_raw$surv_results_model1_raw$DunedinPACE_Model1, 
@@ -244,7 +226,7 @@ plot_forest(meta_model3_GrimAge_PCAgeDev, estimate_col = "Estimate", conf.low_co
 print("Generating meta analysis for SD models")
 
 
-#Run models for Model 1 sd
+#Run meta models for Model 1 sd
 meta_DunedinPACE_Model1_z<-MetaAnalyse(
     survey1 = results_surv1$surv_results_sd$surv_results_model1_sd$DunedinPACE_Model1_z, 
     survey2 = results_surv2$surv_results_sd$surv_results_model1_sd$DunedinPACE_Model1_z,
@@ -266,7 +248,7 @@ meta_GrimAge_Model1_z<-MetaAnalyse(
     savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "GrimAge_PCAgeDev_Model1")
 
-#Run models for Model 2 sd
+#Run meta models for Model 2 sd
 meta_DunedinPACE_Model2_z<-MetaAnalyse(
     survey1 = results_surv1$surv_results_sd$surv_results_model2_sd$DunedinPACE_Model2_z, 
     survey2 = results_surv2$surv_results_sd$surv_results_model2_sd$DunedinPACE_Model2_z,
@@ -288,7 +270,7 @@ meta_GrimAge_Model2_z<-MetaAnalyse(
     savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "GrimAge_Model2_z")
 
-#Run models for Model 3 sd
+#Run meta models for Model 3 sd
 meta_DunedinPACE_Model3_z<-MetaAnalyse(
     survey1 = results_surv1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     survey2 = results_surv2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
@@ -331,7 +313,7 @@ p2 <- forestplot_fusion(meta_DunedinPACE_Model2_z, meta_OMICmAge_Model2_z, meta_
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
 print(p2)
-ggsave(filename = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_z.png", plot = p2)
+ggsave(filename = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model2_z.png", plot = p2)
 
 
 
