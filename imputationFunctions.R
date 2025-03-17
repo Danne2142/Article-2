@@ -340,8 +340,7 @@ impute_survey_and_sensitivity_analysis <- function(
   surv_number = NULL,
   missing_threshold_to_remove = NULL,
   number_of_mice_datasets_to_impute = NULL,
-  maximum_iterations_per_dataset = NULL,
-  ) {
+  maximum_iterations_per_dataset = NULL) {
   # Load necessary libraries
   library(dplyr)
   library(mice)
