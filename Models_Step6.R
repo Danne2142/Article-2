@@ -246,7 +246,7 @@ meta_GrimAge_Model1_z<-MetaAnalyse(
     survey2 = results_surv2$surv_results_sd$surv_results_model1_sd$GrimAge_Model1_z,
     survey3 = results_surv3$surv_results_sd$surv_results_model1_sd$GrimAge_Model1_z,
     savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "GrimAge_PCAgeDev_Model1")
+    model_name = "GrimAge_PC_Model1_z")
 
 #Run meta models for Model 2 sd
 meta_DunedinPACE_Model2_z<-MetaAnalyse(
@@ -268,7 +268,7 @@ meta_GrimAge_Model2_z<-MetaAnalyse(
     survey2 = results_surv2$surv_results_sd$surv_results_model2_sd$GrimAge_Model2_z,
     survey3 = results_surv3$surv_results_sd$surv_results_model2_sd$GrimAge_Model2_z,
     savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "GrimAge_Model2_z")
+    model_name = "GrimAge_PC_Model2_z")
 
 #Run meta models for Model 3 sd
 meta_DunedinPACE_Model3_z<-MetaAnalyse(
@@ -290,7 +290,7 @@ meta_GrimAge_Model3_z<-MetaAnalyse(
     survey2 = results_surv2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     survey3 = results_surv3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "GrimAge_Model3_z")
+    model_name = "GrimAge_PC_Model3_z")
 
 
 

@@ -163,21 +163,21 @@ meta_DunedinPACE_Model3_z<-MetaAnalyse(
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "DunedinPACE_Model1_z")
+    model_name = "DunedinPACE_Model3_only_males_z")
 
 meta_OMICmAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "OMICmAge_Model1_z")
+    model_name = "OMICmAge_Model3_only_males_z")
 
 meta_GrimAge_Model3_z<-MetaAnalyse(  
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "GrimAge_PCAgeDev_Model1")
+    model_name = "GrimAge_PC_Model3_only_males_z")
 
 #Plot males
 p3 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
@@ -186,7 +186,7 @@ p3 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
 print(p3)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_z.png", plot = p3)
+ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_males_z.png", plot = p3)
 
 
 
@@ -196,21 +196,21 @@ meta_DunedinPACE_Model3_z<-MetaAnalyse(
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "DunedinPACE_Model2_z")
+    model_name = "DunedinPACE_Model3_only_females_z")
 
 meta_OMICmAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "OMICmAge_Model2_z")
+    model_name = "OMICmAge_Model3_only_females_z")
 
 meta_GrimAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-    model_name = "GrimAge_Model2_z")
+    model_name = "GrimAge_Model3_only_females_z")
 
 
 
@@ -222,6 +222,6 @@ p3 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
 print(p3)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_z.png", plot = p3)
+ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_females_z.png", plot = p3)
 
 
