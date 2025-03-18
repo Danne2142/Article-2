@@ -180,35 +180,35 @@ meta_GrimAge_Model3_z<-MetaAnalyse(
     model_name = "GrimAge_PC_Model3_only_males_z")
 
 #Plot males
-p3 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
+p1 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
                                 source_names = c("meta_DunedinPACE_Model3_z", "meta_OMICmAge_Model3_z", "meta_GrimAge_Model3_z"),
                                 color_values = c("red", "blue", "green"),
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
-print(p3)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_males_z.png", plot = p3)
+print(p1)
+ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_males_z.png", plot = p1)
 
 
 
 #Run meta models for Model 3 females
 meta_DunedinPACE_Model3_z<-MetaAnalyse(
-    survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
-    survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
-    survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
+    survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
+    survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
+    survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "DunedinPACE_Model3_only_females_z")
 
 meta_OMICmAge_Model3_z<-MetaAnalyse(
-    survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
+    survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
+    survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
+    survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "OMICmAge_Model3_only_females_z")
 
 meta_GrimAge_Model3_z<-MetaAnalyse(
-    survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
-    survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
-    survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
+    survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
+    survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
+    survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "GrimAge_Model3_only_females_z")
 
@@ -216,12 +216,12 @@ meta_GrimAge_Model3_z<-MetaAnalyse(
 
 
 #Plot females
-p3 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
+p2 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
                                 source_names = c("meta_DunedinPACE_Model3_z", "meta_OMICmAge_Model3_z", "meta_GrimAge_Model3_z"),
                                 color_values = c("red", "blue", "green"),
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
-print(p3)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_females_z.png", plot = p3)
+print(p2)
+ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_females_z.png", plot = p2)
 
 
