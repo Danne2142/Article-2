@@ -88,7 +88,6 @@ rm(data_with_ageDev) # Remove old dataframe
 
 data <- data %>% filter(Gestational.Diabetes == 1)
 
-analyze_column(data, "Menopause")
 
 # Separate columns to keep unimputed (because will not be used in the later analysis) (due to no missing data)
 cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",

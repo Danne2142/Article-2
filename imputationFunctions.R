@@ -331,45 +331,6 @@ impute_survey_data <- function(data_to_drop_cols_from, surveyVersion, missing_th
 
 }
 
-# Function to analyze a single column in a data frame
-analyze_column <- function(df, col_name) {
-  if (!col_name %in% names(df)) {
-    stop(paste("Column", col_name, "is not present in the dataframe"))
-  }
-  
-  # Extract the column values
-  col_values <- df[[col_name]]
-  
-  # Check if all values are unique
-  n_total <- length(col_values)
-  n_unique <- length(unique(col_values))
-  
-  cat(sprintf("Column '%s':\n", col_name))
-  cat(sprintf(" - Total observations: %d\n", n_total))
-  cat(sprintf(" - Unique values: %d\n", n_unique))
-  
-  if (n_total == n_unique) {
-    cat(" => All values are unique.\n")
-  } else {
-    cat(" => Not all values are unique.\n")
-  }
-  
-  # Convert to factor if not already so for consistent level analysis
-  if (!is.factor(col_values)) {
-    col_values <- factor(col_values)
-    cat(" => Column converted to factor for level analysis.\n")
-  }
-  
-  levels_info <- levels(col_values)
-  n_levels <- length(levels_info)
-  
-  cat(sprintf(" - Number of levels: %d\n", n_levels))
-  cat(" - Members per level:\n")
-  tbl <- table(col_values)
-  
-  print(tbl)
-}
-
 
 
 # Function to impute data
@@ -411,7 +372,6 @@ data_only_gestational_diabetes <- data %>% filter(Gestational.Diabetes == 1)
 print("Participants with gestational diabetes: ")
 print(nrow(data_only_gestational_diabetes))
 
-# analyze_column(data_only_gestational_diabetes, "Menopause")
 
 impute_survey_data(data_to_drop_cols_from=data_only_gestational_diabetes, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
                                  amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
