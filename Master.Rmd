@@ -15,27 +15,31 @@ library(pacman)
 p_load(knitr)
 
 # Harmonizer-Step1.Rmd
-knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.Rmd", 
-            output = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
+knitr::purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.Rmd", 
+            output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Harmonizer-Step1.R")
 
 # Set-datatypes-step-2.Rmd
-knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.Rmd", 
-            output = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
+knitr::purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.Rmd", 
+            output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Set-datatypes-step-2.R")
 
 # Handle-outliers-and-codify-Step-3.Rmd
-knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.Rmd", 
-            output = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
+knitr::purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.Rmd", 
+            output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Handle-outliers-and-codify-Step-3.R")
 
 # Calc_ageDev-Step-4.Rmd
-knitr::purl("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.Rmd", 
-            output = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
+knitr::purl("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.Rmd", 
+            output = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Calc_ageDev-Step-4.R")
 
 # Imputation-Step5.Rmd
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation_step5.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation_step5.R")
+
+# Imputation-Step5.Rmd
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models_Step6.R")
+
 
 
 #

@@ -16,7 +16,7 @@ p_load(mice)
 print("Generate main models")
 
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_all_participants")
 #rename object
 imp_data_surv1 <- imputed_data
 df1_imp_data_surv1<-complete(imputed_data, 1)
@@ -53,7 +53,7 @@ results_surv1<-run_models(
 print("Generate main models for surv 2")
 
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2_all_participants")
 #rename object
 imp_data_surv2 <- imputed_data
 df1_imp_data_surv2<-complete(imputed_data, 1)
@@ -75,7 +75,7 @@ results_surv2<-run_models(
 print("Generate main models for surv 3")
 
 # Load corresponding data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3_all_participants")
 #rename object
 imp_data_surv3 <- imputed_data
 df1_imp_data_surv3<-complete(imputed_data, 1)

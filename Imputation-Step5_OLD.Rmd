@@ -56,6 +56,25 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 ```
 
 
+### Impute survey 1 - All participants
+```{r}
+#Load data
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# Rename dataframe in this new script
+data<-data_with_ageDev
+rm(data_with_ageDev) # Remove old dataframe
+
+# analyze_column(data, "Menopause")
+
+# Separate columns to keep unimputed (because will not be used in the later analysis)
+cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
+
+impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
+                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
+
+```
 
 # Do imputation for gestational diabetes 
 ```{r}
@@ -68,6 +87,8 @@ data<-data_with_ageDev
 rm(data_with_ageDev) # Remove old dataframe
 
 data <- data %>% filter(Gestational.Diabetes == 1)
+
+analyze_column(data, "Menopause")
 
 # Separate columns to keep unimputed (because will not be used in the later analysis) (due to no missing data)
 cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
@@ -181,23 +202,6 @@ impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = 1, missing
 
 ```
 
-### Impute survey 1 - All participants
-```{r}
-#Load data
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
-# Rename dataframe in this new script
-data<-data_with_ageDev
-rm(data_with_ageDev) # Remove old dataframe
-
-# Separate columns to keep unimputed (because will not be used in the later analysis)
-cols_to_exclude <- c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night",
-  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency")
-
-impute_survey_data(data_to_drop_cols_from=data, surveyVersion = 1, missing_threshold = 50, 
-                                 amount_of_mice_datasets_to_impute = 2, max_iterations_per_dataset = 1, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1")
-
-```
 
 
 ### Impute survey 1 - only females

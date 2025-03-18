@@ -40,6 +40,10 @@ data$Collection.Date <- as.Date(data$Collection.Date, format = "%m/%d/%Y")
 
 data_fixed_datatypes<-convert_to_logical(data, column_name="Diagnosed.with.low.or.high.calcium", false_values="No")
 
+data_fixed_datatypes<-convert_to_logical(data_fixed_datatypes, column_name="Menopause", false_values="No")
+
+data_fixed_datatypes<-convert_to_logical(data_fixed_datatypes, column_name="Given.Birth", false_values="No")
+
 data_fixed_datatypes<-convert_to_logical(data_fixed_datatypes, column_name="Are.you.adopted.", false_values="No")
 
 data_fixed_datatypes<-convert_to_logical(data_fixed_datatypes, column_name="Do.you.have.any.parents.or.grandparents.or.great.grandparents.that.live.to.or.beyond.100.years.old.", false_values="No")
