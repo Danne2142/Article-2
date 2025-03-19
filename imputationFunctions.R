@@ -441,12 +441,12 @@ data_upper <- data[data$Decimal.Chronological.Age >= median_age, ]
 #Run imputation for older group
 impute_survey_data(data_to_drop_cols_from=data_upper, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
                                  amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey", surv_number,"_older"))
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey", surv_number,"_only_older"))
 
 #Run imputation for younger group
 impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
                                  amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
-                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey", surv_number,"_younger"))
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputed_survey", surv_number,"_only_younger"))
 
 
 
