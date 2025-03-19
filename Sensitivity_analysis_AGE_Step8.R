@@ -28,7 +28,7 @@ results_only_younger_survey1<-run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "Exercise.per.week_numeric", "Exercise.Type",
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_younger,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_younger_survey1")
@@ -50,7 +50,7 @@ results_only_older_survey1<-run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "Exercise.per.week_numeric", "Exercise.Type",
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_older,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_older_survey1")
@@ -75,7 +75,7 @@ results_only_younger_survey2<-run_models(
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_younger,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_younger_survey2")
@@ -96,7 +96,7 @@ results_only_older_survey2<-run_models(
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_older,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_older_survey2")
@@ -122,7 +122,7 @@ results_only_younger_survey3<-run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", 
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_younger,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_younger_survey3")
@@ -144,7 +144,7 @@ results_only_older_survey3<-run_models(
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", 
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
-  covariates_to_always_include=c("Decimal.Chronological.Age"),
+  covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_older,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_older_survey3")
