@@ -106,6 +106,34 @@ data_with_ageDev <- data_with_ageDev %>%
 #   plot_with_std_outliers(data_with_ageDev, outliers_std_thresh = 5, col_num = i)
 
 # }
+names(data_with_ageDev)
+
+```
+
+
+### Count diabetes subgroups (for imputation)
+```{r}
+# Keep only rows where Gestational.Diabetes equals 1
+data_only_gestational_diabetes_surv1 <- data_with_ageDev %>% filter(Gestational.Diabetes == 1 & survey_version == 1)# Keep rows where both conditions are true
+data_only_gestational_diabetes_surv2 <- data_with_ageDev %>% filter(Gestational.Diabetes == 1 & survey_version == 2)# Keep rows where both conditions are true
+data_only_gestational_diabetes_surv3 <- data_with_ageDev %>% filter(Gestational.Diabetes == 1 & survey_version == 3)# Keep rows where both conditions are true
+
+# Keep only rows where Diabetes1 equals 1
+data_only_diabetes1_surv1 <- data_with_ageDev %>% filter(Diabetes1 == 1 & survey_version == 1)# Keep rows where both conditions are true
+data_only_diabetes1_surv2 <- data_with_ageDev %>% filter(Diabetes1 == 1 & survey_version == 2)# Keep rows where both conditions are true
+data_only_diabetes1_surv3 <- data_with_ageDev %>% filter(Diabetes1 == 1 & survey_version == 3)# Keep rows where both conditions are true
+
+# Keep only rows where Diabetes2 equals 1
+data_only_diabetes2_surv1 <- data_with_ageDev %>% filter(Diabetes2 == 1 & survey_version == 1)# Keep rows where both conditions are true
+data_only_diabetes2_surv2 <- data_with_ageDev %>% filter(Diabetes2 == 1 & survey_version == 2)# Keep rows where both conditions are true
+data_only_diabetes2_surv3 <- data_with_ageDev %>% filter(Diabetes2 == 1 & survey_version == 3)# Keep rows where both conditions are true
+
+
+# Keep only rows where Prediabetes equals 1
+data_only_prediabetes_surv1 <- data_with_ageDev %>% filter(Prediabetes == 1 & survey_version == 1)# Keep rows where both conditions are true
+data_only_prediabetes_surv2 <- data_with_ageDev %>% filter(Prediabetes == 1 & survey_version == 2)# Keep rows where both conditions are true
+data_only_prediabetes_surv3 <- data_with_ageDev %>% filter(Prediabetes == 1 & survey_version == 3)# Keep rows where both conditions are true
+
 
 ```
 

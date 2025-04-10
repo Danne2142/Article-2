@@ -37,8 +37,18 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vs
 # Imputation-Step5.Rmd
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Imputation_step5.R")
 
-# Imputation-Step5.Rmd
+# Run models-Step6.Rmd
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Models_Step6.R")
+
+# Run Imputation-Step7.Rmd
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Sensitivity_analysis_SEX_step7.R")
+
+# Sensitivity_analysis_AGE_Step8
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Sensitivity_analysis_AGE_Step8.R")
+
+# Metformin_analysis_Step9
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Metformin_analysis_Step9.R")
+
 
 
 

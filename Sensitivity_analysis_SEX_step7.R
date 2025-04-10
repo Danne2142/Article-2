@@ -2,11 +2,11 @@
 library(pacman)
 p_load(mice)
 
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
 
 # SURVEY 1
 print("Generate sensitivity analysis for survey 1")
@@ -15,7 +15,7 @@ print("Generate sensitivity analysis for survey 1")
 print("Generate sensitivity analysis for males")
 
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_males")
 #rename object
 imputed_survey1_only_males <- imputed_data
 df1_imputed_survey1_only_males<-complete(imputed_data, 1)
@@ -30,14 +30,14 @@ results_only_males_survey1<-run_models(
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_males,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_males_survey1")
 
 
 # Generate sensitivity analysis for females
 print("Generate sensitivity analysis for females")
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey1_only_females")
 #rename object
 imputed_survey1_only_females <- imputed_data
 df1_imputed_survey1_only_females<-complete(imputed_data, 1)
@@ -52,7 +52,7 @@ results_only_females_survey1<-run_models(
   "Main.Diet.Factor" , "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_females,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_females_survey1")
 
 
@@ -63,7 +63,7 @@ print("Generate sensitivity analysis for survey 2")
 print("Generate sensitivity analysis for males")
 
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2_only_males")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2_only_males")
 #rename object
 imputed_survey2_only_males <- imputed_data
 df2_imputed_survey2_only_males<-complete(imputed_data, 2)
@@ -77,14 +77,14 @@ results_only_males_survey2<-run_models(
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_males,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_males_survey2")
 
 
 # Generate sensitivity analysis for females
 print("Generate sensitivity analysis for females")
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2_only_females")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey2_only_females")
 #rename object
 imputed_survey2_only_females <- imputed_data
 df2_imputed_survey2_only_females<-complete(imputed_data, 2)
@@ -98,7 +98,7 @@ results_only_females_survey2<-run_models(
   "sedentary_level","Red.Meat.times.per.week", "Processed.Food.times.per.week", "Feel.Well.Rested.days.per.week"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_females,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_females_survey2")
 
 
@@ -109,7 +109,7 @@ print("Generate sensitivity analysis for survey 3")
 print("Generate sensitivity analysis for males")
 
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3_only_males")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3_only_males")
 #rename object
 imputed_survey3_only_males <- imputed_data
 df3_imputed_survey3_only_males<-complete(imputed_data, 3)
@@ -124,14 +124,14 @@ results_only_males_survey3<-run_models(
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_males,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_males_survey3")
 
 
 # Generate sensitivity analysis for females
 print("Generate sensitivity analysis for females")
 # Load corresponding data
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3_only_females")
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputed_survey3_only_females")
 #rename object
 imputed_survey3_only_females <- imputed_data
 df3_imputed_survey3_only_females<-complete(imputed_data, 3)
@@ -146,7 +146,7 @@ results_only_females_survey3<-run_models(
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_females,
-  savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
+  savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
   suffix = "_only_females_survey3")
 
 
@@ -162,21 +162,21 @@ meta_DunedinPACE_Model3_z<-MetaAnalyse(
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "DunedinPACE_Model3_only_males_z")
 
 meta_OMICmAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "OMICmAge_Model3_only_males_z")
 
 meta_GrimAge_Model3_z<-MetaAnalyse(  
     survey1 = results_only_males_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
     survey2 = results_only_males_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     survey3 = results_only_males_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "GrimAge_PC_Model3_only_males_z")
 
 #Plot males
@@ -186,7 +186,7 @@ p1 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
 print(p1)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_males_z.png", plot = p1)
+ggsave(filename = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_males_z.png", plot = p1)
 
 
 
@@ -195,21 +195,21 @@ meta_DunedinPACE_Model3_z<-MetaAnalyse(
     survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
     survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
     survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "DunedinPACE_Model3_only_females_z")
 
 meta_OMICmAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
     survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "OMICmAge_Model3_only_females_z")
 
 meta_GrimAge_Model3_z<-MetaAnalyse(
     survey1 = results_only_females_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
     survey2 = results_only_females_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
     survey3 = results_only_females_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
-    savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+    savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
     model_name = "GrimAge_Model3_only_females_z")
 
 
@@ -222,6 +222,6 @@ p2 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
 print(p2)
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_females_z.png", plot = p2)
+ggsave(filename = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/forest_plot_fusion_model3_only_females_z.png", plot = p2)
 
 

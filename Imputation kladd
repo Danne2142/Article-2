@@ -1,0 +1,28 @@
+library(dplyr)
+
+load(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
+  data <- subset(data_with_ageDev, survey_version == 2) ##Important row!!
+
+  filter()
+data_only_healthy <- data %>% filter(Prediabetes == 0 & Diabetes2 == 0)
+
+data_only_prediabetics <- data %>% filter(Prediabetes == 1)
+
+data_only_diabetes2 <- data %>% filter(Diabetes2 == 1)
+
+data_only_gestational_diabetes <- data %>% filter(Gestational.Diabetes == 1)
+
+
+library(dplyr)
+
+load(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
+  data <- subset(data_with_ageDev, survey_version == 3) ##Important row!!
+
+  filter()
+data_only_healthy <- data %>% filter(Prediabetes == 0 & Diabetes2 == 0)
+
+data_only_prediabetics <- data %>% filter(Prediabetes == 1)
+
+data_only_diabetes2 <- data %>% filter(Diabetes2 == 1)
+
+data_only_gestational_diabetes <- data %>% filter(Gestational.Diabetes == 1)

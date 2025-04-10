@@ -9,9 +9,10 @@ date: "2024-08-09"
 ```{r}
 library(dplyr)
 
-filtered_df_crossectional_harmonized <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 
-survey1 <- filter(filtered_df_crossectional_harmonized, survey_version == 1)
+
+survey1 <- filter(data_with_ageDev, survey_version == 1)
 
 
 ```
@@ -19,12 +20,12 @@ survey1 <- filter(filtered_df_crossectional_harmonized, survey_version == 1)
 
 ## Import functions to handle data
 ```{r}
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/format_pvalue().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/make_table_row_N_indivudals().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/make_table_row_discrete().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/make_table_row_continuous().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/fill_table_with_categorical().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Program/remove_other().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/format_pvalue().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_N_indivudals().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_discrete().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_continuous().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/fill_table_with_categorical().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
 
 
 ```
@@ -34,10 +35,10 @@ source("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Pro
 # collumns_to_use <- c("Decimal.Chronological.Age", "BMI", "Stress.Level", "Biological.Sex", "Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Exercise.per.week", "Exercise.Type", "Hours.of.sleep.per.night", "Ethnicity", "Cancer.Diagnosis.any", "Cardiovascular.any", "Respiratory.Disease.any", "Endocrine.Disease.any", "Skin.Hair.any", "Gastrointestinal.any", "Genito.Urinary.any", "Musculoskeletal.any", "Neuropsychological.any", "Reproductive.any", "Immune.any", "Diabetes1", "Diabetes2", "Prediabetes", "NAD", "TA65", "sulforaphane", "DHEA_new", "Rapamycin_new", "SASP_supressors", "Resveratrol_new", "Exosomes", "stem_cells", "HRT", "vitaminD", "Main.Diet")
 # 
 # #Remove rows with "other" in biological sex collumn
-# filtered_df_crossectional_harmonized<- remove_other(filtered_df_crossectional_harmonized, "Biological.Sex")
+# data_with_ageDev<- remove_other(data_with_ageDev, "Biological.Sex")
 # 
 # #Seperate survey1
-# survey1 <- seperate_survey1(filtered_df_crossectional_harmonized, collumns_to_use)
+# survey1 <- seperate_survey1(data_with_ageDev, collumns_to_use)
 ```
 
 
@@ -394,9 +395,20 @@ colnames(Table1) <- c("Variables", "Old_DunedinPACE", "Young_DunedinPACE", "P_va
 ### Save results as excel dokument
 
 ```{r}
+#install package
+if (!requireNamespace("writexl", quietly = TRUE)) {
+  install.packages("writexl")
+}
+
 library(writexl)
 
-write_xlsx(Table1, "C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/Table1_survey1.xlsx")
+write_xlsx(Table1, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1_survey1.xlsx")
+
+# write_xlsx(df_Dunedin, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1_DunedinPACE_survey1.xlsx")
+
+# library(dplyr)
+
+# Females <- filter(survey1, Biological.Sex == "Female")
 
 ```
 

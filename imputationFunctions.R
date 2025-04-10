@@ -1,4 +1,3 @@
-
 # Shorten column names for the VIM package
 shorten_colnames <- function(df, max_length = 14) {
   names(df) <- substr(names(df), 1, max_length)
@@ -225,6 +224,9 @@ exclude_columns_dplyr <- function(df, exclude_cols) {
 
 average_missing <- function(df) {
   total_elements <- prod(dim(df))
+  if(total_elements == 0) {
+    return(0)  # Prevent division by zero if df is empty
+  }
   missing_elements <- sum(is.na(df))
   average_missing <- missing_elements / total_elements
   return(average_missing)
@@ -259,6 +261,10 @@ impute_survey_data <- function(data_to_drop_cols_from, surveyVersion, missing_th
 
   cols_not_to_impute <- df_to_impute[, cols_to_exclude_from_imputation_entirely, drop = FALSE]
   df_to_impute <- df_to_impute[, !(names(df_to_impute) %in% cols_to_exclude_from_imputation_entirely)]
+  
+  if(ncol(df_to_impute) == 0){
+    stop("Error: No columns remaining for imputation after excluding specified columns.")
+  }
     
     
   # # Save a plot of how the data looks before imputation
@@ -385,9 +391,9 @@ impute_survey_data(data_to_drop_cols_from=data_only_gestational_diabetes, survey
 # Do imputation for diabetics
 print("Imputing for diabetics...")
 
-
-#Load data
 data_only_diabetes2 <- data %>% filter(Diabetes2 == 1)
+print("Participants with diabetes: ")
+print(nrow(data_only_diabetes2))
 
 
 impute_survey_data(data_to_drop_cols_from=data_only_diabetes2, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
@@ -398,11 +404,14 @@ impute_survey_data(data_to_drop_cols_from=data_only_diabetes2, surveyVersion = s
 
 
 
-# Do imputation for prediabetics
-print("Imputing for prediabetics...")
 
 #Load data
 data_only_prediabetics <- data %>% filter(Prediabetes == 1)
+# Do imputation for prediabetics
+print("Imputing for prediabetics...")
+print("Participants with prediabetes: ")
+print(nrow(data_only_prediabetics))
+
 
 impute_survey_data(data_to_drop_cols_from=data_only_prediabetics, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
                                  amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
@@ -413,10 +422,13 @@ impute_survey_data(data_to_drop_cols_from=data_only_prediabetics, surveyVersion 
 
 
 
-# Do imputation for non-diabetics non prediabetics 
-print("Imputing for non-diabetics and non-prediabetics...")
+
 #Load data
 data_only_healthy <- data %>% filter(Prediabetes == 0 & Diabetes2 == 0)
+# Do imputation for non-diabetics non prediabetics 
+print("Imputing for non-diabetics and non-prediabetics...")
+print("Participants without diabetes or prediabetes: ")
+print(nrow(data_only_healthy))
 
 impute_survey_data(data_to_drop_cols_from=data_only_healthy, surveyVersion =surv_number, missing_threshold = missing_threshold_to_remove, 
                                  amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
@@ -454,11 +466,15 @@ impute_survey_data(data_to_drop_cols_from=data_lower, surveyVersion = surv_numbe
 
 
 ### Impute - only females
-print("Imputing for females")
+
 
 #Load data
 # Remove males from data
 data_only_females <- data %>% filter(Biological.Sex == "Female")
+
+print("Imputing for females")
+print("Number of females")
+print(nrow(data_only_females))
 
 
 impute_survey_data(data_to_drop_cols_from=data_only_females, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
@@ -469,12 +485,16 @@ impute_survey_data(data_to_drop_cols_from=data_only_females, surveyVersion = sur
 
 
 ### Impute survey 1 - only males
-print("Imputing for males")
+
 
 
 #Load data
 # Remove females from data
 data_only_males <- data %>% filter(Biological.Sex == "Male")
+
+print("Imputing for males")
+print("Number of males:")
+print(nrow(data_only_males))
 
 
 impute_survey_data(data_to_drop_cols_from=data_only_males, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
@@ -487,5 +507,5 @@ impute_survey_data(data_to_drop_cols_from=data_only_males, surveyVersion = surv_
 
 
   print(paste0("Imputation results for survey: ", surv_number, " saved to ", path_to_data))
-} 
+}
 
