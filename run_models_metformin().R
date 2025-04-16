@@ -17,8 +17,8 @@ suffix = "_main_survey1"
 # Check that the column values are compatible with analysis
 inspect_columns(complete(imp_data, 1), c(interventions, lifestyle_covariates, covariates_to_always_include))
 
-# Run model1 to select significant variables
-print("Run model1 to select significant variables")
+# Run model1
+print("Run model1")
 combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                            outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), 
                                            exposure_vars=c(interventions, lifestyle_covariates), 
@@ -27,15 +27,14 @@ combined_results_df <- model_exposure_wise(imputed_data=imp_data,
 
 # Save dataframes
 DunedinPACE_Model1 <- combined_results_df[["DunedinPACE"]]
-save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
+# save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
 GrimAge_PCAgeDev_Model1 <- combined_results_df[["GrimAge.PCAgeDev"]]
-save(GrimAge_PCAgeDev_Model1, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
+# save(GrimAge_PCAgeDev_Model1, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
 OMICmAgeAgeDev_Model1 <- combined_results_df[["OMICmAgeAgeDev"]]
-save(OMICmAgeAgeDev_Model1, file = paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
+# save(OMICmAgeAgeDev_Model1, file = paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
 
 lifestyle_covariates_updated <- lifestyle_covariates
 
-interventions_large_p <- interventions
 
 ### Model 1 SD 
   print("Run Model 1 SD ")
@@ -44,11 +43,11 @@ interventions_large_p <- interventions
                                              exposure_vars=c(interventions, lifestyle_covariates), 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model1_z <- combined_results_df[["DunedinPACE_z"]]
-  save(DunedinPACE_Model1_z, file = paste0(savePath,"DunedinPACE_Model1_z", suffix))
+  # save(DunedinPACE_Model1_z, file = paste0(savePath,"DunedinPACE_Model1_z", suffix))
   GrimAge_Model1_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-  save(GrimAge_Model1_z, file = paste0(savePath,"GrimAge_Model1_z", suffix))
+  # save(GrimAge_Model1_z, file = paste0(savePath,"GrimAge_Model1_z", suffix))
   OMICmAge_Model1_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-  save(OMICmAge_Model1_z, file = paste0(savePath,"OMICmAge_Model1_z", suffix))
+  # save(OMICmAge_Model1_z, file = paste0(savePath,"OMICmAge_Model1_z", suffix))
 
 
 ### Model 2 
@@ -56,28 +55,28 @@ covariates_to_always_include <- c(covariates_to_always_include, lifestyle_covari
   print("Run Model 2")
   combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                              outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), 
-                                             exposure_vars=interventions_large_p, 
+                                             exposure_vars=interventions, 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model2 <- combined_results_df[["DunedinPACE"]]
-  save(DunedinPACE_Model2, file = paste0(savePath,"DunedinPACE_Model2", suffix))
+  # save(DunedinPACE_Model2, file = paste0(savePath,"DunedinPACE_Model2", suffix))
   GrimAge_PCAgeDev_Model2 <- combined_results_df[["GrimAge.PCAgeDev"]]
-  save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
+  # save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
   OMICmAgeAgeDev_Model2 <- combined_results_df[["OMICmAgeAgeDev"]]
-  save(OMICmAgeAgeDev_Model2, file = paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
+  # save(OMICmAgeAgeDev_Model2, file = paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
 
 
 ### Model 2 SD 
   print("Run Model 2 SD")
   combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                              outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), 
-                                             exposure_vars=interventions_large_p, 
+                                             exposure_vars=interventions, 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model2_z <- combined_results_df[["DunedinPACE_z"]]
-  save(DunedinPACE_Model2_z, file = paste0(savePath,"DunedinPACE_Model2_z", suffix))
+  # save(DunedinPACE_Model2_z, file = paste0(savePath,"DunedinPACE_Model2_z", suffix))
   GrimAge_Model2_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-  save(GrimAge_Model2_z, file = paste0(savePath,"GrimAge_Model2_z", suffix))
+  # save(GrimAge_Model2_z, file = paste0(savePath,"GrimAge_Model2_z", suffix))
   OMICmAge_Model2_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-  save(OMICmAge_Model2_z, file = paste0(savePath,"OMICmAge_Model2_z", suffix))
+  # save(OMICmAge_Model2_z, file = paste0(savePath,"OMICmAge_Model2_z", suffix))
 
 
 
