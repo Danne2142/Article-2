@@ -31,7 +31,7 @@ results_only_younger_survey1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_younger,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_younger_survey1")
+  suffix = "_only_younger_survey1.xlsx")
 
 
 # Generate sensitivity analysis for older
@@ -53,7 +53,7 @@ results_only_older_survey1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_older,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_older_survey1")
+  suffix = "_only_older_survey1.xlsx")
 
 
 #SURVEY 2
@@ -78,7 +78,7 @@ results_only_younger_survey2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_younger,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_younger_survey2")
+  suffix = "_only_younger_survey2.xlsx")
 
 
 # Generate sensitivity analysis for older
@@ -99,7 +99,7 @@ results_only_older_survey2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_older,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_older_survey2")
+  suffix = "_only_older_survey2.xlsx")
 
 
 #SURVEY 3
@@ -125,7 +125,7 @@ results_only_younger_survey3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_younger,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_younger_survey3")
+  suffix = "_only_younger_survey3.xlsx")
 
 
 # Generate sensitivity analysis for older
@@ -147,7 +147,7 @@ results_only_older_survey3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_older,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
-  suffix = "_only_older_survey3")
+  suffix = "_only_older_survey1.xlsx")
 
 
 

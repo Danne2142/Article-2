@@ -2,7 +2,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 
-forestplot_fusion <- function(df1, df2, df3,
+forest_plot_fusion_metformin <- function(df1, df2, df3,
                                 source_names = c("Source1", "Source2", "Source3"),
                                 color_values = c("red", "blue", "green"),
                                 xlab = "", ylab = "", vertical_line = 0,
@@ -17,8 +17,8 @@ forestplot_fusion <- function(df1, df2, df3,
   # Convert Source to a factor with levels matching your source_names
   fused_df$Source <- factor(fused_df$Source, levels = source_names)
   
-  p <- plot_forest(fused_df, estimate_col = "Estimate", conf.low_col = "lower_CI", 
-conf.high_col = "upper_CI", label_col = "Term", pvalue_col = "effects", xlab = xlab, ylab = ylab, vertical_line = vertical_line, ...)
+  p <- plot_forest(fused_df, estimate_col = "estimate", conf.low_col = "2.5 %", 
+conf.high_col = "97.5 %", label_col = "group", pvalue_col = "p.value", xlab = xlab, ylab = ylab, vertical_line = vertical_line, ...)
   p <- p + scale_color_manual(name = "Biomarker", 
                               values = setNames(color_values, source_names),
                               guide = guide_legend(override.aes = list(label = "")))

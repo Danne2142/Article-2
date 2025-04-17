@@ -1,4 +1,6 @@
 
+library(writexl)
+
 run_models <- function(imp_data,
 interventions = NULL,
 lifestyle_covariates = NULL,
@@ -27,11 +29,11 @@ suffix = "_survey_and_model_not_specified") {
   
   # Save dataframes
   DunedinPACE_Model1 <- combined_results_df[["DunedinPACE"]]
-  # save(DunedinPACE_Model1, file = paste0(savePath,"DunedinPACE_Model1", suffix))
+  write_xlsx(DunedinPACE_Model1, paste0(savePath,"DunedinPACE_Model1", suffix))
   GrimAge_PCAgeDev_Model1 <- combined_results_df[["GrimAge.PCAgeDev"]]
-  # save(GrimAge_PCAgeDev_Model1, file = paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
+  write_xlsx(GrimAge_PCAgeDev_Model1, paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
   OMICmAgeAgeDev_Model1 <- combined_results_df[["OMICmAgeAgeDev"]]
-  # save(OMICmAgeAgeDev_Model1, file = paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
+  write_xlsx(OMICmAgeAgeDev_Model1, paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
   
   lifestyle_covariates_updated <- remove_terms_if_p_large(
     lifestyle_covariates, categorical_variables_to_exclude=c("Main.Diet.Factor", "Exercise.Type"),
@@ -48,11 +50,11 @@ suffix = "_survey_and_model_not_specified") {
                                                exposure_vars=c(interventions, lifestyle_covariates), 
                                                covariate_vars=covariates_to_always_include)
     DunedinPACE_Model1_z <- combined_results_df[["DunedinPACE_z"]]
-    # save(DunedinPACE_Model1_z, file = paste0(savePath,"DunedinPACE_Model1_z", suffix))
+    write_xlsx(DunedinPACE_Model1_z, paste0(savePath,"DunedinPACE_Model1_z", suffix))
     GrimAge_Model1_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-    # save(GrimAge_Model1_z, file = paste0(savePath,"GrimAge_Model1_z", suffix))
+    write_xlsx(GrimAge_Model1_z, paste0(savePath,"GrimAge_Model1_z", suffix))
     OMICmAge_Model1_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-    # save(OMICmAge_Model1_z, file = paste0(savePath,"OMICmAge_Model1_z", suffix))
+    write_xlsx(OMICmAge_Model1_z, paste0(savePath,"OMICmAge_Model1_z", suffix))
     # fused_plot_model1 <- forestplot_fusion(DunedinPACE_Model1_z,
     #                                        GrimAge_Model1_z,
     #                                        OMICmAge_Model1_z,
@@ -75,11 +77,11 @@ suffix = "_survey_and_model_not_specified") {
     # p6 <- plot_forest(combined_results_df[["OMICmAgeAgeDev"]], ylab ="Term", xlab = "Age Deviation (years)")
     # gg# save(paste0(savePath,"OMICmAgeAgeDev_Model2_plot", suffix, ".png"), plot = p6)
     DunedinPACE_Model2 <- combined_results_df[["DunedinPACE"]]
-    # save(DunedinPACE_Model2, file = paste0(savePath,"DunedinPACE_Model2", suffix))
+    write_xlsx(DunedinPACE_Model2, paste0(savePath,"DunedinPACE_Model2", suffix))
     GrimAge_PCAgeDev_Model2 <- combined_results_df[["GrimAge.PCAgeDev"]]
-    # save(GrimAge_PCAgeDev_Model2, file = paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
+    write_xlsx(GrimAge_PCAgeDev_Model2, paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
     OMICmAgeAgeDev_Model2 <- combined_results_df[["OMICmAgeAgeDev"]]
-    # save(OMICmAgeAgeDev_Model2, file = paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
+    write_xlsx(OMICmAgeAgeDev_Model2, paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
   
   
   ### Model 2 SD 
@@ -89,11 +91,11 @@ suffix = "_survey_and_model_not_specified") {
                                                exposure_vars=interventions_large_p, 
                                                covariate_vars=covariates_to_always_include)
     DunedinPACE_Model2_z <- combined_results_df[["DunedinPACE_z"]]
-    # save(DunedinPACE_Model2_z, file = paste0(savePath,"DunedinPACE_Model2_z", suffix))
+    write_xlsx(DunedinPACE_Model2_z, paste0(savePath,"DunedinPACE_Model2_z", suffix))
     GrimAge_Model2_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-    # save(GrimAge_Model2_z, file = paste0(savePath,"GrimAge_Model2_z", suffix))
+    write_xlsx(GrimAge_Model2_z, paste0(savePath,"GrimAge_Model2_z", suffix))
     OMICmAge_Model2_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-    # save(OMICmAge_Model2_z, file = paste0(savePath,"OMICmAge_Model2_z", suffix))
+    write_xlsx(OMICmAge_Model2_z, paste0(savePath,"OMICmAge_Model2_z", suffix))
     # fused_plot_model2 <- forestplot_fusion(DunedinPACE_Model2_z,
     #                                        GrimAge_Model2_z,
     #                                        OMICmAge_Model2_z,
@@ -106,17 +108,17 @@ suffix = "_survey_and_model_not_specified") {
     print("Run Model 3")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE", exposures = interventions_large_p, covariates = covariates_to_always_include)
     DunedinPACE_Model3 <- subset(model3_DunedinPACE, term %in% interventions_large_p)
-    # save(DunedinPACE_Model3, file = paste0(savePath,"DunedinPACE_Model3", suffix))
+    write_xlsx(DunedinPACE_Model3, paste0(savePath,"DunedinPACE_Model3", suffix))
     # p7 <- plot_forest(DunedinPACE_Model3, ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
     # gg# save(paste0(savePath,"DunedinPACE_Model3_plot", suffix, ".png"), plot = p7)
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     GrimAge_PCAgeDev_Model3 <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
-    # save(GrimAge_PCAgeDev_Model3, file = paste0(savePath,"GrimAge_PCAgeDev_Model3", suffix))
+    write_xlsx(GrimAge_PCAgeDev_Model3, paste0(savePath,"GrimAge_PCAgeDev_Model3", suffix))
     # p8 <- plot_forest(GrimAge_PCAgeDev_Model3, ylab ="Term", xlab = "Age Deviation (years)")
     # gg# save(paste0(savePath,"GrimAge_PCAgeDev_Model3_plot", suffix, ".png"), plot = p8)
     model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
     OMICmAgeAgeDev_Model3 <- subset(model3_OMICmAgeAgeDev, term %in% interventions_large_p)
-    # save(OMICmAgeAgeDev_Model3, file = paste0(savePath,"OMICmAgeAgeDev_Model3", suffix))
+    write_xlsx(OMICmAgeAgeDev_Model3, paste0(savePath,"OMICmAgeAgeDev_Model3", suffix))
     # p9 <- plot_forest(OMICmAgeAgeDev_Model3, ylab ="Term", xlab = "Age Deviation (years)")
     # gg# save(paste0(savePath,"OMICmAgeAgeDev_Model3_plot", suffix, ".png"), plot = p9)
   
@@ -125,13 +127,13 @@ suffix = "_survey_and_model_not_specified") {
     print("Run Model 3 SD")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     DunedinPACE_Model3_z <- subset(model3_DunedinPACE, term %in% interventions_large_p)
-    # save(DunedinPACE_Model3_z, file = paste0(savePath,"DunedinPACE_Model3_z", suffix))
+    write_xlsx(DunedinPACE_Model3_z, paste0(savePath,"DunedinPACE_Model3_z", suffix))
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     GrimAge_Model3_z <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
-    # save(GrimAge_Model3_z, file = paste0(savePath,"GrimAge_Model3_z", suffix))
+    write_xlsx(GrimAge_Model3_z, paste0(savePath,"GrimAge_Model3_z", suffix))
     model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     OMICmAge_Model3_z <- subset(model3_OMICmAgeAgeDev, term %in% interventions_large_p)
-    # save(OMICmAge_Model3_z, file = paste0(savePath,"OMICmAge_Model3_z", suffix))
+    write_xlsx(OMICmAge_Model3_z, paste0(savePath,"OMICmAge_Model3_z", suffix))
     # fused_plot_model3 <- forestplot_fusion(DunedinPACE_Model3_z,
     #                                        GrimAge_Model3_z,
     #                                        OMICmAge_Model3_z,

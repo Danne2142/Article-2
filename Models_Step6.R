@@ -1,15 +1,15 @@
 
 
 
+library(pacman)
+p_load(mice)
+
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
 
-
-library(pacman)
-p_load(mice)
 
 
 # Generate main models
@@ -48,7 +48,7 @@ results_surv1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv1,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/main_models_results/",
-  suffix = "_main_survey1") 
+  suffix = "_survey1_main.xlsx") 
 
 print("Generate main models for surv 2")
 
@@ -69,7 +69,7 @@ results_surv2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv2,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/main_models_results/",
-  suffix = "_main_survey2") 
+  suffix = "_survey2_main.xlsx") 
 
 
 print("Generate main models for surv 3")
@@ -93,7 +93,7 @@ results_surv3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv3,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/main_models_results/",
-  suffix = "_main_survey3") 
+  suffix = "_survey3_main.xlsx") 
 
 
 

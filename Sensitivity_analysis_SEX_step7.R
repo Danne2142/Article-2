@@ -31,7 +31,7 @@ results_only_males_survey1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_males,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_males_survey1")
+  suffix = "_only_males_survey1.xlsx")
 
 
 # Generate sensitivity analysis for females
@@ -53,7 +53,7 @@ results_only_females_survey1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_females,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_females_survey1")
+  suffix = "_only_females_survey1.xlsx")
 
 
 #SURVEY 2
@@ -78,7 +78,7 @@ results_only_males_survey2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_males,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_males_survey2")
+  suffix = "_only_males_survey2.xlsx")
 
 
 # Generate sensitivity analysis for females
@@ -99,7 +99,7 @@ results_only_females_survey2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_females,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_females_survey2")
+  suffix = "_only_females_survey2.xlsx")
 
 
 #SURVEY 3
@@ -125,7 +125,7 @@ results_only_males_survey3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_males,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_males_survey3")
+  suffix = "_only_males_survey3.xlsx")
 
 
 # Generate sensitivity analysis for females
@@ -147,7 +147,7 @@ results_only_females_survey3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_females,
   savePath = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",
-  suffix = "_only_females_survey3")
+  suffix = "_only_females_survey3.xlsx")
 
 
 
