@@ -2,7 +2,7 @@
 ### Handle continuous variables
 
 
-make_table_row_continuous <- function(covariate_column, outcome_column, young_old_boundary, df) {
+make_table_row_continuous <- function(covariate_column, outcome_column, young_old_boundary, df, prefix = "") {
   library(dplyr)
   
   
@@ -29,7 +29,7 @@ make_table_row_continuous <- function(covariate_column, outcome_column, young_ol
   
   # Create a data.frame to store the result
   result_df <- data.frame(
-    Variable = paste0(covariate_column, " (SD)"),
+    Variable = paste0(prefix, covariate_column, " (SD)"),
     Old = old_results,
     Young = young_results,
     `p-value` = p_value,

@@ -1,6 +1,6 @@
 fill_table_with_categorical <- function(df, categorical_var, outcome_column, young_old_boundary, 
                                         test_type = c("fisher", "chi"), use_only_categories = NULL, 
-                                        print_all_categories = FALSE, display_only_true_vales = FALSE, replace_small_counts = FALSE) {
+                                        print_all_categories = FALSE, display_only_true_vales = FALSE, replace_small_counts = FALSE, prefix = "") {
   library(dplyr)
   
   # Print available categories if wanted
@@ -125,12 +125,12 @@ fill_table_with_categorical <- function(df, categorical_var, outcome_column, you
   }
   
   if (display_only_true_vales == TRUE) {
-    table[nrow(table) + 1, ] <- c(paste(categorical_var, "users, n, (%)"),
+    table[nrow(table) + 1, ] <- c(paste(prefix, categorical_var, ", n, (%)"),
                                   table_rows[[2]][[2]], table_rows[[2]][[3]],
                                   format_pvalue(test_result$p.value))  # The second row will always be the True values because the categories are sorted alphabetically
   } else {
     # Add the rows to the table
-    table[nrow(table) + 1, ] <- c(paste(categorical_var, "level, n, (%)"), "", "", format_pvalue(test_result$p.value))
+    table[nrow(table) + 1, ] <- c(paste(prefix, categorical_var, "level, n, (%)"), "", "", format_pvalue(test_result$p.value))
     
     for (row in table_rows) {
       table[nrow(table) + 1, ] <- row

@@ -326,7 +326,6 @@ unique(data_with_outliers_removed$Sexual.Frequency)
 # Load the dplyr package
 p_load(dplyr)
 
-# Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
   mutate(Sexual.Frequency_numeric = case_when(
     Sexual.Frequency == "Inactive" ~ 0,
@@ -352,7 +351,6 @@ unique(data_with_outliers_removed$Marital.Status)
 # Load the dplyr package
 p_load(dplyr)
 
-# Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
   mutate(Marital.Status_numeric = case_when(
     Marital.Status == "Single" ~ 0,
@@ -382,7 +380,6 @@ unique(data_with_outliers_removed$Hours.of.sleep.per.night)
 # Load the dplyr package
 p_load(dplyr)
 
-# Define the mapping for the Caffeine.Use consumption levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
   mutate(Hours.of.sleep.per.night_numeric = case_when(
     Hours.of.sleep.per.night == "6 hours or less" ~ 0,
@@ -398,6 +395,67 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Hours.of.sleep.per.night_numeric)
+
+
+```
+
+### Codify Feel.Well.Rested.days.per.week
+```{r}
+unique(data_with_outliers_removed$Feel.Well.Rested.days.per.week)
+
+# Load the dplyr package
+p_load(dplyr)
+
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Feel.Well.Rested.days.per.week_numeric = case_when(
+    Feel.Well.Rested.days.per.week == "0-1 days" ~ 0,
+    Feel.Well.Rested.days.per.week == "1-3 days" ~ 1,
+    Feel.Well.Rested.days.per.week == "3-5 days" ~ 2,
+    Feel.Well.Rested.days.per.week == "6-7 days" ~ 3,
+    TRUE ~ NA_real_  # Handles any other cases or NA values
+  ))
+  
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Feel.Well.Rested.days.per.week, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Feel.Well.Rested.days.per.week_numeric)
+
+
+```
+
+
+### Codify Ethnicity
+```{r}
+unique(data_with_outliers_removed$Ethnicity)
+
+# Load the dplyr package
+p_load(dplyr)
+
+# Define the mapping for the Caffeine.Use consumption levels
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Ethnicity_reduced = case_when(
+    Ethnicity == "Euro" ~ "European",
+    Ethnicity == "Asia" ~ "Asian",
+    Ethnicity == "Lati" ~ "Other",
+    Ethnicity == "Afr_Ame" ~ "Other",
+    Ethnicity == "Mid_afr" ~ "Other",
+    Ethnicity == "Nat_ame" ~ "Other",
+    Ethnicity == "Ocea" ~ "Other",
+    Ethnicity == "Other" ~ "Other",
+    Ethnicity == "Saha" ~ "Other",
+    TRUE ~ NA_character_   # Handles any other cases or NA values
+  ))
+  
+# Check which rows where altered for testing
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Ethnicity, .after = last_col())
+
+# Sort for testing
+  data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(Ethnicity_reduced)
 
 
 ```
