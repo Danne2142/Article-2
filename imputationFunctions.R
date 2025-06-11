@@ -147,7 +147,7 @@ exclude_columns_from_predictors_matrix <- function(data, exclude_cols) {
 
 
 
-impute_survey <- function(data, survey_version_filter, missing_data_threshold = 50, imputation_seed = 12345, number_of_mice_datasets_to_impute = 5, 
+impute_survey <- function(data, survey_version_filter, missing_data_threshold = 50, imputation_seed = 94956, number_of_mice_datasets_to_impute = 5, 
 max_iterations = 65, cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version")) {
   
   data <- subset(data, survey_version == survey_version_filter)
@@ -282,7 +282,7 @@ impute_survey_data <- function(data_to_drop_cols_from, surveyVersion, missing_th
   # Perform imputation
   start <- Sys.time()
   imputed_data<-impute_survey(data=df_to_impute, survey_version_filter =surveyVersion, 
-  missing_data_threshold =missing_threshold, imputation_seed=12345, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, 
+  missing_data_threshold =missing_threshold, imputation_seed=94956, number_of_mice_datasets_to_impute=amount_of_mice_datasets_to_impute, 
   max_iterations=max_iterations_per_dataset,  cols_to_exclude_from_predictors = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
                                                         "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
                                                         "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
@@ -519,7 +519,52 @@ impute_survey_data(data_to_drop_cols_from=data_only_males, surveyVersion = surv_
 
 
 
+#----------------Test area-----------------------------------------
+### Impute survey 1 - only european
+#Load data
+# Remove females from data
+print("Imputing for European")
+data_only_european <-  data %>% filter(Ethnicity_reduced == "European")
+print("Number of European:")
+print(nrow(data_only_european))
 
+
+impute_survey_data(data_to_drop_cols_from=data_only_european, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputation_results/imputed_survey", surv_number,"_only_european"))
+
+
+### Impute survey 1 - only asian
+#Load data
+# Remove females from data
+print("Imputing for asian")
+data_only_asian <-  data %>% filter(Ethnicity_reduced == "Asian")
+print("Number of asian:")
+print(nrow(data_only_asian))
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_asian, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputation_results/imputed_survey", surv_number,"_only_asian"))
+
+
+### Impute survey 1 - only other
+#Load data
+# Remove females from data
+print("Imputing for other")
+data_only_other <-  data %>% filter(Ethnicity_reduced == "Other")
+print("Number of other:")
+print(nrow(data_only_other))
+
+
+impute_survey_data(data_to_drop_cols_from=data_only_other, surveyVersion = surv_number, missing_threshold = missing_threshold_to_remove, 
+                                 amount_of_mice_datasets_to_impute = number_of_mice_datasets_to_impute, max_iterations_per_dataset = maximum_iterations_per_dataset, 
+                                 cols_to_exclude_from_imputation_entirely = cols_to_exclude, savePath = paste0(path_to_data, "imputation_results/imputed_survey", surv_number,"_only_other"))
+
+
+
+
+#----------------------------------------------------------
 
 
   print(paste0("Imputation results for survey: ", surv_number, " saved to ", path_to_data))

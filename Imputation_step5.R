@@ -1,5 +1,5 @@
 
-# load(paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
+# load(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
 # data<-data_with_ageDev
 
 # # Calculate the median age
@@ -13,14 +13,14 @@
 
 library(pacman)
 p_load(dplyr)
-# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
 
 
 # ## Data exploration can be removed later
 # # Load data
-# # load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# # load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # # Rename dataframe in this new script
 # # data<-data_with_ageDev
 # # rm(data_with_ageDev) # Remove old dataframe
@@ -50,12 +50,13 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 # corr_df<-mixed_correlation_matrix(data4, cols_to_skip = c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version"))
 
 
+
 #Impute survey 1 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
   cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because they are not used in analysis
-  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", 
-  "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", "Sexual.Frequency"),
+  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", 
+  "Sexual.Frequency", "Main.Diet", "Main.Diet.Factor"),
   surv_number = 1,
   missing_threshold_to_remove = 50,
   number_of_mice_datasets_to_impute = 2,
@@ -65,8 +66,8 @@ impute_survey_and_sensitivity_analysis(
 
 #Impute survey 2 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use"),
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use"), #Because they are not used in analysis
   surv_number = 2,
   missing_threshold_to_remove = 50,
   number_of_mice_datasets_to_impute = 2,
@@ -77,8 +78,8 @@ impute_survey_and_sensitivity_analysis(
 
 #Impute survey 3 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Hours.of.sleep.per.night"),
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Hours.of.sleep.per.night"), #Because they are not used in analysis
   surv_number = 3,
   missing_threshold_to_remove = 50,
   number_of_mice_datasets_to_impute = 2,

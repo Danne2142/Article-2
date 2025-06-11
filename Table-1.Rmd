@@ -1,0 +1,319 @@
+---
+title: "Table 1"
+output: html_document
+date: "2024-08-09"
+---
+
+
+## Import Data
+```{r}
+library(dplyr)
+
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+
+
+```
+
+
+## Import functions to handle data
+```{r}
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/format_pvalue().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_N_indivudals().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_discrete().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_continuous().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/fill_table_with_categorical().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
+
+
+```
+
+
+
+### Create dataframe for DunedinPACE through rbind
+```{r}
+survey1 <- filter(data_with_ageDev, survey_version == 1)
+survey2 <- filter(data_with_ageDev, survey_version == 2)
+survey3 <- filter(data_with_ageDev, survey_version == 3)
+
+all_surveys<-data_with_ageDev
+
+outcome_column<- "DunedinPACE"
+
+input_young_old_boundary<-1
+
+output_df <- make_table_row_N_indivudals(outcome_column, young_old_boundary = input_young_old_boundary, all_surveys)
+
+output_df <- rbind(output_df, make_table_row_continuous("Decimal.Chronological.Age", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+
+output_df<-rbind(output_df, make_table_row_continuous("BMI", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys, prefix = " Only survey 1, 3: "))
+# output_df <- rbind(output_df, c("Survey 2 - BMI missing","-", "-", ""))
+# output_df<-rbind(output_df, make_table_row_continuous("BMI", outcome_column, young_old_boundary = input_young_old_boundary, survey3))
+
+output_df<-rbind(output_df, make_table_row_discrete("Stress.Level", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "Biological.Sex",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      use_only_categories = c("Male", "Female"))) # Specify categories if needed
+                                      
+output_df<-rbind(output_df, make_table_row_discrete("Education_levels_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+output_df<-rbind(output_df, make_table_row_discrete("Tobacco.Use.Numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+output_df<-rbind(output_df, make_table_row_discrete("Alcohol_per_week_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+output_df<-rbind(output_df, make_table_row_discrete("Marital.Status_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+output_df<-rbind(output_df, make_table_row_discrete("organ_systems_afflicted_by_disease", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys))
+
+
+output_df <- rbind(output_df, c("Physical activity","", "", ""))
+output_df<-rbind(output_df, make_table_row_discrete("Exercise.per.week_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys, prefix = " Only survey 1: "))
+output_df<-rbind(output_df, make_table_row_discrete("sedentary_level", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys, prefix = " Only survey 2, 3: "))
+
+output_df <- rbind(output_df, c("Rest","", "", ""))
+output_df<-rbind(output_df, make_table_row_discrete("Hours.of.sleep.per.night_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys, prefix = " Only survey 1, 3:"))
+output_df<-rbind(output_df, make_table_row_discrete("Feel.Well.Rested.days.per.week_numeric", outcome_column, young_old_boundary = input_young_old_boundary, all_surveys, prefix = " Only survey 2, 3: "))
+
+unique(all_surveys$Feel.Well.Rested.days.per.week_numeric)
+
+
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "Ethnicity_reduced",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher_simulate",
+                                      print_all_categories = TRUE,
+                                      prefix = ""
+                                      )) # Specify categories if needed
+
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "harmonized_diet",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher_simulate")) # Specify categories if needed
+
+
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "Diabetes1",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "Diabetes2",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "Prediabetes",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "Gestational.Diabetes",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "NAD",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "TA65",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "sulforaphane",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "DHEA_new",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "DHEA_new",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = survey1, replace_small_counts = TRUE, 
+                                      categorical_var = "Rapamycin_new",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE,
+                                      prefix = " Only survey 1: "
+                                      )) # Specify categories if needed
+
+# output_df<-rbind(output_df, fill_table_with_categorical(df = input_df, replace_small_counts = TRUE, 
+#                                       categorical_var = "SASP_supressors",
+#                                       outcome_column = outcome_column,
+#                                       young_old_boundary = input_young_old_boundary,
+#                                       test_type = "fisher",
+#                                       print_all_categories = TRUE,
+#                                       display_only_true_vales = TRUE
+#                                       )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "Resveratrol_new",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "Exosomes",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "stem_cells",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "HRT",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE,
+                                      categorical_var = "spermidine",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+
+# output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE,
+#                                       categorical_var = "fasting",
+#                                       outcome_column = outcome_column,
+#                                       young_old_boundary = input_young_old_boundary,
+#                                       test_type = "fisher",
+#                                       print_all_categories = TRUE,
+#                                       display_only_true_vales = TRUE
+#                                       )) # Specify categories if needed
+
+# output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE,
+#                                       categorical_var = "semaglutide",
+#                                       outcome_column = outcome_column,
+#                                       young_old_boundary = input_young_old_boundary,
+#                                       test_type = "fisher",
+#                                       print_all_categories = TRUE,
+#                                       display_only_true_vales = TRUE
+#                                       )) # Specify categories if needed
+
+output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE, 
+                                      categorical_var = "vitaminD",
+                                      outcome_column = outcome_column,
+                                      young_old_boundary = input_young_old_boundary,
+                                      test_type = "fisher",
+                                      print_all_categories = TRUE,
+                                      display_only_true_vales = TRUE
+                                      )) # Specify categories if needed
+
+# output_df<-rbind(output_df, fill_table_with_categorical(df = all_surveys, replace_small_counts = TRUE,
+#                                       categorical_var = "AKG",
+#                                       outcome_column = outcome_column,
+#                                       young_old_boundary = input_young_old_boundary,
+#                                       test_type = "fisher",
+#                                       print_all_categories = TRUE,
+#                                       display_only_true_vales = TRUE
+#                                       )) # Specify categories if needed
+
+
+
+
+```
+
+
+### Save results as excel dokument
+```{r}
+#install package
+if (!requireNamespace("writexl", quietly = TRUE)) {
+  install.packages("writexl")
+}
+
+library(writexl)
+
+write_xlsx(output_df, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1.xlsx")
+
+# write_xlsx(df_Dunedin, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1_DunedinPACE_survey1.xlsx")
+
+# library(dplyr)
+
+# Females <- filter(survey1, Biological.Sex == "Female")
+
+```
+
+

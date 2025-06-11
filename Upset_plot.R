@@ -1,7 +1,12 @@
 # Load UpSetR package
 library(UpSetR)
 
-data <- read.csv("C:/Users/danwik/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+data <- read.csv("C:/Users/danie/OneDrive - Karolinska Institutet/Desktop/Project 2 ny/Output/filtered_df_crossectional_harmonized", header=TRUE, stringsAsFactors=FALSE)
+
+load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+
+data <- data_with_ageDev
+
 
 # Function to convert TRUE/FALSE to 1/0 and NA to 0
 convert_bool_to_numeric <- function(data, columns) {
@@ -18,9 +23,10 @@ convert_bool_to_numeric <- function(data, columns) {
 }
 # columns_to_convert <- c("NAD", "Antiaging.NAD")
 
-columns_to_convert <- c("NAD", "Sulforaphane", "DHEA", "Rapamycin","SASP_supressors","Resveratrol", "Metformin", "Exosomes", "Stem_cells", "HRT",
-                        "Spermidine", "Fasting","semaglutide", "VitaminD", "AKG")
-data<- convert_bool_to_numeric(data, columns_to_convert)
+columns_to_convert <- c("Rapamycin_new", "Metformin_new", "NAD", "TA65", 
+  "sulforaphane", "DHEA_new", "Resveratrol_new", "Exosomes", 
+  "HRT", "spermidine")
+# data<- convert_bool_to_numeric(data, columns_to_convert)
 
 
 
@@ -53,3 +59,13 @@ upset(data,
 # 
 # set_sizes <- colSums(data)
 # print(set_sizes)
+
+
+# Option 2: Save as PNG with specific directory
+png("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/upset_plot.png", 
+    width=1200, height=800, res=120)
+upset(data,
+      sets = columns_to_convert,
+      # Same parameters as your original plot
+      )
+dev.off()

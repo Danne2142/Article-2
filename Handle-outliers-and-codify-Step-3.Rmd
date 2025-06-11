@@ -101,15 +101,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   ))
 
 ```
-### Print colnames: can be removed later
-```{r}
 
-# # Using names() with seq_along()
-# column_names <- names(data_with_outliers_removed)
-# column_indices <- seq_along(data_with_outliers_removed)
-# 
-# print(column_names)
-```
 
 ### Add sedentary level based on quartiles
 ```{r}
@@ -457,6 +449,143 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Ethnicity_reduced)
 
+
+```
+
+### Create a variable for number of diseases
+```{r}
+# Create a new column for the number of diseases
+# Define the disease columns explicitly
+organ_systems <- c("Cancer.Diagnosis.any", "Cardiovascular.any", "Respiratory.Disease.any", 
+      "Endocrine.Disease.any", "Skin.Hair.any", "Gastrointestinal.any",
+      "Genito.Urinary.any", "Musculoskeletal.any", "Neuropsychological.any", "Reproductive.any","Immune.any")
+
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(organ_systems_afflicted_by_disease = rowSums(select(., all_of(organ_systems)), na.rm = TRUE))
+
+# Move all disease columns and the organ_systems_afflicted_by_disease column to the end
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(all_of(organ_systems), .after = last_col()) %>%
+  relocate(organ_systems_afflicted_by_disease, .after = last_col())
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(organ_systems_afflicted_by_disease = rowSums(select(., all_of(organ_systems)), na.rm = TRUE))
+# Move the organ_systems_afflicted_by_disease column to the end
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(organ_systems_afflicted_by_disease, .after = last_col())
+
+```
+
+### Print colnames: can be removed later
+```{r}
+
+# # Using names() with seq_along()
+# column_names <- names(data_with_outliers_removed)
+# column_indices <- seq_along(data_with_outliers_removed)
+
+# print(column_names)
+```
+
+### Harmonize diet
+```{r}
+
+# Harmonize diet variables
+
+# Split data by survey version
+data_survey1 <- data_with_outliers_removed %>% 
+  filter(survey_version == 1)
+
+data_survey2 <- data_with_outliers_removed %>% 
+  filter(survey_version == 2)
+
+data_survey3 <- data_with_outliers_removed %>% 
+  filter(survey_version == 3)
+
+# Calculate percentage of missing values for each dataset
+calculate_missing_percentage <- function(df, columns) {
+  result <- sapply(columns, function(col) {
+    missing_count <- sum(is.na(df[[col]]))
+    total_count <- nrow(df)
+    return(missing_count / total_count * 100)
+  })
+  return(result)
+}
+
+diet_columns <- c("Primary.Diet.Past.Year", "Main.Diet.Factor", "Main.Diet")
+
+# Print results
+cat("Survey Version 1 (n =", nrow(data_survey1), "):\n")
+print(calculate_missing_percentage(data_survey1, diet_columns))
+
+cat("\nSurvey Version 2 (n =", nrow(data_survey2), "):\n")
+print(calculate_missing_percentage(data_survey2, diet_columns))
+
+cat("\nSurvey Version 3 (n =", nrow(data_survey3), "):\n")
+print(calculate_missing_percentage(data_survey3, diet_columns))
+
+# Print levels of each diet column
+cat("\n\nLevels for each diet column:\n")
+for (col in diet_columns) {
+  cat("\n", col, ":\n")
+  if (col %in% names(data_with_outliers_removed)) {
+    if (is.factor(data_with_outliers_removed[[col]])) {
+      print(levels(data_with_outliers_removed[[col]]))
+    } else {
+      print(unique(data_with_outliers_removed[[col]]))
+    }
+  } else {
+    cat("Column not found in dataset\n")
+  }
+}
+
+# Print table counts for each diet column
+cat("\n\nFrequency table for each diet column:\n")
+for (col in diet_columns) {
+  cat("\n", col, ":\n")
+  if (col %in% names(data_with_outliers_removed)) {
+    print(table(data_with_outliers_removed[[col]], useNA = "ifany"))
+  } else {
+    cat("Column not found in dataset\n")
+  }
+}
+
+
+```
+
+### Harmonize diet
+```{r}
+# Create harmonized diet variable
+# Diet Harmonization
+# The following code creates a harmonized diet classification variable by combining information from "Primary.Diet.Past.Year" and "Main.Diet.Factor" fields.
+# 
+# Harmonized diet categories:
+# - "Plant-based": Includes vegan, vegetarian, and Mediterranean diets
+# - "Omnivore": Includes mixed/balanced diets, no red meat diets, and pescatarian diets
+# - "Carnivore": Exclusively or primarily meat and animal products
+# - "Ketogenic": Limited carbohydrate consumption
+# - "Other": Cases where diet information is missing or doesn't fit into the above categories
+#
+# The logic prioritizes "Primary.Diet.Past.Year" information when available, 
+# and falls back to "Main.Diet.Factor" when the primary diet information is missing.
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(harmonized_diet = case_when(
+    !is.na(Primary.Diet.Past.Year) & Primary.Diet.Past.Year %in% c("Vegan. No meat or animal products", 
+                                                                 "Vegetarian. No meat products", 
+                                                                 "Mediterranean. Emphasis on plant-based products, healthy fats, whole grains, nuts, and seeds. Limited meats, dairy, and processed foods") ~ "Plant-based",
+    !is.na(Primary.Diet.Past.Year) & Primary.Diet.Past.Year %in% c("Mixed/Balanced Diet. Includes mixture of fruits, vegetables, meat, fish, dairy, and animal products. No specific restrictions.", 
+                                                                "No Red Meat. Typical balanced diet, without any red meat (still consumes fish and poultry)", 
+                                                                "Pescatarian. Limits meat products to only fish and seafood") ~ "Omnivore",
+    !is.na(Primary.Diet.Past.Year) & Primary.Diet.Past.Year == "Carnivore. Only/majority meat and animal products" ~ "Carnivore",
+    !is.na(Primary.Diet.Past.Year) & Primary.Diet.Past.Year == "Ketogenic. Limited carbohydrate consumption" ~ "Ketogenic",
+    !is.na(Main.Diet.Factor) & Main.Diet.Factor == "Ketogenic" ~ "Ketogenic",
+    !is.na(Main.Diet.Factor) & Main.Diet.Factor %in% c("Meat.Vegetables", "Meat.Fish", "Fish.Vegetables") ~ "Omnivore",
+    !is.na(Main.Diet.Factor) & Main.Diet.Factor == "Vegetables" ~ "Plant-based",
+    is.na(Primary.Diet.Past.Year) & is.na(Main.Diet.Factor) ~ "Other",
+    TRUE ~ "Other"
+  ))
+
+# Move the diet columns to the end of the dataframe
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  relocate(Primary.Diet.Past.Year, Main.Diet.Factor, Main.Diet, harmonized_diet, .after = last_col())
 
 ```
 

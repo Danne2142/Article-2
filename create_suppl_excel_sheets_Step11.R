@@ -1,5 +1,3 @@
-
-
 source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/create_suppl_excel_sheets().R")
 
 # Create file for main models
@@ -31,5 +29,13 @@ combine_xlsx_files(input_dir, output_file)
 input_dir <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results"
 # Specify the output file path
 output_file <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/supplementary_table_5.xlsx"
+# Run the function
+combine_xlsx_files(input_dir, output_file)
+
+# Create file for ethnicity
+# Specify the directory containing your xlsx files
+input_dir <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis"
+# Specify the output file path
+output_file <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis/supplementary_table_6.xlsx"
 # Run the function
 combine_xlsx_files(input_dir, output_file)
