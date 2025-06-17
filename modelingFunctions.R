@@ -2,11 +2,11 @@
 #' 
 #' @description
 #' Evaluates terms across multiple models and removes those with p-value > 0.15 in all models.
-#' Categorical variables can be excluded from this evaluation.
+#'  variables can be excluded from this evaluation.
 #' 
 #' @param terms Vector of term names to evaluate
 #' @param dfs List of dataframes containing model results with columns 'term' and 'p.value'
-#' @param categorical_variables_to_exclude Optional vector of categorical variable names to retain
+#' @param variables_to_exclude Optional vector of  variable names to retain
 #' 
 #' @return Vector of remaining terms after removal
 #' 
@@ -24,7 +24,7 @@ format_pvalues <- function(df) {
   return(df)
 }
 
-remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude = NULL) {
+remove_terms_if_p_large <- function(terms, dfs, variables_to_exclude = NULL) {
   # Initialize storage vectors
   remaining_terms <- c()
   removed_terms <- c()
@@ -33,8 +33,8 @@ remove_terms_if_p_large <- function(terms, dfs, categorical_variables_to_exclude
   for (term in terms) {
     print(term)
 
-    # Handle categorical variables: retain regardless of p-value
-    if (!is.null(categorical_variables_to_exclude) && term %in% categorical_variables_to_exclude) {
+    # Handle  variables: retain regardless of p-value
+    if (!is.null(variables_to_exclude) && term %in% variables_to_exclude) {
       remaining_terms <- c(remaining_terms, term)
       next
     }
@@ -127,7 +127,7 @@ fit_multiple_models <- function(imputedData, exposures, outcomes, covariates) {
         covariates = covariates
       )
       
-      # Adjusted filtering for categorical variables
+      # Adjusted filtering for  variables
       exposure_results_df <- result_df %>%
         filter(str_detect(term, paste0("^", exposure_var)))
       

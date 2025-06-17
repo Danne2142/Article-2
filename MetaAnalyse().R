@@ -79,14 +79,15 @@ for (i in seq_along(term_results)) {
 
     # print(summary(ma_gen))
 
-    # Start png device with Outcome in file name
-    png(paste0(savePath, "forest_plot_", model_name, "_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
+    ## Create forest plot for the current term
+    # # Start png device with Outcome in file name
+    # png(paste0(savePath, "forest_plot_", model_name, "_", names(term_results)[i], "_", outcome, ".png"), width = 800, height = 600)
     
-    # Create the plot
-    meta::forest(ma_gen)
+    # # Create the plot
+    # meta::forest(ma_gen)
     
-    # Close the graphics device
-    dev.off()
+    # # Close the graphics device
+    # dev.off()
 }
 rm(term_results) # Remove old term_results
 

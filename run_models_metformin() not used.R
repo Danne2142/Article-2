@@ -1,14 +1,12 @@
-
 library(writexl)
 
 run_models_metformin <- function(
 imp_data = imputed_data,
 # Define parameters 
 interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric", "Education_levels_numeric", "Stress.Level", 
-                          "Tobacco.Use.Numeric", "Exercise.per.week_numeric", "Exercise.Type",
-                          "Main.Diet.Factor", "BMI", "Caffeine.Use_numeric", "Marital.Status_numeric", 
-                          "Sexual.Frequency_numeric", "Hours.of.sleep.per.night_numeric"),
+lifestyle_covariates =  c("Alcohol_per_week_numeric",  
+"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/",
 suffix = "_main_survey1"
@@ -29,11 +27,11 @@ combined_results_df <- model_exposure_wise(imputed_data=imp_data,
 
 # Save dataframes
 DunedinPACE_Model1 <- combined_results_df[["DunedinPACE"]]
-write_xlsx(DunedinPACE_Model1,  paste0(savePath,"DunedinPACE_Model1", suffix))
+# write_xlsx(DunedinPACE_Model1,  paste0(savePath,"DunedinPACE_Model1", suffix))
 GrimAge_PCAgeDev_Model1 <- combined_results_df[["GrimAge.PCAgeDev"]]
-write_xlsx(GrimAge_PCAgeDev_Model1,  paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
+# write_xlsx(GrimAge_PCAgeDev_Model1,  paste0(savePath,"GrimAge_PCAgeDev_Model1", suffix))
 OMICmAgeAgeDev_Model1 <- combined_results_df[["OMICmAgeAgeDev"]]
-write_xlsx(OMICmAgeAgeDev_Model1,  paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
+# write_xlsx(OMICmAgeAgeDev_Model1,  paste0(savePath,"OMICmAgeAgeDev_Model1", suffix))
 
 lifestyle_covariates_updated <- lifestyle_covariates
 
@@ -45,11 +43,11 @@ lifestyle_covariates_updated <- lifestyle_covariates
                                              exposure_vars=c(interventions, lifestyle_covariates), 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model1_z <- combined_results_df[["DunedinPACE_z"]]
-  write_xlsx(DunedinPACE_Model1_z,  paste0(savePath,"DunedinPACE_Model1_z", suffix))
+  # write_xlsx(DunedinPACE_Model1_z,  paste0(savePath,"DunedinPACE_Model1_z", suffix))
   GrimAge_Model1_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-  write_xlsx(GrimAge_Model1_z,  paste0(savePath,"GrimAge_Model1_z", suffix))
+  # write_xlsx(GrimAge_Model1_z,  paste0(savePath,"GrimAge_Model1_z", suffix))
   OMICmAge_Model1_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-  write_xlsx(OMICmAge_Model1_z,  paste0(savePath,"OMICmAge_Model1_z", suffix))
+  # write_xlsx(OMICmAge_Model1_z,  paste0(savePath,"OMICmAge_Model1_z", suffix))
 
 
 ### Model 2 
@@ -60,11 +58,11 @@ covariates_to_always_include <- c(covariates_to_always_include, lifestyle_covari
                                              exposure_vars=interventions, 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model2 <- combined_results_df[["DunedinPACE"]]
-  write_xlsx(DunedinPACE_Model2,  paste0(savePath,"DunedinPACE_Model2", suffix))
+  # write_xlsx(DunedinPACE_Model2,  paste0(savePath,"DunedinPACE_Model2", suffix))
   GrimAge_PCAgeDev_Model2 <- combined_results_df[["GrimAge.PCAgeDev"]]
-  write_xlsx(GrimAge_PCAgeDev_Model2,  paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
+  # write_xlsx(GrimAge_PCAgeDev_Model2,  paste0(savePath,"GrimAge_PCAgeDev_Model2", suffix))
   OMICmAgeAgeDev_Model2 <- combined_results_df[["OMICmAgeAgeDev"]]
-  write_xlsx(OMICmAgeAgeDev_Model2,  paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
+  # write_xlsx(OMICmAgeAgeDev_Model2,  paste0(savePath,"OMICmAgeAgeDev_Model2", suffix))
 
 
 ### Model 2 SD 
@@ -74,12 +72,11 @@ covariates_to_always_include <- c(covariates_to_always_include, lifestyle_covari
                                              exposure_vars=interventions, 
                                              covariate_vars=covariates_to_always_include)
   DunedinPACE_Model2_z <- combined_results_df[["DunedinPACE_z"]]
-  write_xlsx(DunedinPACE_Model2_z,  paste0(savePath,"DunedinPACE_Model2_z", suffix))
+  # write_xlsx(DunedinPACE_Model2_z,  paste0(savePath,"DunedinPACE_Model2_z", suffix))
   GrimAge_Model2_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
-  write_xlsx(GrimAge_Model2_z,  paste0(savePath,"GrimAge_Model2_z", suffix))
+  # write_xlsx(GrimAge_Model2_z,  paste0(savePath,"GrimAge_Model2_z", suffix))
   OMICmAge_Model2_z <- combined_results_df[["OMICmAgeAgeDev_z"]]
-  write_xlsx(OMICmAge_Model2_z,  paste0(savePath,"OMICmAge_Model2_z", suffix))
-
+  # write_xlsx(OMICmAge_Model2_z,  paste0(savePath,"OMICmAge_Model2_z", suffix))
 
 
 #Package raw results
@@ -123,4 +120,6 @@ surv_results <- list(
     surv_results_raw = surv_results_raw,
     surv_results_sd = surv_results_sd
 )
+
+return(surv_results)
 }

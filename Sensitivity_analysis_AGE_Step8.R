@@ -72,7 +72,7 @@ results_only_younger_survey2<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-  "sedentary_level", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric"),
+  "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_younger,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
@@ -93,7 +93,7 @@ results_only_older_survey2<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-  "sedentary_level", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric"),
+  "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_older,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
@@ -118,7 +118,7 @@ results_only_younger_survey3<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-  "sedentary_level","Red.Meat.times.per.week", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
+  "sedentary_level_quartiles_numeric","Red.Meat.times.per.week", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_younger,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
@@ -139,7 +139,7 @@ results_only_older_survey3<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-  "sedentary_level","Red.Meat.times.per.week", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
+  "sedentary_level_quartiles_numeric","Red.Meat.times.per.week", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_older,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/",
@@ -153,31 +153,37 @@ results_only_older_survey3<-run_models(
 
 print("Generating meta analysis for SD models")
 
-#Run meta models for Model 3 younger
-meta_DunedinPACE_Model3_z<-MetaAnalyse(
-    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
-    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
-    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
+#Run meta models for model 3 
+meta_DunedinPACE_model3_z<-MetaAnalyse(
+    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z, 
+    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z,
+    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "DunedinPACE_Model3_only_younger_z")
+    model_name = "DunedinPACE_model3_only_younger_z")
 
-meta_OMICmAge_Model3_z<-MetaAnalyse(
-    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
+meta_OMICmAge_model3_z<-MetaAnalyse(
+    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z,
+    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z,
+    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "OMICmAge_Model3_only_younger_z")
+    model_name = "OMICmAge_model3_only_younger_z")
 
-meta_GrimAge_Model3_z<-MetaAnalyse(  
-    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
-    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
-    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
+meta_GrimAge_model3_z<-MetaAnalyse(  
+    survey1 = results_only_younger_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z, 
+    survey2 = results_only_younger_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z,
+    survey3 = results_only_younger_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z,
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "GrimAge_PC_Model3_only_younger_z")
+    model_name = "GrimAge_PC_model3_only_younger_z")
+
+# Save meta-analysis tables younger
+write_xlsx(meta_DunedinPACE_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_DunedinPACE_model3_only_younger_z_table.xlsx"))
+write_xlsx(meta_OMICmAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_OMICmAge_model3_only_younger_z_table.xlsx"))
+write_xlsx(meta_GrimAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_GrimAge_model3_only_younger_z_table.xlsx"))
+
 
 #Plot younger
-p1 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
-                                source_names = c("meta_DunedinPACE_Model3_z", "meta_OMICmAge_Model3_z", "meta_GrimAge_Model3_z"),
+p1 <- forestplot_fusion(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z,
+                                source_names = c("meta_DunedinPACE_model3_z", "meta_OMICmAge_model3_z", "meta_GrimAge_model3_z"),
                                 color_values = c("red", "blue", "green"),
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)
@@ -186,34 +192,38 @@ ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Pr
 
 
 
-#Run meta models for Model 3 older
-meta_DunedinPACE_Model3_z<-MetaAnalyse(
-    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
-    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z,
-    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_Model3_z, 
+#Run meta models for model 3 older
+meta_DunedinPACE_model3_z<-MetaAnalyse(
+    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z, 
+    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z,
+    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$DunedinPACE_model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "DunedinPACE_Model3_only_older_z")
+    model_name = "DunedinPACE_model3_only_older_z")
 
-meta_OMICmAge_Model3_z<-MetaAnalyse(
-    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z,
-    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_Model3_z, 
+meta_OMICmAge_model3_z<-MetaAnalyse(
+    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z,
+    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z,
+    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$OMICmAge_model3_z, 
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "OMICmAge_Model3_only_older_z")
+    model_name = "OMICmAge_model3_only_older_z")
 
-meta_GrimAge_Model3_z<-MetaAnalyse(
-    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z, 
-    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
-    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_Model3_z,
+meta_GrimAge_model3_z<-MetaAnalyse(
+    survey1 = results_only_older_survey1$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z, 
+    survey2 = results_only_older_survey2$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z,
+    survey3 = results_only_older_survey3$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z,
     savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", 
-    model_name = "GrimAge_Model3_only_older_z")
+    model_name = "GrimAge_model3_only_older_z")
 
+# Save meta-analysis tables older
+write_xlsx(meta_DunedinPACE_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_DunedinPACE_model3_only_older_z_table.xlsx"))
+write_xlsx(meta_OMICmAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_OMICmAge_model3_only_older_z_table.xlsx"))
+write_xlsx(meta_GrimAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/", "meta_GrimAge_model3_only_older_z_table.xlsx"))
 
 
 
 #Plot older
-p2 <- forestplot_fusion(meta_DunedinPACE_Model3_z, meta_OMICmAge_Model3_z, meta_GrimAge_Model3_z,
-                                source_names = c("meta_DunedinPACE_Model3_z", "meta_OMICmAge_Model3_z", "meta_GrimAge_Model3_z"),
+p2 <- forestplot_fusion(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z,
+                                source_names = c("meta_DunedinPACE_model3_z", "meta_OMICmAge_model3_z", "meta_GrimAge_model3_z"),
                                 color_values = c("red", "blue", "green"),
                                 xlab = "", ylab = "", vertical_line = 0,
                                 plot_size = NULL)

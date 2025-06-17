@@ -32,7 +32,13 @@ fill_table_with_categorical <- function(df, categorical_var, outcome_column, you
   old <- df[df[[outcome_column]] >= young_old_boundary, ]
   
   # Get the unique levels of the categorical variable
-  levels_var <- sort(unique(df[[categorical_var]]))
+  all_levels <- sort(unique(df[[categorical_var]]))
+  
+  # Separate "Missing" and "Other" from other levels and put them at the end
+  missing_levels <- all_levels[all_levels == "Missing"]
+  other_levels <- all_levels[all_levels == "Other"]
+  non_missing_non_other_levels <- all_levels[!all_levels %in% c("Missing", "Other")]
+  levels_var <- c(non_missing_non_other_levels, other_levels, missing_levels)
   
   # Initialize a matrix to store counts for the test
   count_matrix <- matrix(nrow = length(levels_var), ncol = 2)
@@ -66,7 +72,7 @@ fill_table_with_categorical <- function(df, categorical_var, outcome_column, you
     }
     
     # Add the formatted data to the table rows
-    table_rows[[i]] <- c(paste("  ", level),
+    table_rows[[i]] <- c(paste("__", level),
                          paste(display_count_old, " (", percent_old, ")", sep = ""),
                          paste(display_count_young, " (", percent_young, ")", sep = ""),
                          "")

@@ -6,24 +6,24 @@ date: "2024-10-28"
 
 ### Import data and functions
 ```{r}
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_numeric().R")
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R")
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_yes_no_to_logical().R")
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_binary().R")
-# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/char_cols_to_factors().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/logical_to_numeric().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_factors().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_yes_no_to_logical().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/convert_to_binary().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/char_cols_to_factors().R")
 # 
 
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/count_outliers().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/get_Numeric_and_int_cols().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_with_std_outliers().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/replace_zero_negatives().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/count_zero_and_negatives().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_na_rows().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_outliers_sd().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/create_histogram().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/handle_hours_sedentary_remaining_awake().R")
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/count_outliers().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/get_Numeric_and_int_cols().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_with_std_outliers().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/replace_zero_negatives().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/count_zero_and_negatives().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_na_rows().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_outliers_sd().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/create_histogram().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/handle_hours_sedentary_remaining_awake().R")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step2")
 
 # Rename dataframe in this new script
 data<-data_fixed_datatypes 
@@ -105,45 +105,21 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ### Add sedentary level based on quartiles
 ```{r}
+
+# Function creates a new column with sedentary level based on quartiles as 2 new collumns: sedentary_level_string and sedentary_level_quartiles_numeric
 data_with_outliers_removed <- handle_hours_sedentary_remaining_awake(
   data = data_with_outliers_removed,
   column_name = "Hours.Sedentary.Remaining.Awake"
 )
 
-```
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  arrange(sedentary_level_quartiles_numeric)
 
-### Compare different ways to codify hours sedentary
-```{r message=TRUE, warning=TRUE}
-count_frequencies <- function(data, column_name) {
-  # Ensure the column exists in the data frame
-  if (!column_name %in% names(data)) {
-    stop("The specified column does not exist in the data frame.")
-  }
-  
-  # Count frequencies using table and convert to a data frame
-  frequencies <- as.data.frame(table(data[[column_name]]))
-  
-  # Rename the columns for clarity
-  colnames(frequencies) <- c("Value", "Frequency")
-  
-  return(frequencies)
-}
 
-#See uncodified sedentary level
-# df <- data.frame(numbers = c(1, 2, 2, 3, 3, 3, 4))
-result <- count_frequencies(data_with_outliers_removed, "Hours.Sedentary.Remaining.Awake")
-print(result)
-
-#Compare sedentary level based on quartiles
-# df <- data.frame(numbers = c(1, 2, 2, 3, 3, 3, 4))
-result <- count_frequencies(data_with_outliers_removed, "sedentary_level")
-print(result)
-
-#Compare sedentary level based on fixed thresholds
-result <- count_frequencies(data_with_outliers_removed, "sedentary_level_objective")
-print(result)
 
 ```
+
+
 
 ### test linear relationships of hours sedentary
 ```{r}
@@ -162,7 +138,28 @@ print(result)
 
 ### Codify current smoking level numerically
 ```{r}
-print(class(data_with_outliers_removed$Tobacco.Use))
+
+# # Convert the ordered factor to numeric, starting at zero, preserving NAs
+# # Check missing data for Tobacco.Use by survey version
+# cat("Missing data for Tobacco.Use by survey version:\n\n")
+
+# for (survey in unique(data_with_outliers_removed$survey_version)) {
+#   survey_data <- data_with_outliers_removed %>% 
+#     filter(survey_version == survey)
+  
+#   cat("Survey Version", survey, "(n =", nrow(survey_data), "):\n")
+  
+#   # Calculate missing percentage
+#   missing_count <- sum(is.na(survey_data$Tobacco.Use))
+#   missing_percentage <- (missing_count / nrow(survey_data)) * 100
+  
+#   cat("Missing values:", missing_count, "(", round(missing_percentage, 2), "%)\n")
+  
+#   # Show frequency table including NAs
+#   cat("Frequency table:\n")
+#   print(table(survey_data$Tobacco.Use, useNA = "ifany"))
+#   cat("\n")
+# }
 
 # Convert the ordered factor to numeric, starting at zero, preserving NAs
 data_with_outliers_removed$Tobacco.Use.Numeric <- ifelse(
@@ -171,11 +168,21 @@ data_with_outliers_removed$Tobacco.Use.Numeric <- ifelse(
   as.numeric(data_with_outliers_removed$Tobacco.Use) - 1
 )
 
+# Create reduced tobacco use variable with 3 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(Tobacco.Use_reduced = case_when(
+    Tobacco.Use == "None" ~ "Non-smokers",
+    Tobacco.Use %in% c("Less than 1 cigarette per week", "Less than 1 cigarette per day", "1-5 cigarettes per day", "6-10 cigarettes per day", "11-20 cigarettes per day", "More than 20 cigarettes per day") ~ "Smokers",
+    is.na(Tobacco.Use) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
+
 # Move the Tobacco.Use.Numeric column to the end
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Tobacco.Use.Numeric, .after = last_col())
+  relocate(Tobacco.Use.Numeric, Tobacco.Use_reduced, .after = last_col())
 
-print(class(data_with_outliers_removed$Tobacco.Use.Numeric))
+
+
 ```
 
 ### Remove all BMI under 15
@@ -208,6 +215,24 @@ removed_low_BMI_rows <- removed_low_BMI_rows %>%
 
 ### Codify education level
 ```{r}
+# Education Level Transformation
+# 
+# This code segment transforms the 'Level.of.Education' column in two ways:
+#
+# 1. Creates a numeric representation (Education_levels_numeric):
+#    - 0: Did not complete high school
+#    - 1: High school or equivalent
+#    - 2: Some post-secondary education (Technical certificate, Associate degree, Some college)
+#    - 3: Bachelor's degree
+#    - 4: Advanced degrees (Master's, PhD, Professional degrees)
+#
+# 2. Creates a binary categorization (education_harmonized):
+#    - "bachelor_or_higher": Bachelor's degree or higher
+#    - "below_bachelor": Less than a Bachelor's degree
+#    - "missing": NA values or any unclassified responses
+#
+# The code then reorganizes the dataframe to place the education columns at the end
+# and sorts the data by the numeric education level for easier verification.
 
 # Define the mapping for the education levels
 data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -220,17 +245,50 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
 
+# Create harmonized education variable
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(education_harmonized = case_when(
+    Level.of.Education %in% c("Bachelor’s degree", "Master’s degree", "Doctorate (PhD)", "Professional (MD, DO, DDS, JD)") ~ "bachelor_or_higher",
+    Level.of.Education %in% c("Did not complete high school", "High school or equivalent", "Technical or occupational certificate", "Associate degree", "Some college coursework completed") ~ "below_bachelor",
+    is.na(Level.of.Education) ~ "missing",
+    TRUE ~ "missing"  # Handles any other cases
+  ))
+
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Level.of.Education, .after = last_col())
+  relocate(Level.of.Education, education_harmonized, .after = last_col())
 
 # Sort for testing
-  data_with_outliers_removed <- data_with_outliers_removed %>%
+data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Education_levels_numeric)
 ```
 
+
 ### Codify alcohol level
 ```{r}
+# Alcohol Consumption Data Processing and Coding
+# 
+# This section processes alcohol consumption data by creating numeric and categorical encodings:
+# 
+# 1. **Numeric Encoding**: Converts categorical alcohol consumption levels to numeric values:
+#    - "Never" → 0
+#    - "On special occasions" → 1  
+#    - "Once per week" → 2
+#    - "3-5 times per week" → 3
+#    - "Regularly" → 4
+#    - Missing/other values → NA
+# 
+# 2. **Binary Categorization**: Creates a simplified binary variable:
+#    - "No alcohol": Never consume alcohol
+#    - "Some alcohol": Any level of alcohol consumption
+#    - "Missing": NA or unrecognized values
+# 
+# 3. **Data Organization**: 
+#    - Relocates alcohol-related variables to the end of the dataset for easier inspection
+#    - Sorts the dataset by the numeric alcohol variable for validation and testing
+# 
+# The code uses dplyr functions (mutate, case_when, relocate, arrange) to transform
+# the original categorical alcohol consumption data into more analysis-friendly formats.
 unique(data_with_outliers_removed$Alcohol.per.week)
 
 # Load the dplyr package
@@ -246,15 +304,26 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     Alcohol.per.week == "Regularly" ~ 4,
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
+
+# Create reduced alcohol variable with 2 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(alcohol_reduced = case_when(
+    Alcohol.per.week == "Never" ~ "No alcohol",
+    Alcohol.per.week %in% c("On special occasions", "Once per week", "3-5 times per week", "Regularly") ~ "Some alcohol",
+    is.na(Alcohol.per.week) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
+
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Alcohol.per.week, .after = last_col())
+  relocate(Alcohol.per.week, alcohol_reduced, .after = last_col())
 
 # Sort for testing
-  data_with_outliers_removed <- data_with_outliers_removed %>%
+data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Alcohol_per_week_numeric)
 
 ```
+
 
 ### Codify exercise per week
 ```{r}
@@ -273,9 +342,19 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     Exercise.per.week == "8 or more times per week" ~ 4,
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
+
+# Create reduced exercise variable with 2 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(exercise_reduced = case_when(
+    Exercise.per.week == "Never" ~ "No exercise",
+    Exercise.per.week %in% c("1-2 times per week", "3-4 times per week", "5-7 times per week", "8 or more times per week") ~ "Some exercise",
+    is.na(Exercise.per.week) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
+
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Exercise.per.week, .after = last_col())
+  relocate(Exercise.per.week, exercise_reduced, .after = last_col())
 
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -283,57 +362,6 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ```
 
-
-### Codify Caffeine.Use
-```{r}
-unique(data_with_outliers_removed$Caffeine.Use)
-
-# Load the dplyr package
-p_load(dplyr)
-
-# Define the mapping for the Caffeine.Use consumption levels
-data_with_outliers_removed <- data_with_outliers_removed %>%
-  mutate(Caffeine.Use_numeric = case_when(
-    Caffeine.Use == "Never" ~ 0,
-    Caffeine.Use == "On special occasions" ~ 1,
-    Caffeine.Use == "Once per week" ~ 2,
-    Caffeine.Use == "Regularly" ~ 3,
-    TRUE ~ NA_real_  # Handles any other cases or NA values
-  ))
-# Check which rows where altered for testing
-data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Caffeine.Use, .after = last_col())
-
-# Sort for testing
-  data_with_outliers_removed <- data_with_outliers_removed %>%
-  arrange(Caffeine.Use_numeric)
-
-```
-
-
-### Codify Sexual.Frequency
-```{r}
-unique(data_with_outliers_removed$Sexual.Frequency)
-
-# Load the dplyr package
-p_load(dplyr)
-
-data_with_outliers_removed <- data_with_outliers_removed %>%
-  mutate(Sexual.Frequency_numeric = case_when(
-    Sexual.Frequency == "Inactive" ~ 0,
-    Sexual.Frequency == "Occasionally" ~ 1,
-    Sexual.Frequency == "Regularly" ~ 2,
-    TRUE ~ NA_real_  # Handles any other cases or NA values
-  ))
-# Check which rows where altered for testing
-data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Sexual.Frequency, .after = last_col())
-
-# Sort for testing
-  data_with_outliers_removed <- data_with_outliers_removed %>%
-  arrange(Sexual.Frequency_numeric)
-
-```
 
 
 ### Codify Marital.Status
@@ -354,15 +382,22 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
   
+# Create reduced marital status variable with 2 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(marital_status_reduced = case_when(
+    Marital.Status %in% c("Married", "Partner") ~ "In a relationship",
+    Marital.Status %in% c("Single", "Divorced", "Widowed", "Separated") ~ "Not in a relationship",
+    is.na(Marital.Status) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
+  
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Marital.Status, .after = last_col())
+  relocate(Marital.Status, marital_status_reduced, .after = last_col())
 
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
   arrange(Marital.Status_numeric)
-
-
 ```
 
 ### Codify Hours.of.sleep.per.night
@@ -379,10 +414,19 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     Hours.of.sleep.per.night == "More than 8 hours" ~ 2,
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
+
+# Create reduced sleep hours variable with 2 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(sleep_hours_reduced = case_when(
+    Hours.of.sleep.per.night %in% c("6 hours or less", "6 to 8 hours") ~ "Less than 8 hours",
+    Hours.of.sleep.per.night == "More than 8 hours" ~ "More than 8 hours",
+    is.na(Hours.of.sleep.per.night) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
   
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Hours.of.sleep.per.night, .after = last_col())
+  relocate(Hours.of.sleep.per.night, sleep_hours_reduced, .after = last_col())
 
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
@@ -406,15 +450,34 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
     Feel.Well.Rested.days.per.week == "6-7 days" ~ 3,
     TRUE ~ NA_real_  # Handles any other cases or NA values
   ))
+
+# Create reduced well-rested variable with 2 categories
+data_with_outliers_removed <- data_with_outliers_removed %>%
+  mutate(well_rested_reduced = case_when(
+    Feel.Well.Rested.days.per.week %in% c("0-1 days", "1-3 days") ~ "3 days or less",
+    Feel.Well.Rested.days.per.week %in% c("3-5 days", "6-7 days") ~ "More than 3 days",
+    is.na(Feel.Well.Rested.days.per.week) ~ "Missing",
+    TRUE ~ "Missing"
+  ))
+
+# Print percentage of each category
+cat("=== Feel.Well.Rested.days.per.week Distribution ===\n")
+freq_table <- table(data_with_outliers_removed$Feel.Well.Rested.days.per.week, useNA = "ifany")
+percentages <- round(prop.table(freq_table) * 100, 2)
+
+for (i in 1:length(percentages)) {
+  category <- names(percentages)[i]
+  if (is.na(category)) category <- "Missing"
+  cat("  ", category, ": ", percentages[i], "% (n = ", freq_table[i], ")\n", sep = "")
+}
   
 # Check which rows where altered for testing
 data_with_outliers_removed <- data_with_outliers_removed %>%
-  relocate(Feel.Well.Rested.days.per.week, .after = last_col())
+  relocate(well_rested_reduced, .after = last_col())
 
 # Sort for testing
   data_with_outliers_removed <- data_with_outliers_removed %>%
-  arrange(Feel.Well.Rested.days.per.week_numeric)
-
+  arrange(well_rested_reduced)
 
 ```
 
@@ -487,72 +550,6 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ### Harmonize diet
 ```{r}
-
-# Harmonize diet variables
-
-# Split data by survey version
-data_survey1 <- data_with_outliers_removed %>% 
-  filter(survey_version == 1)
-
-data_survey2 <- data_with_outliers_removed %>% 
-  filter(survey_version == 2)
-
-data_survey3 <- data_with_outliers_removed %>% 
-  filter(survey_version == 3)
-
-# Calculate percentage of missing values for each dataset
-calculate_missing_percentage <- function(df, columns) {
-  result <- sapply(columns, function(col) {
-    missing_count <- sum(is.na(df[[col]]))
-    total_count <- nrow(df)
-    return(missing_count / total_count * 100)
-  })
-  return(result)
-}
-
-diet_columns <- c("Primary.Diet.Past.Year", "Main.Diet.Factor", "Main.Diet")
-
-# Print results
-cat("Survey Version 1 (n =", nrow(data_survey1), "):\n")
-print(calculate_missing_percentage(data_survey1, diet_columns))
-
-cat("\nSurvey Version 2 (n =", nrow(data_survey2), "):\n")
-print(calculate_missing_percentage(data_survey2, diet_columns))
-
-cat("\nSurvey Version 3 (n =", nrow(data_survey3), "):\n")
-print(calculate_missing_percentage(data_survey3, diet_columns))
-
-# Print levels of each diet column
-cat("\n\nLevels for each diet column:\n")
-for (col in diet_columns) {
-  cat("\n", col, ":\n")
-  if (col %in% names(data_with_outliers_removed)) {
-    if (is.factor(data_with_outliers_removed[[col]])) {
-      print(levels(data_with_outliers_removed[[col]]))
-    } else {
-      print(unique(data_with_outliers_removed[[col]]))
-    }
-  } else {
-    cat("Column not found in dataset\n")
-  }
-}
-
-# Print table counts for each diet column
-cat("\n\nFrequency table for each diet column:\n")
-for (col in diet_columns) {
-  cat("\n", col, ":\n")
-  if (col %in% names(data_with_outliers_removed)) {
-    print(table(data_with_outliers_removed[[col]], useNA = "ifany"))
-  } else {
-    cat("Column not found in dataset\n")
-  }
-}
-
-
-```
-
-### Harmonize diet
-```{r}
 # Create harmonized diet variable
 # Diet Harmonization
 # The following code creates a harmonized diet classification variable by combining information from "Primary.Diet.Past.Year" and "Main.Diet.Factor" fields.
@@ -591,7 +588,7 @@ data_with_outliers_removed <- data_with_outliers_removed %>%
 
 ### Save Rdata
 ```{r}
-save(data_with_outliers_removed, file = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
+save(data_with_outliers_removed, file = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step3")
 
 ```
 
@@ -605,7 +602,7 @@ colnames(data_with_outliers_removed)
 # Plot outliers
 ```{r}
 # # Define the output directory
-# output_dir <- "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Visualization of outliers after removal"
+# output_dir <- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Visualization of outliers after removal"
 
 # # Create the output directory if it doesn't exist
 # if (!dir.exists(output_dir)) {
@@ -632,4 +629,27 @@ colnames(data_with_outliers_removed)
 #   dev.off()
 # }
 
+```
+
+### Analyze sleep hours distribution across survey versions
+```{r}
+# # Analyze Hours.of.sleep.per.night distribution by survey version
+# cat("=== Distribution of Hours.of.sleep.per.night by Survey Version ===\n")
+
+# for (survey_ver in 1:3) {
+#   survey_data <- data_with_outliers_removed %>% filter(survey_version == survey_ver)
+  
+#   if (nrow(survey_data) > 0) {
+#     freq_table <- table(survey_data$Hours.of.sleep.per.night, useNA = "ifany")
+#     percentages <- round(prop.table(freq_table) * 100, 2)
+    
+#     cat("\nSurvey Version", survey_ver, "(n =", nrow(survey_data), "):\n")
+    
+#     for (i in 1:length(percentages)) {
+#       category <- names(percentages)[i]
+#       if (is.na(category)) category <- "Missing"
+#       cat("  ", category, ": ", percentages[i], "% (n = ", freq_table[i], ")\n", sep = "")
+#     }
+#   }
+# }
 ```
