@@ -52,11 +52,6 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 # Metformin_analysis_Step10
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/Sensitivity_analysis_ethnicity_step_10.R")
 
-
-
-
-
-
-#
-
+# Metformin_analysis_Step10
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/create_suppl_excel_sheets_Step11.R")
 ```

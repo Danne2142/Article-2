@@ -7,6 +7,8 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
 
+
+
 # SURVEY 1
 print("Generate sensitivity analysis for survey 1")
 
@@ -117,7 +119,7 @@ results_only_males_survey3<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-  "sedentary_level_quartiles_numeric","Red.Meat.times.per.week", "Processed.Food.times.per.week", 
+  "sedentary_level_quartiles_numeric", "Processed.Food.times.per.week", 
   "Feel.Well.Rested.days.per.week", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_males,
@@ -139,7 +141,7 @@ results_only_females_survey3<-run_models(
   "spermidine"),
   lifestyle_covariates = c("Alcohol_per_week_numeric",  
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-  "sedentary_level_quartiles_numeric","Red.Meat.times.per.week", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
+  "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric"),
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_females,
   savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/",

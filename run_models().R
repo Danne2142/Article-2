@@ -1,5 +1,7 @@
 library(writexl)
 
+
+
 run_models <- function(imp_data,
 interventions = NULL,
 lifestyle_covariates = NULL,
@@ -139,7 +141,7 @@ no_p_filter_metformin = FALSE) {
     print("Run model 3 SD")
     model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     DunedinPACE_model3_z <- subset(model3_DunedinPACE, term %in% interventions_large_p)
-    # write_xlsx(DunedinPACE_model3_z, paste0(savePath,"DunedinPACE_model3_z", suffix))
+    # write_xlsx(model3_DunedinPACE, paste0(savePath,"DunedinPACE_model3_z", suffix))
     model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
     GrimAge_model3_z <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
     # write_xlsx(GrimAge_model3_z, paste0(savePath,"GrimAge_model3_z", suffix))

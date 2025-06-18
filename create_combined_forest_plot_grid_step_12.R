@@ -1,10 +1,34 @@
 library(pacman)
 p_load(ggplot2, gridExtra, grid, png, jpeg)
 
+# CUSTOMIZABLE CROPPING SETTING
+# Set the number of pixels to crop from the RIGHT side of each input PNG
+# Change this single number to adjust cropping for all plots
+CROP_RIGHT_PIXELS <- 700  # Set to 0 for no cropping, or any positive number for cropping
+
 # Function to load and prepare plots for grid arrangement
 load_plot_image <- function(filepath) {
   if (file.exists(filepath)) {
     img <- readPNG(filepath)
+    
+    # Apply cropping if specified
+    if (CROP_RIGHT_PIXELS > 0) {
+      # Get image dimensions
+      img_width <- dim(img)[2]
+      img_height <- dim(img)[1]
+      
+      # Calculate new width after cropping
+      new_width <- img_width - CROP_RIGHT_PIXELS
+      
+      # Only crop if we have enough pixels to crop
+      if (new_width > 0) {
+        # Crop from the right side (keep columns 1 to new_width)
+        img <- img[, 1:new_width, , drop = FALSE]
+      } else {
+        warning(paste("Cannot crop", CROP_RIGHT_PIXELS, "pixels from image", filepath, "- image too small"))
+      }
+    }
+    
     return(rasterGrob(img, interpolate = TRUE))
   } else {
     warning(paste("File not found:", filepath))
@@ -62,7 +86,7 @@ create_combined_forest_plot <- function() {
 # Function to add letter labels to each subplot
 add_labels_to_grid <- function() {
   # Create the main combined plot
-  png("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/combined_forest_plot_grid.png", 
+  png("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png", 
       width = 12, height = 18, units = "in", res = 300)
   
   # Set up the layout - 3 rows, 2 columns
@@ -105,6 +129,26 @@ create_labeled_forest_plot_grid <- function() {
   for (i in 1:length(plot_paths)) {
     if (file.exists(plot_paths[[i]])) {
       img <- image_read(plot_paths[[i]])
+      
+      # Apply cropping if specified
+      if (CROP_RIGHT_PIXELS > 0) {
+        # Get image dimensions
+        img_info <- image_info(img)
+        img_width <- img_info$width
+        img_height <- img_info$height
+        
+        # Calculate new width after cropping
+        new_width <- img_width - CROP_RIGHT_PIXELS
+        
+        # Only crop if we have enough pixels to crop
+        if (new_width > 0) {
+          # Crop from the right side using magick
+          img <- image_crop(img, paste0(new_width, "x", img_height, "+0+0"))
+        } else {
+          warning(paste("Cannot crop", CROP_RIGHT_PIXELS, "pixels from image", plot_paths[[i]], "- image too small"))
+        }
+      }
+      
       plot_images[[i]] <- img
     }
   }
@@ -142,7 +186,7 @@ create_labeled_forest_plot_grid <- function() {
       )
     
     # Save the plot
-    ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/combined_forest_plot_grid.png", 
+    ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/main_models_results.png", 
            final_plot, width = 12, height = 18, dpi = 300, bg = "white")
     
     return(final_plot)
@@ -172,4 +216,4 @@ tryCatch({
 })
 
 print("Script completed. Check the output file at:")
-print("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/combined_forest_plot_grid.png")
+print("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png")

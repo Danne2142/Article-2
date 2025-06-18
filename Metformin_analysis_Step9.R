@@ -182,6 +182,13 @@ OMICmAge_model3<-rbind(OMICmAge_model3_all_groups_z, OMICmAge_model3_only_diabet
 
 
 #model3
+# Save meta-analysis tables
+write_xlsx(meta_DunedinPACE_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_DunedinPACE_model3_only_z_table.xlsx"))
+write_xlsx(meta_OMICmAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_OMICmAge_model3_only_z_table.xlsx"))
+write_xlsx(meta_GrimAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_GrimAge_model3_only_z_table.xlsx"))
+
+
+
 p <- forest_plot_fusion_metformin(GrimAge_model3, DunedinPACE_model3, OMICmAge_model3,
                                 source_names = c("GrimAge_model3", "DunedinPACE_model3", "OMICmAge_model3"),
                                 color_values = c("red", "blue", "green"),
