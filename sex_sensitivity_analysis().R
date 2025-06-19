@@ -3,7 +3,7 @@ p_load(mice, writexl)
 
 
 
-sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
+sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
 
   # SURVEY 1
   print("Generate sensitivity analysis for survey 1")
@@ -18,7 +18,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df1_imputed_survey1_only_males<-complete(imputed_data, 1)
   
   results_only_males_survey1<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv1,
     lifestyle_covariates = lifestyle_covariates_surv_1,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey1_only_males,
@@ -35,7 +35,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df1_imputed_survey1_only_females<-complete(imputed_data, 1)
   
   results_only_females_survey1<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv1,
     lifestyle_covariates = lifestyle_covariates_surv_1,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey1_only_females,
@@ -56,7 +56,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df2_imputed_survey2_only_males<-complete(imputed_data, 2)
   
   results_only_males_survey2<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv2,
     lifestyle_covariates = lifestyle_covariates_surv_2,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey2_only_males,
@@ -73,7 +73,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df2_imputed_survey2_only_females<-complete(imputed_data, 2)
   
   results_only_females_survey2<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv2,
     lifestyle_covariates = lifestyle_covariates_surv_2,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey2_only_females,
@@ -94,7 +94,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df3_imputed_survey3_only_males<-complete(imputed_data, 3)
   
   results_only_males_survey3<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv3,
     lifestyle_covariates = lifestyle_covariates_surv_3,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey3_only_males,
@@ -111,7 +111,7 @@ sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_
   df3_imputed_survey3_only_females<-complete(imputed_data, 3)
   
   results_only_females_survey3<-run_models(
-    interventions = interventions_to_use,
+    interventions = interventions_surv3,
     lifestyle_covariates = lifestyle_covariates_surv_3,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey3_only_females,

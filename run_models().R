@@ -6,7 +6,8 @@ lifestyle_covariates = NULL,
 covariates_to_always_include = NULL,
 savePath = NULL,
 suffix = "_survey_and_model_not_specified",
-no_p_filter_metformin = FALSE,
+p_filter = "none",
+use_p_filters = FALSE,
 save_raw_excel = FALSE,
 save_z_excel = FALSE) {
   
@@ -18,7 +19,8 @@ save_z_excel = FALSE) {
   # Check that the column values are compatible with analysis
   inspect_columns(complete(imp_data, 1), c(interventions, lifestyle_covariates, covariates_to_always_include))
   
-  print("Run model1 to select significant variables")
+
+  print("Run model1")
 
      # Model1 
   combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
@@ -68,24 +70,32 @@ save_z_excel = FALSE) {
   #                                        color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
   # gg# save(paste0(savePath,"fused_model1SD_plot", suffix, ".png"), plot = fused_plot_model1)
 
-  if(no_p_filter_metformin== TRUE) {
+  if(p_filter == "use_p_filters_but_exclude_metformin") {
+    print("Run p filter on interventions and lifestyle covariates but exclude metformin")
   lifestyle_covariates_updated <- remove_terms_if_p_large(
     lifestyle_covariates,
     list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
   
-  interventions_large_p <- remove_terms_if_p_large(
+  interventions_small_p <- remove_terms_if_p_large(
     interventions, variables_to_exclude = c("Metformin_new"),
     list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
   
-  }
-  else {
+  } else if(p_filter == "all") {
+  print("Run p filter on interventions and lifestyle covariates")
   lifestyle_covariates_updated <- remove_terms_if_p_large(
     lifestyle_covariates,
     list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
   
-  interventions_large_p <- remove_terms_if_p_large(
-    interventions, 
+  interventions_small_p <- remove_terms_if_p_large(
+    interventions,
     list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
+  
+  } else if(p_filter == "none") {
+  print("Run without p filter on interventions and lifestyle covariates")       
+  lifestyle_covariates_updated <- lifestyle_covariates
+  interventions_small_p <- interventions
+  } else {
+    stop("p_filter must be one of 'use_p_filters_but_exclude_metformin', 'none', or 'all'.")
   }     
   
 
@@ -95,7 +105,7 @@ save_z_excel = FALSE) {
     print("Run model 2")
     combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                                outcome_vars=c("DunedinPACE", "GrimAge.PCAgeDev", "OMICmAgeAgeDev"), 
-                                               exposure_vars=interventions_large_p, 
+                                               exposure_vars=interventions_small_p, 
                                                covariate_vars=covariates_to_always_include)
     # p4 <- plot_forest(combined_results_df[["DunedinPACE"]], ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
     # gg# save(paste0(savePath,"DunedinPACE_model2_plot", suffix, ".png"), plot = p4)
@@ -117,7 +127,7 @@ save_z_excel = FALSE) {
     print("Run model 2 SD")
     combined_results_df <- model_exposure_wise(imputed_data=imp_data, 
                                                outcome_vars=c("DunedinPACE_z", "GrimAge.PCAgeDev_z", "OMICmAgeAgeDev_z"), 
-                                               exposure_vars=interventions_large_p, 
+                                               exposure_vars=interventions_small_p, 
                                                covariate_vars=covariates_to_always_include)
     DunedinPACE_model2_z <- combined_results_df[["DunedinPACE_z"]]
     GrimAge_model2_z <- combined_results_df[["GrimAge.PCAgeDev_z"]]
@@ -139,16 +149,16 @@ save_z_excel = FALSE) {
   
   ### model 3
     print("Run model 3")
-    model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    DunedinPACE_model3 <- subset(model3_DunedinPACE, term %in% interventions_large_p)
+    model3_DunedinPACE <- fit_imputed_lm(imp_data, outcome = "DunedinPACE", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    DunedinPACE_model3 <- subset(model3_DunedinPACE, term %in% interventions_small_p)
     # p7 <- plot_forest(DunedinPACE_model3, ylab ="Term", xlab = "Aging Pace (biological year/chronological year)")
     # gg# save(paste0(savePath,"DunedinPACE_model3_plot", suffix, ".png"), plot = p7)
-    model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    GrimAge_PCAgeDev_model3 <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_large_p)
+    model3_GrimAge_PCAgeDev <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    GrimAge_PCAgeDev_model3 <- subset(model3_GrimAge_PCAgeDev, term %in% interventions_small_p)
     # p8 <- plot_forest(GrimAge_PCAgeDev_model3, ylab ="Term", xlab = "Age Deviation (years)")
     # gg# save(paste0(savePath,"GrimAge_PCAgeDev_model3_plot", suffix, ".png"), plot = p8)
-    model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    OMICmAgeAgeDev_model3 <- subset(model3_OMICmAgeAgeDev, term %in% interventions_large_p)
+    model3_OMICmAgeAgeDev <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    OMICmAgeAgeDev_model3 <- subset(model3_OMICmAgeAgeDev, term %in% interventions_small_p)
     # p9 <- plot_forest(OMICmAgeAgeDev_model3, ylab ="Term", xlab = "Age Deviation (years)")
     # gg# save(paste0(savePath,"OMICmAgeAgeDev_model3_plot", suffix, ".png"), plot = p9)
     
@@ -161,12 +171,12 @@ save_z_excel = FALSE) {
   
   ### model 3 SD
     print("Run model 3 SD")
-    model3_DunedinPACE_z <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    DunedinPACE_model3_z <- subset(model3_DunedinPACE_z, term %in% interventions_large_p)
-    model3_GrimAge_PCAgeDev_z <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    GrimAge_model3_z <- subset(model3_GrimAge_PCAgeDev_z, term %in% interventions_large_p)
-    model3_OMICmAgeAgeDev_z <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev_z", exposures = interventions_large_p, covariates = covariates_to_always_include)
-    OMICmAge_model3_z <- subset(model3_OMICmAgeAgeDev_z, term %in% interventions_large_p)
+    model3_DunedinPACE_z <- fit_imputed_lm(imp_data, outcome = "DunedinPACE_z", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    DunedinPACE_model3_z <- subset(model3_DunedinPACE_z, term %in% interventions_small_p)
+    model3_GrimAge_PCAgeDev_z <- fit_imputed_lm(imp_data, outcome = "GrimAge.PCAgeDev_z", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    GrimAge_model3_z <- subset(model3_GrimAge_PCAgeDev_z, term %in% interventions_small_p)
+    model3_OMICmAgeAgeDev_z <- fit_imputed_lm(imp_data, outcome = "OMICmAgeAgeDev_z", exposures = interventions_small_p, covariates = covariates_to_always_include)
+    OMICmAge_model3_z <- subset(model3_OMICmAgeAgeDev_z, term %in% interventions_small_p)
 
     #save complete results
     if (save_z_excel) {
@@ -229,7 +239,9 @@ save_z_excel = FALSE) {
   #Package all results which the function will return
   surv_results <- list(
       surv_results_raw = surv_results_raw,
-      surv_results_sd = surv_results_sd
+      surv_results_sd = surv_results_sd,
+      interventions_small_p = interventions_small_p,
+      lifestyle_covariates_updated = lifestyle_covariates_updated
   )
   
   return(surv_results)

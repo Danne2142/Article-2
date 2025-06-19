@@ -2,7 +2,7 @@ library(pacman)
 p_load(mice, writexl)
 
 
-age_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
+age_sensitivity_analysis <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
 
 # SURVEY 1
 print("Generate sensitivity analysis for survey 1")
@@ -17,7 +17,7 @@ imputed_survey1_only_younger <- imputed_data
 df1_imputed_survey1_only_younger<-complete(imputed_data, 1)
 
 results_only_younger_survey1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_younger,
@@ -34,7 +34,7 @@ imputed_survey1_only_older <- imputed_data
 df1_imputed_survey1_only_older<-complete(imputed_data, 1)
 
 results_only_older_survey1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_older,
@@ -55,7 +55,7 @@ imputed_survey2_only_younger <- imputed_data
 df2_imputed_survey2_only_younger<-complete(imputed_data, 2)
 
 results_only_younger_survey2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_younger,
@@ -72,7 +72,7 @@ imputed_survey2_only_older <- imputed_data
 df2_imputed_survey2_only_older<-complete(imputed_data, 2)
 
 results_only_older_survey2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_older,
@@ -93,7 +93,7 @@ imputed_survey3_only_younger <- imputed_data
 df3_imputed_survey3_only_younger<-complete(imputed_data, 3)
 
 results_only_younger_survey3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_younger,
@@ -110,7 +110,7 @@ imputed_survey3_only_older <- imputed_data
 df3_imputed_survey3_only_older<-complete(imputed_data, 3)
 
 results_only_older_survey3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_older,

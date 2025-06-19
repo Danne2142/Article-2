@@ -21,8 +21,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_all_groups.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_all_groups.xlsx"
 )
 
 #only_all_groups_results
@@ -45,8 +44,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_prediabetics_survey1.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_only_prediabetics_survey1.xlsx"
 )
 
 #only_prediabetes_results
@@ -72,8 +70,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_diabetes2_survey1.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_only_diabetes2_survey1.xlsx"
 )
 
 #only_diabetes2_results
@@ -98,8 +95,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_gestational_diabetes_survey1.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_only_gestational_diabetes_survey1.xlsx"
 )
 
 #only_gestational_diabetes_results
@@ -124,8 +120,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_healthy_survey1.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_only_healthy_survey1.xlsx"
 )
 # only_healthy_results
 GrimAge_model3_only_healthy_z<-results_surv1_only_healthy$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z
@@ -150,8 +145,7 @@ interventions = interventions_to_use,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_diabetes1_survey1.xlsx",
-no_p_filter_metformin=TRUE
+suffix = "_only_diabetes1_survey1.xlsx"
 )
 
 #only_diabetes1_results

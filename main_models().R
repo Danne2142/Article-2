@@ -9,7 +9,7 @@ p_load(mice)
 
 
 
-main_models <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
+main_models <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
 
 
 # Generate main models
@@ -38,13 +38,15 @@ df1_imp_data_surv1<-complete(imputed_data, 1)
 
 
 results_surv1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imp_data_surv1,
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey1_main.xlsx",
-  save_raw_excel = TRUE) 
+  save_raw_excel = TRUE,
+  p_filter = "all"
+) 
 
 print("Generate main models for surv 2")
 
@@ -56,13 +58,14 @@ df1_imp_data_surv2<-complete(imputed_data, 1)
 
 
 results_surv2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv2,
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey2_main.xlsx",
-  save_raw_excel = TRUE) 
+  save_raw_excel = TRUE,
+  p_filter = "all") 
 
 
 print("Generate main models for surv 3")
@@ -76,13 +79,14 @@ print(colnames(df1_imp_data_surv3))
 
 
 results_surv3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv3,
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey3_main.xlsx",
-  save_raw_excel = TRUE) 
+  save_raw_excel = TRUE,
+  p_filter = "all") 
 
 
 
@@ -331,28 +335,29 @@ p3 <- forestplot_fusion(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_
 print(p3)
 ggsave(filename = paste0(base_path, "Output/main_models_results/forest_plot_fusion_model3_z.png"), plot = p3)
 
+  #Package all results which the function will return
+  surv1 <- list(
+      interventions_small_p = results_surv1$interventions_small_p,
+      lifestyle_covariates_updated = results_surv1$lifestyle_covariates_updated
+  )
+
+  surv2 <- list(
+      interventions_small_p = results_surv2$interventions_small_p,
+      lifestyle_covariates_updated = results_surv2$lifestyle_covariates_updated
+  )
+  
+  surv3 <- list(
+      interventions_small_p = results_surv3$interventions_small_p,
+      lifestyle_covariates_updated = results_surv3$lifestyle_covariates_updated
+  )
+
+  p_filter_results <- list(
+    surv1 = surv1,
+    surv2 = surv2,
+    surv3 = surv3
+  )
+  
+  return(p_filter_results)
+
 }
 
-# lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
-
-# lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
-
-# lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
-
-# interventions <- c("Metformin_new", "NAD", "TA65", 
-#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
-#   "spermidine")
-
-
-# # Run the models
-# main_models(interventions_to_use = interventions, 
-#   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
-#   lifestyle_covariates_surv_2 = lifestyle_covariates_surv_2, 
-#   lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
-#   base_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")

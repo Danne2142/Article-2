@@ -7,7 +7,7 @@ p_load(mice, writexl)
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
 # source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
 
-sensitivity_analysis_ethnicity <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
+sensitivity_analysis_ethnicity <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
 
 # SURVEY 1
 print("Generate sensitivity analysis for survey 1")
@@ -22,7 +22,7 @@ imputed_survey1_only_european <- imputed_data
 df1_imputed_survey1_only_european<-complete(imputed_data, 1)
 
 results_only_european_survey1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_european,
@@ -39,7 +39,7 @@ imputed_survey1_only_asian <- imputed_data
 df1_imputed_survey1_only_asian<-complete(imputed_data, 1)
 
 results_only_asian_survey1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_asian,
@@ -56,7 +56,7 @@ imputed_survey1_only_other <- imputed_data
 df1_imputed_survey1_only_other<-complete(imputed_data, 1)
 
 results_only_other_survey1<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv1,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey1_only_other,
@@ -77,7 +77,7 @@ imputed_survey2_only_european <- imputed_data
 df2_imputed_survey2_only_european<-complete(imputed_data, 2)
 
 results_only_european_survey2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_european,
@@ -94,7 +94,7 @@ imputed_survey2_only_asian <- imputed_data
 df2_imputed_survey2_only_asian<-complete(imputed_data, 2)
 
 results_only_asian_survey2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_asian,
@@ -111,7 +111,7 @@ imputed_survey2_only_other <- imputed_data
 df2_imputed_survey2_only_other<-complete(imputed_data, 2)
 
 results_only_other_survey2<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv2,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey2_only_other,
@@ -132,7 +132,7 @@ imputed_survey3_only_european <- imputed_data
 df3_imputed_survey3_only_european<-complete(imputed_data, 3)
 
 results_only_european_survey3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_european,
@@ -149,7 +149,7 @@ imputed_survey3_only_asian <- imputed_data
 df3_imputed_survey3_only_asian<-complete(imputed_data, 3)
 
 results_only_asian_survey3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_asian,
@@ -166,7 +166,7 @@ imputed_survey3_only_other <- imputed_data
 df3_imputed_survey3_only_other<-complete(imputed_data, 3)
 
 results_only_other_survey3<-run_models(
-  interventions = interventions_to_use,
+  interventions = interventions_surv3,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age"),
   imp_data = imputed_survey3_only_other,
