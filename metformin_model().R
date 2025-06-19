@@ -1,28 +1,26 @@
-
 library(pacman)
 
 p_load(ggplot2, mice)
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion_metformin().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion_metformin().R")
+# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
 
+metformin_model <- function(interventions_to_use, lifestyle_covariates_surv_1, base_path){
 
 
 #All groups
 #surv 1
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_all_participants")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_all_participants"))
 
 results_surv1_all_groups<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_all_groups.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -38,17 +36,15 @@ DunedinPACE_model3_all_groups_z$group <- "all_groups"
 #Only prediabetic
 #surv 1 
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_only_prediabetics")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_prediabetics"))
 
 results_surv1_only_prediabetes<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_only_prediabetics_survey1.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -67,17 +63,15 @@ DunedinPACE_model3_prediabetes_z$group <- "only_prediabetes"
 #Only diabetes 2
 #surv 1 
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_only_diabetes2")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_diabetes2"))
 
 results_surv1_only_diabetes2<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_only_diabetes2_survey1.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -95,17 +89,15 @@ DunedinPACE_model3_only_diabetes2_z$group <- "only_diabetes2"
 #Only Gestational diabetes
 #surv 1 
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_only_gestational_diabetes")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_gestational_diabetes"))
 
 results_surv1_only_gestational_diabetes<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_only_gestational_diabetes_survey1.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -123,17 +115,15 @@ DunedinPACE_model3_only_gestational_diabetes_z$group <- "only_gestational_diabet
 #Only healthy
 #surv 1 
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_only_healthy(diabeteswise)")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_healthy(diabeteswise)"))
 
 results_surv1_only_healthy<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_only_healthy_survey1.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -151,17 +141,15 @@ DunedinPACE_model3_only_healthy_z$group <- "only_healthy"
 #Only diabetes 1
 #surv 1 
 # Load required data and set objects
-load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/imputation_results/imputed_survey1_only_diabetes1")
+load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_diabetes1"))
 
 results_surv1_only_diabetes1<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = c("Metformin_new"),
-lifestyle_covariates = c("Alcohol_per_week_numeric",  
-"Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-"Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric"),
+interventions = interventions_to_use,
+lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
-savePath = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/",
+savePath = paste0(base_path, "Output/metformin_analysis_results/"),
 suffix = "_only_diabetes1_survey1.xlsx",
 no_p_filter_metformin=TRUE
 )
@@ -180,15 +168,6 @@ DunedinPACE_model3<-rbind(DunedinPACE_model3_all_groups_z, DunedinPACE_model3_on
 OMICmAge_model3<-rbind(OMICmAge_model3_all_groups_z, OMICmAge_model3_only_diabetes1_z, OMICmAge_model3_only_diabetes2_z, OMICmAge_model3_only_gestational_diabetes_z, OMICmAge_model3_only_healthy_z, OMICmAge_model3_prediabetes_z)
 
 
-
-#model3
-# Save meta-analysis tables
-write_xlsx(meta_DunedinPACE_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_DunedinPACE_model3_only_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_OMICmAge_model3_only_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/", "meta_GrimAge_model3_only_z_table.xlsx"))
-
-
-
 p <- forest_plot_fusion_metformin(GrimAge_model3, DunedinPACE_model3, OMICmAge_model3,
                                 source_names = c("GrimAge_model3", "DunedinPACE_model3", "OMICmAge_model3"),
                                 color_values = c("red", "blue", "green"),
@@ -196,5 +175,27 @@ p <- forest_plot_fusion_metformin(GrimAge_model3, DunedinPACE_model3, OMICmAge_m
                                 plot_size = NULL)
 print(p)
 
-ggsave(filename = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/metformin_analysis_results/forest_plot_fusion_model3_z.png", plot = p)
+ggsave(filename = paste0(base_path, "Output/metformin_analysis_results/forest_plot_fusion_model3_z.png"), plot = p)
 
+}
+
+# lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+#   "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
+
+# lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
+
+# lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
+#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
+
+# interventions_metformin_analysis <- c("Metformin_new", "NAD", "TA65", 
+#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new")
+
+
+# # Run the models
+# metformin_model(interventions_to_use = interventions_metformin_analysis, 
+#   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
+#   base_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")

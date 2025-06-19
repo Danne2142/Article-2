@@ -1,13 +1,8 @@
 library(pacman)
 p_load(mice, writexl)
 
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
 
-age_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
+age_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
 
 # SURVEY 1
 print("Generate sensitivity analysis for survey 1")
@@ -22,7 +17,7 @@ imputed_survey1_only_younger <- imputed_data
 df1_imputed_survey1_only_younger<-complete(imputed_data, 1)
 
 results_only_younger_survey1<-run_models(
-  interventions = interventions_surv1,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_younger,
@@ -39,7 +34,7 @@ imputed_survey1_only_older <- imputed_data
 df1_imputed_survey1_only_older<-complete(imputed_data, 1)
 
 results_only_older_survey1<-run_models(
-  interventions = interventions_surv1,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_1,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey1_only_older,
@@ -60,7 +55,7 @@ imputed_survey2_only_younger <- imputed_data
 df2_imputed_survey2_only_younger<-complete(imputed_data, 2)
 
 results_only_younger_survey2<-run_models(
-  interventions = interventions_surv2_3,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_younger,
@@ -77,7 +72,7 @@ imputed_survey2_only_older <- imputed_data
 df2_imputed_survey2_only_older<-complete(imputed_data, 2)
 
 results_only_older_survey2<-run_models(
-  interventions = interventions_surv2_3,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_2,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey2_only_older,
@@ -98,7 +93,7 @@ imputed_survey3_only_younger <- imputed_data
 df3_imputed_survey3_only_younger<-complete(imputed_data, 3)
 
 results_only_younger_survey3<-run_models(
-  interventions = interventions_surv2_3,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_younger,
@@ -115,7 +110,7 @@ imputed_survey3_only_older <- imputed_data
 df3_imputed_survey3_only_older<-complete(imputed_data, 3)
 
 results_only_older_survey3<-run_models(
-  interventions = interventions_surv2_3,
+  interventions = interventions_to_use,
   lifestyle_covariates = lifestyle_covariates_surv_3,
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imputed_survey3_only_older,
@@ -206,37 +201,3 @@ print(p2)
 ggsave(filename = paste0(base_path, "Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_older_z.png"), plot = p2)
 
 }
-
-# # Define lifestyle covariates for each survey
-# lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
-
-# lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
-
-# lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
-
-# # Define interventions for survey 1 (has additional interventions)
-# interventions_surv1 <- c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
-#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
-#   "HRT", "spermidine")
-
-# # Define interventions for surveys 2 and 3
-# interventions_surv2_3 <- c("Metformin_new", "NAD", "TA65", 
-#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
-#   "spermidine")
-
-# # Run the age sensitivity analysis
-# age_sensitivity_analysis(
-#   interventions_surv1 = interventions_surv1,
-#   interventions_surv2_3 = interventions_surv2_3,
-#   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
-#   lifestyle_covariates_surv_2 = lifestyle_covariates_surv_2, 
-#   lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
-#   base_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")
-
-

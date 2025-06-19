@@ -3,7 +3,7 @@ p_load(mice, writexl)
 
 
 
-sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
+sex_sensitivity_analysis <- function(interventions_to_use, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path) {
 
   # SURVEY 1
   print("Generate sensitivity analysis for survey 1")
@@ -18,7 +18,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df1_imputed_survey1_only_males<-complete(imputed_data, 1)
   
   results_only_males_survey1<-run_models(
-    interventions = interventions_surv1,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_1,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey1_only_males,
@@ -35,7 +35,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df1_imputed_survey1_only_females<-complete(imputed_data, 1)
   
   results_only_females_survey1<-run_models(
-    interventions = interventions_surv1,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_1,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey1_only_females,
@@ -56,7 +56,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df2_imputed_survey2_only_males<-complete(imputed_data, 2)
   
   results_only_males_survey2<-run_models(
-    interventions = interventions_surv2_3,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_2,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey2_only_males,
@@ -73,7 +73,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df2_imputed_survey2_only_females<-complete(imputed_data, 2)
   
   results_only_females_survey2<-run_models(
-    interventions = interventions_surv2_3,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_2,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey2_only_females,
@@ -94,7 +94,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df3_imputed_survey3_only_males<-complete(imputed_data, 3)
   
   results_only_males_survey3<-run_models(
-    interventions = interventions_surv2_3,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_3,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey3_only_males,
@@ -111,7 +111,7 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   df3_imputed_survey3_only_females<-complete(imputed_data, 3)
   
   results_only_females_survey3<-run_models(
-    interventions = interventions_surv2_3,
+    interventions = interventions_to_use,
     lifestyle_covariates = lifestyle_covariates_surv_3,
     covariates_to_always_include=c("Decimal.Chronological.Age"),
     imp_data = imputed_survey3_only_females,
@@ -203,36 +203,4 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2_3,
   print(p2)
   ggsave(filename = paste0(base_path, "Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_females_z.png"), plot = p2)
 }
-
-# # Define parameters
-# interventions_surv1 <- c("Rapamycin_new", "Metformin_new", "fasting", "NAD", "TA65", 
-#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "Exosomes", 
-#   "HRT", "spermidine")
-
-# interventions_surv2_3 <- c("Metformin_new", "NAD", "TA65", 
-#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
-#   "spermidine")
-
-# lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
-
-# lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
-
-# lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
-#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
-
-# # Run the sex sensitivity analysis
-# sex_sensitivity_analysis(
-#   interventions_surv1 = interventions_surv1,
-#   interventions_surv2_3 = interventions_surv2_3,
-#   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1,
-#   lifestyle_covariates_surv_2 = lifestyle_covariates_surv_2,
-#   lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
-#   base_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/"
-# )
-
 

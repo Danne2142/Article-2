@@ -1,11 +1,11 @@
 library(pacman)
 p_load(mice)
 
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/plot_forest().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/MetaAnalyse().R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/modelingFunctions.R")
 
 
 
@@ -43,7 +43,8 @@ results_surv1<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex"),
   imp_data = imp_data_surv1,
   savePath = paste0(base_path, "Output/main_models_results/"),
-  suffix = "_survey1_main.xlsx") 
+  suffix = "_survey1_main.xlsx",
+  save_raw_excel = TRUE) 
 
 print("Generate main models for surv 2")
 
@@ -60,7 +61,8 @@ results_surv2<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv2,
   savePath = paste0(base_path, "Output/main_models_results/"),
-  suffix = "_survey2_main.xlsx") 
+  suffix = "_survey2_main.xlsx",
+  save_raw_excel = TRUE) 
 
 
 print("Generate main models for surv 3")
@@ -79,7 +81,8 @@ results_surv3<-run_models(
   covariates_to_always_include=c("Decimal.Chronological.Age", "Biological.Sex" ),
   imp_data = imp_data_surv3,
   savePath = paste0(base_path, "Output/main_models_results/"),
-  suffix = "_survey3_main.xlsx") 
+  suffix = "_survey3_main.xlsx",
+  save_raw_excel = TRUE) 
 
 
 
@@ -330,26 +333,26 @@ ggsave(filename = paste0(base_path, "Output/main_models_results/forest_plot_fusi
 
 }
 
-lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
-  "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-  "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
+# lifestyle_covariates_surv_1 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+#   "Exercise.per.week_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "BMI",  "Marital.Status_numeric", "Hours.of.sleep.per.night_numeric")
 
-lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
-  "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
-  "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
+# lifestyle_covariates_surv_2 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", 
+#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Feel.Well.Rested.days.per.week_numeric")
 
-lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
-  "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
-  "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
+# lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",  
+#   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
+#   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
 
-interventions <- c("Metformin_new", "NAD", "TA65", 
-  "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
-  "spermidine")
+# interventions <- c("Metformin_new", "NAD", "TA65", 
+#   "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", 
+#   "spermidine")
 
 
-# Run the models
-main_models(interventions_to_use = interventions, 
-  lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
-  lifestyle_covariates_surv_2 = lifestyle_covariates_surv_2, 
-  lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
-  base_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")
+# # Run the models
+# main_models(interventions_to_use = interventions, 
+#   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
+#   lifestyle_covariates_surv_2 = lifestyle_covariates_surv_2, 
+#   lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
+#   base_path = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")
