@@ -44,7 +44,7 @@ save_z_excel = FALSE) {
   #save complete results
   if (save_raw_excel) {
     model1_all_coefficients <- rbind(DunedinPACE_model1, GrimAge_PCAgeDev_model1, OMICmAgeAgeDev_model1)
-    write_xlsx(model1_all_coefficients, paste0(savePath, "model1_all_coefficients", suffix))
+    write_xlsx(model1_all_coefficients, paste0(savePath, "model1_raw_all_coefficients", suffix))
   }
 
   ### model 1 SD 
@@ -120,7 +120,7 @@ save_z_excel = FALSE) {
     #save complete results
     if (save_raw_excel) {
       model2_all_coefficients <- rbind(DunedinPACE_model2, GrimAge_PCAgeDev_model2, OMICmAgeAgeDev_model2)
-      write_xlsx(model2_all_coefficients, paste0(savePath, "model2_all_coefficients", suffix))
+      write_xlsx(model2_all_coefficients, paste0(savePath, "model2_raw_all_coefficients", suffix))
     }
   
   ### model 2 SD 
@@ -165,7 +165,7 @@ save_z_excel = FALSE) {
     #save complete results
     if (save_raw_excel) {
       model3_all_coefficients <- rbind(model3_DunedinPACE, model3_GrimAge_PCAgeDev, model3_OMICmAgeAgeDev)
-      write_xlsx(model3_all_coefficients, paste0(savePath, "model3_all_coefficients", suffix))
+      write_xlsx(model3_all_coefficients, paste0(savePath, "model3_raw_all_coefficients", suffix))
     }
     
   

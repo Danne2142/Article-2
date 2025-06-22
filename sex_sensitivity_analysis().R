@@ -148,10 +148,9 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2, i
       model_name = "GrimAge_PC_model3_only_males_z")
   
   # Save meta-analysis tables males
-  write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_DunedinPACE_model3_only_males_z_table.xlsx"))
-  write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_OMICmAge_model3_only_males_z_table.xlsx"))
-  write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_GrimAge_model3_only_males_z_table.xlsx"))
-  
+  model3_males_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_males_meta, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_model3_only_males_z_table.xlsx"))
+
   
   
   #Plot males
@@ -189,11 +188,11 @@ sex_sensitivity_analysis <- function(interventions_surv1, interventions_surv2, i
   
   
   # Save meta-analysis tables females
-  write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_DunedinPACE_model3_only_females_z_table.xlsx"))
-  write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_OMICmAge_model3_only_females_z_table.xlsx"))
-  write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_GrimAge_model3_only_females_z_table.xlsx"))
-  
-  
+  model3_females_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_females_meta, paste0(base_path, "Output/sex_sensitivity_analysis/", "meta_model3_only_females_z_table.xlsx"))
+
+
+
   #Plot females
   p2 <- forestplot_fusion(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z,
                                   source_names = c("meta_DunedinPACE_model3_z", "meta_OMICmAge_model3_z", "meta_GrimAge_model3_z"),

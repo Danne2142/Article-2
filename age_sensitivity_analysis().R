@@ -146,9 +146,8 @@ meta_GrimAge_model3_z<-MetaAnalyse(
     model_name = "GrimAge_PC_model3_only_younger_z")
 
 # Save meta-analysis tables younger
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_DunedinPACE_model3_only_younger_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_OMICmAge_model3_only_younger_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_GrimAge_model3_only_younger_z_table.xlsx"))
+  model3_younger_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_younger_meta, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_model3_only_younger_z_table.xlsx"))
 
 
 #Plot younger
@@ -185,10 +184,8 @@ meta_GrimAge_model3_z<-MetaAnalyse(
     model_name = "GrimAge_model3_only_older_z")
 
 # Save meta-analysis tables older
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_DunedinPACE_model3_only_older_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_OMICmAge_model3_only_older_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_GrimAge_model3_only_older_z_table.xlsx"))
-
+model3_older_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+write_xlsx(model3_older_meta, paste0(base_path, "Output/age_sensitivity_analysis/", "meta_model3_only_older_z_table.xlsx"))
 
 
 #Plot older

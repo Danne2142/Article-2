@@ -39,8 +39,8 @@ load_plot_image <- function(filepath) {
 # Define the paths to all forest plot figures
 plot_paths <- list(
   # Sex sensitivity analysis
-  males = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_males_z.png",
-  females = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_females_z.png",
+  men = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_males_z.png",
+  women = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_females_z.png",
   
   # Age sensitivity analysis
   younger = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_younger_z.png",
@@ -54,7 +54,7 @@ plot_paths <- list(
 # Load all plot images
 plot_grobs <- list()
 plot_labels <- c("A", "B", "C", "D", "E", "F")
-plot_titles <- c("Males", "Females", "Younger", "Older", "European", "Asian")
+plot_titles <- c("Men", "Women", "Younger", "Older", "European", "Asian")
 
 for (i in 1:length(plot_paths)) {
   grob <- load_plot_image(plot_paths[[i]])
@@ -73,7 +73,7 @@ create_combined_forest_plot <- function() {
   combined_plot <- grid.arrange(
     grobs = plot_grobs,
     ncol = 2,  # 2 columns (Sex, Age, Ethnicity pairs)
-    nrow = 3,  # 3 rows (Males/Females, Younger/Older, European/Asian)
+    nrow = 3,  # 3 rows (Men/Women, Younger/Older, European/Asian)
     top = textGrob("Forest Plots: Sensitivity Analysis by Subgroups", 
                    gp = gpar(fontsize = 16, fontface = "bold")),
     bottom = textGrob("Model 3 Results for DunedinPACE, OMICmAge, and GrimAge", 
@@ -186,7 +186,7 @@ create_labeled_forest_plot_grid <- function() {
       )
     
     # Save the plot
-    ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/main_models_results.png", 
+    ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_plot.png", 
            final_plot, width = 12, height = 18, dpi = 300, bg = "white")
     
     return(final_plot)

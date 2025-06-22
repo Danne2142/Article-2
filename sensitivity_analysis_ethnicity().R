@@ -202,9 +202,8 @@ meta_GrimAge_model3_z<-MetaAnalyse(
     model_name = "GrimAge_PC_model3_only_european_z")
 
 # Save meta-analysis tables European
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_DunedinPACE_model3_only_european_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_OMICmAge_model3_only_european_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_GrimAge_model3_only_european_z_table.xlsx"))
+  model3_european_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_european_meta, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_model3_only_european_z_table.xlsx"))
 
 
 #Plot European
@@ -240,9 +239,9 @@ meta_GrimAge_model3_z<-MetaAnalyse(
     model_name = "GrimAge_model3_only_asian_z")
 
 # Save meta-analysis tables Asian
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_DunedinPACE_model3_only_asian_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_OMICmAge_model3_only_asian_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_GrimAge_model3_only_asian_z_table.xlsx"))
+  model3_asian_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_asian_meta, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_model3_only_asian_z_table.xlsx"))
+
 
 
 #Plot Asian
@@ -279,9 +278,8 @@ meta_GrimAge_model3_z<-MetaAnalyse(
 
 
 # Save meta-analysis tables Other  
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_DunedinPACE_model3_only_other_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_OMICmAge_model3_only_other_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_GrimAge_model3_only_other_z_table.xlsx"))
+  model3_other_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+  write_xlsx(model3_other_meta, paste0(base_path, "Output/ethnicity_sensitivity_analysis/", "meta_model3_only_other_z_table.xlsx"))
 
 
 #Plot Other

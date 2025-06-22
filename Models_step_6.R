@@ -26,7 +26,7 @@ lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",
   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
 
 interventions <- c("Metformin_new", "NAD", "TA65", 
-  "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new")
+  "sulforaphane", "SASP_supressors", "Resveratrol_new", "vitaminD","SASP_supressors", "TA65", "vitaminD")
 
 path<- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/"
 
@@ -40,6 +40,7 @@ main_models_p_filter_results <- main_models(
   lifestyle_covariates_surv_3 = lifestyle_covariates_surv_3,
   base_path = path)
 
+#Update the interventions and lifestyle covariates for the sensitivity analyses according to p-filters in the main models
 interventions_small_p_surv1<-main_models_p_filter_results$surv1$interventions_small_p
 interventions_small_p_surv2<-main_models_p_filter_results$surv2$interventions_small_p
 interventions_small_p_surv3<-main_models_p_filter_results$surv3$interventions_small_p
@@ -68,7 +69,7 @@ age_sensitivity_analysis(
   lifestyle_covariates_surv_3 = lifestyle_covariates_small_p_surv_3,
   base_path = path)
 
-# Run the sensitivity analysis
+# Run the ethnicity sensitivity analysis
 sensitivity_analysis_ethnicity(
   interventions_surv1 = interventions_small_p_surv1,
   interventions_surv2 = interventions_small_p_surv2,
@@ -80,7 +81,7 @@ sensitivity_analysis_ethnicity(
 
 
 interventions_metformin_analysis <- c("Metformin_new", "NAD", "TA65", 
-  "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new")
+  "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "HRT")
 
 
 # Run the models

@@ -165,53 +165,53 @@ meta_model3_GrimAge_PCAgeDev<-MetaAnalyse(
 # Create plot for DunedinPACE raw
 plot_forest(meta_model1_DunedinPACE, estimate_col = "Estimate", conf.low_col = "lower_CI", 
 conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-xlab = "Biological year per chronological year", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_DunedinPACE", 
-savePath = paste0(base_path, "Output/main_models_results/meta_model1_DunedinPACE.png"))
+xlab = "Biological year per chronological year", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_DunedinPACE_raw", 
+savePath = paste0(base_path, "Output/main_models_results/meta_model1_DunedinPACE_raw.png"))
 # Create plot for OMICmAgeAgeDev raw
 plot_forest(meta_model1_OMICmAgeAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI", 
 conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_OMICmAgeAgeDev",
-savePath = paste0(base_path, "Output/main_models_results/meta_model1_OMICmAgeAgeDev.png"))
+xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_OMICmAgeAgeDev_raw",
+savePath = paste0(base_path, "Output/main_models_results/meta_model1_OMICmAgeAgeDev_raw.png"))
 # Create plot for GrimAgeAgeDev raw
 plot_forest(meta_model1_GrimAge_PCAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI", 
 conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_GrimAge_PCAgeDev",
-savePath = paste0(base_path, "Output/main_models_results/meta_model1_GrimAge_PCAgeDev.png"))
+xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model1_GrimAge_PCAgeDev_raw",
+savePath = paste0(base_path, "Output/main_models_results/meta_model1_GrimAge_PCAgeDev_raw.png"))
 
 
 #PLOT model2 RAW
 # Create plot for DunedinPACE sd
 plot_forest(meta_model2_DunedinPACE, estimate_col = "Estimate", conf.low_col = "lower_CI",
  conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
- xlab = "Biological year per chronological year", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_DunedinPACE",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model2_DunedinPACE.png"))
+ xlab = "Biological year per chronological year", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_DunedinPACE_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model2_DunedinPACE_raw.png"))
 # Create plot for OMICmAgeAgeDev raw
 plot_forest(meta_model2_OMICmAgeAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI",
   conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_OMICmAgeAgeDev",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model2_OMICmAgeAgeDev.png"))
+  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_OMICmAgeAgeDev_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model2_OMICmAgeAgeDev_raw.png"))
 # Create plot for GrimAgeAgeDev raw
 plot_forest(meta_model2_GrimAge_PCAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI",
   conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_GrimAge_PCAgeDev",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model2_GrimAge_PCAgeDev.png"))
+  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model2_GrimAge_PCAgeDev_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model2_GrimAge_PCAgeDev_raw.png"))
 
 #PLOT model3 RAW
 # Create plot for DunedinPACE raw
 plot_forest(meta_model3_DunedinPACE, estimate_col = "Estimate", conf.low_col = "lower_CI",
   conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-  xlab = "", ylab = "", vertical_line = 0, plot_title = "meta_model3_DunedinPACE",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model3_DunedinPACE.png"))
+  xlab = "", ylab = "", vertical_line = 0, plot_title = "meta_model3_DunedinPACE_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model3_DunedinPACE_raw.png"))
 # Create plot for OMICmAgeAgeDev raw
 plot_forest(meta_model3_OMICmAgeAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI",
   conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model3_OMICmAgeAgeDev",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model3_OMICmAgeAgeDev.png"))
+  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model3_OMICmAgeAgeDev_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model3_OMICmAgeAgeDev_raw.png"))
 # Create plot for GrimAgeAgeDev raw
 plot_forest(meta_model3_GrimAge_PCAgeDev, estimate_col = "Estimate", conf.low_col = "lower_CI",
   conf.high_col = "upper_CI", label_col = "Term", group_col = NULL, pvalue_col = "effects", 
-  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model3_GrimAge_PCAgeDev",
-  savePath = paste0(base_path, "Output/main_models_results/meta_model3_GrimAge_PCAgeDev.png"))
+  xlab = "AgeDev (years)", ylab = "Term", vertical_line = 0, plot_title = "meta_model3_GrimAge_PCAgeDev_raw",
+  savePath = paste0(base_path, "Output/main_models_results/meta_model3_GrimAge_PCAgeDev_raw.png"))
 
 
 #Create meta analysis for SD versions of biomarkers
@@ -291,9 +291,8 @@ meta_GrimAge_model3_z<-MetaAnalyse(
 
 # model1
 # Save meta-analysis tables
-write_xlsx(meta_DunedinPACE_model1_z, paste0(base_path, "Output/main_models_results/", "meta_DunedinPACE_model1_only_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model1_z, paste0(base_path, "Output/main_models_results/", "meta_OMICmAge_model1_only_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model1_z, paste0(base_path, "Output/main_models_results/", "meta_GrimAge_model1_only_z_table.xlsx"))
+model1_meta<- rbind(meta_DunedinPACE_model1_z, meta_OMICmAge_model1_z, meta_GrimAge_model1_z)
+write_xlsx(model1_meta, paste0(base_path, "Output/main_models_results/", "meta_model1_z_table.xlsx"))
 
 p1 <- forestplot_fusion(meta_DunedinPACE_model1_z, meta_OMICmAge_model1_z, meta_GrimAge_model1_z,
                                 source_names = c("meta_DunedinPACE_model1_z", "meta_OMICmAge_model1_z", "meta_GrimAge_model1_z"),
@@ -306,9 +305,8 @@ ggsave(filename = paste0(base_path, "Output/main_models_results/forest_plot_fusi
 
 #model2
 # Save meta-analysis tables
-write_xlsx(meta_DunedinPACE_model2_z, paste0(base_path, "Output/main_models_results/", "meta_DunedinPACE_model2_only_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model2_z, paste0(base_path, "Output/main_models_results/", "meta_OMICmAge_model2_only_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model2_z, paste0(base_path, "Output/main_models_results/", "meta_GrimAge_model2_only_z_table.xlsx"))
+model2_meta<- rbind(meta_DunedinPACE_model2_z, meta_OMICmAge_model2_z, meta_GrimAge_model2_z)
+write_xlsx(model2_meta, paste0(base_path, "Output/main_models_results/", "meta_model2_z_table.xlsx"))
 
 p2 <- forestplot_fusion(meta_DunedinPACE_model2_z, meta_OMICmAge_model2_z, meta_GrimAge_model2_z,
                                 source_names = c("meta_DunedinPACE_model2_z", "meta_OMICmAge_model2_z", "meta_GrimAge_model2_z"),
@@ -322,9 +320,8 @@ ggsave(filename = paste0(base_path, "Output/main_models_results/forest_plot_fusi
 
 #model3
 # Save meta-analysis tables
-write_xlsx(meta_DunedinPACE_model3_z, paste0(base_path, "Output/main_models_results/", "meta_DunedinPACE_model3_only_z_table.xlsx"))
-write_xlsx(meta_OMICmAge_model3_z, paste0(base_path, "Output/main_models_results/", "meta_OMICmAge_model3_only_z_table.xlsx"))
-write_xlsx(meta_GrimAge_model3_z, paste0(base_path, "Output/main_models_results/", "meta_GrimAge_model3_only_z_table.xlsx"))
+model3_meta<- rbind(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z)
+write_xlsx(model3_meta, paste0(base_path, "Output/main_models_results/", "meta_model3_z_table.xlsx"))
 
 
 p3 <- forestplot_fusion(meta_DunedinPACE_model3_z, meta_OMICmAge_model3_z, meta_GrimAge_model3_z,

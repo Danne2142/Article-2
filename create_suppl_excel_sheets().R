@@ -27,11 +27,22 @@ combine_xlsx_files <- function(input_directory, output_file) {
     # Extract file name without extension to use as sheet name
     original_name <- tools::file_path_sans_ext(basename(file))
     
-    # Remove common prefixes like "meta_"
+    # Start with the original name for cleaning
     cleaned_name <- original_name
-    if (startsWith(cleaned_name, "meta_")) {
-      cleaned_name <- substring(cleaned_name, 6)  # Remove "meta_" (5 chars + 1)
-      cat("Removed prefix 'meta_':", original_name, "->", cleaned_name, "\n")
+    
+    # Remove "only_" and "only" patterns
+    if (grepl("only_", cleaned_name, ignore.case = TRUE)) {
+      original_cleaned <- cleaned_name
+      cleaned_name <- gsub("only_", "", cleaned_name, ignore.case = TRUE)
+      cat("Removed 'only_':", original_cleaned, "->", cleaned_name, "\n")
+    }
+    
+    if (grepl("\\bonly\\b", cleaned_name, ignore.case = TRUE)) {
+      original_cleaned <- cleaned_name
+      cleaned_name <- gsub("\\bonly\\b", "", cleaned_name, ignore.case = TRUE)
+      # Clean up any double spaces or leading/trailing spaces
+      cleaned_name <- trimws(gsub("\\s+", " ", cleaned_name))
+      cat("Removed 'only':", original_cleaned, "->", cleaned_name, "\n")
     }
     
     # Replace "european" with "euro"
@@ -39,6 +50,20 @@ combine_xlsx_files <- function(input_directory, output_file) {
       original_cleaned <- cleaned_name
       cleaned_name <- gsub("european", "euro", cleaned_name, ignore.case = TRUE)
       cat("Replaced 'european' with 'euro':", original_cleaned, "->", cleaned_name, "\n")
+    }
+    
+    # Replace "females" with "women"
+    if (grepl("females", cleaned_name, ignore.case = TRUE)) {
+      original_cleaned <- cleaned_name
+      cleaned_name <- gsub("females", "women", cleaned_name, ignore.case = TRUE)
+      cat("Replaced 'females' with 'women':", original_cleaned, "->", cleaned_name, "\n")
+    }
+    
+    # Replace "males" with "men"
+    if (grepl("males", cleaned_name, ignore.case = TRUE)) {
+      original_cleaned <- cleaned_name
+      cleaned_name <- gsub("males", "men", cleaned_name, ignore.case = TRUE)
+      cat("Replaced 'males' with 'men':", original_cleaned, "->", cleaned_name, "\n")
     }
     
     # Remove "_table" suffix
