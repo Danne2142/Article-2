@@ -6,7 +6,7 @@ p_load(ggplot2, mice)
 # source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/forest_plot_fusion_metformin().R")
 # source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/run_models().R")
 
-metformin_model <- function(interventions_to_use, lifestyle_covariates_surv_1, base_path){
+metformin_model <- function(interventions_surv1, lifestyle_covariates_surv_1, base_path){
 
 
 #All groups
@@ -17,11 +17,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_all_participan
 results_surv1_all_groups<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_all_groups.xlsx"
+suffix = "_all_groups.xlsx",
+save_z_excel = TRUE
 )
 
 #only_all_groups_results
@@ -40,11 +41,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_prediabet
 results_surv1_only_prediabetes<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_prediabetics_survey1.xlsx"
+suffix = "_only_prediabetics_survey1.xlsx",
+save_z_excel = TRUE
 )
 
 #only_prediabetes_results
@@ -66,11 +68,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_diabetes2
 results_surv1_only_diabetes2<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_diabetes2_survey1.xlsx"
+suffix = "_only_diabetes2_survey1.xlsx",
+save_z_excel = TRUE
 )
 
 #only_diabetes2_results
@@ -91,11 +94,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_gestation
 results_surv1_only_gestational_diabetes<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_gestational_diabetes_survey1.xlsx"
+suffix = "_only_gestational_diabetes_survey1.xlsx",
+save_z_excel = TRUE
 )
 
 #only_gestational_diabetes_results
@@ -116,11 +120,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_healthy(d
 results_surv1_only_healthy<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_healthy_survey1.xlsx"
+suffix = "_only_healthy_survey1.xlsx",
+save_z_excel = TRUE
 )
 # only_healthy_results
 GrimAge_model3_only_healthy_z<-results_surv1_only_healthy$surv_results_sd$surv_results_model3_sd$GrimAge_model3_z
@@ -141,11 +146,12 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey1_only_diabetes1
 results_surv1_only_diabetes1<-run_models(
 imp_data = imputed_data,
 # Define parameters 
-interventions = interventions_to_use,
+interventions = interventions_surv1,
 lifestyle_covariates = lifestyle_covariates_surv_1,
 covariates_to_always_include = c("Decimal.Chronological.Age", "Biological.Sex"),
 savePath = paste0(base_path, "Output/metformin_analysis_results/"),
-suffix = "_only_diabetes1_survey1.xlsx"
+suffix = "_only_diabetes1_survey1.xlsx",
+save_z_excel = TRUE
 )
 
 #only_diabetes1_results
@@ -161,6 +167,15 @@ GrimAge_model3<-rbind(GrimAge_model3_all_groups_z, GrimAge_model3_only_diabetes1
 DunedinPACE_model3<-rbind(DunedinPACE_model3_all_groups_z, DunedinPACE_model3_only_diabetes1_z, DunedinPACE_model3_only_diabetes2_z, DunedinPACE_model3_only_gestational_diabetes_z, DunedinPACE_model3_only_healthy_z, DunedinPACE_model3_prediabetes_z)
 OMICmAge_model3<-rbind(OMICmAge_model3_all_groups_z, OMICmAge_model3_only_diabetes1_z, OMICmAge_model3_only_diabetes2_z, OMICmAge_model3_only_gestational_diabetes_z, OMICmAge_model3_only_healthy_z, OMICmAge_model3_prediabetes_z)
 
+# Function to filter dataframes by term
+filter_by_term <- function(df, term_to_keep) {
+  return(df[grepl(term_to_keep, df$term), ])
+}
+
+# Filter dataframes to keep only Metformin_new rows
+GrimAge_model3 <- filter_by_term(GrimAge_model3, "Metformin_new")
+DunedinPACE_model3 <- filter_by_term(DunedinPACE_model3, "Metformin_new")
+OMICmAge_model3 <- filter_by_term(OMICmAge_model3, "Metformin_new")
 
 p <- forest_plot_fusion_metformin(GrimAge_model3, DunedinPACE_model3, OMICmAge_model3,
                                 source_names = c("GrimAge_model3", "DunedinPACE_model3", "OMICmAge_model3"),
@@ -190,6 +205,6 @@ ggsave(filename = paste0(base_path, "Output/metformin_analysis_results/forest_pl
 
 
 # # Run the models
-# metformin_model(interventions_to_use = interventions_metformin_analysis, 
+# metformin_model(interventions_surv1 = interventions_metformin_analysis, 
 #   lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
 #   base_path = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/")

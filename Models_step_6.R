@@ -25,8 +25,7 @@ lifestyle_covariates_surv_3 <- c("Alcohol_per_week_numeric",
   "Education_levels_numeric", "Stress.Level", "Tobacco.Use.Numeric", "BMI", 
   "sedentary_level_quartiles_numeric", "harmonized_diet", "organ_systems_afflicted_by_disease", "Hours.of.sleep.per.night_numeric")
 
-interventions <- c("Metformin_new", "NAD", "TA65", 
-  "sulforaphane", "SASP_supressors", "Resveratrol_new", "vitaminD","SASP_supressors", "TA65", "vitaminD")
+interventions <- c("NAD", "TA65", "sulforaphane", "DHEA_new", "SASP_supressors", "Metformin_new", "Resveratrol_new", "vitaminD")
 
 path<- "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/"
 
@@ -80,11 +79,9 @@ sensitivity_analysis_ethnicity(
   base_path = path)
 
 
-interventions_metformin_analysis <- c("Metformin_new", "NAD", "TA65", 
-  "sulforaphane", "DHEA_new", "SASP_supressors", "Resveratrol_new", "HRT")
 
-
-# Run the models
-metformin_model(interventions_to_use = interventions_metformin_analysis, 
-  lifestyle_covariates_surv_1 = lifestyle_covariates_surv_1, 
+# Run the metformin diabetes subgroup models
+metformin_model(interventions_surv1 = interventions_small_p_surv1, 
+  lifestyle_covariates_surv_1 = lifestyle_covariates_small_p_surv_1, 
   base_path = path)
+
