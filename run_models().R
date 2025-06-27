@@ -70,7 +70,7 @@ save_z_excel = FALSE) {
   #                                        color_values = c("darkred", "navy", "forestgreen"), ylab ="Term", xlab = "SD")
   # gg# save(paste0(savePath,"fused_model1SD_plot", suffix, ".png"), plot = fused_plot_model1)
 
-  if(p_filter == "use_p_filters_but_exclude_metformin") {
+  if(p_filter == "use_p_filters_but_exclude_metformin") {  #Not currently used
     print("Run p filter on interventions and lifestyle covariates but exclude metformin")
   lifestyle_covariates_updated <- remove_terms_if_p_large(
     lifestyle_covariates,
@@ -90,7 +90,16 @@ save_z_excel = FALSE) {
     interventions,
     list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
   
-  } else if(p_filter == "none") {
+   } else if(p_filter == "only_lifestyle_covariates") {
+  print("Run p filter on interventions and lifestyle covariates")
+  lifestyle_covariates_updated <- remove_terms_if_p_large(
+    lifestyle_covariates,
+    list(DunedinPACE_model1_z, GrimAge_model1_z, OMICmAge_model1_z))
+  
+  interventions_small_p <- interventions
+
+  
+  }  else if(p_filter == "none") {
   print("Run without p filter on interventions and lifestyle covariates")       
   lifestyle_covariates_updated <- lifestyle_covariates
   interventions_small_p <- interventions

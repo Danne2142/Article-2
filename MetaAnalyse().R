@@ -1,5 +1,3 @@
-
-
 MetaAnalyse <- function(survey1 = NULL, survey2 = NULL, survey3 = NULL, savePath = NULL, model_name = NULL) {
 
 library(meta)
@@ -55,23 +53,25 @@ for (i in seq_along(term_results)) {
       Term         = names(term_results)[i],
       I2           = ma_gen$I2,
       pval_Q       = ma_gen$pval.Q,
-      Estimate    = ma_gen$TE.random,
-      lower_CI = ma_gen$lower.random,
-      upper_CI = ma_gen$upper.random,
-      effects  = "Random effects",
+      Estimate     = ma_gen$TE.random,
+      lower_CI     = ma_gen$lower.random,
+      upper_CI     = ma_gen$upper.random,
+      pval_effect  = ma_gen$pval.random,  # Add this line
+      effects      = "Random effects",
       stringsAsFactors = FALSE)
     } else { 
-      ma_gen <-ma_fixed
+      ma_gen <- ma_fixed
 
       result_row <- data.frame(
       Outcome      = outcome,
       Term         = names(term_results)[i],
       I2           = ma_gen$I2,
       pval_Q       = ma_gen$pval.Q,
-      Estimate    = ma_gen$TE.common,
-      lower_CI = ma_gen$lower.common,
-      upper_CI = ma_gen$upper.common,
-      effects  = "Fixed effects",
+      Estimate     = ma_gen$TE.common,
+      lower_CI     = ma_gen$lower.common,
+      upper_CI     = ma_gen$upper.common,
+      pval_effect  = ma_gen$pval.common,   # Add this line
+      effects      = "Fixed effects",
       stringsAsFactors = FALSE)
     }
     #Bind df

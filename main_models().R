@@ -9,7 +9,14 @@ p_load(mice)
 
 
 
-main_models <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path){
+main_models <- function(interventions_surv1, interventions_surv2, interventions_surv3, lifestyle_covariates_surv_1, lifestyle_covariates_surv_2, lifestyle_covariates_surv_3, base_path, p_filter_subjects= "write p-filter subjects: options are 'all', 'only_lifestyle_covariates', 'none'") {
+  
+
+  # Print the base path
+  print(paste("Base path is:", base_path))
+  
+  # Print the p_filter_subjects
+  print(paste("p_filter_subjects is:", p_filter_subjects))
 
 
 # Generate main models
@@ -45,7 +52,7 @@ results_surv1<-run_models(
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey1_main.xlsx",
   save_raw_excel = TRUE,
-  p_filter = "all"
+  p_filter = p_filter_subjects
 ) 
 
 print("Generate main models for surv 2")
@@ -65,7 +72,7 @@ results_surv2<-run_models(
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey2_main.xlsx",
   save_raw_excel = TRUE,
-  p_filter = "all") 
+  p_filter = p_filter_subjects) 
 
 
 print("Generate main models for surv 3")
@@ -86,7 +93,7 @@ results_surv3<-run_models(
   savePath = paste0(base_path, "Output/main_models_results/"),
   suffix = "_survey3_main.xlsx",
   save_raw_excel = TRUE,
-  p_filter = "all") 
+  p_filter = p_filter_subjects) 
 
 
 

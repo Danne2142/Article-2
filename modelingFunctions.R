@@ -84,7 +84,7 @@ remove_terms_if_p_large <- function(terms, dfs, variables_to_exclude = NULL) {
   
   # Report results to user
   if (length(removed_terms) > 0) {
-    cat("\nRemoved terms with p > 0.15 in all models:\n")
+    cat("\nRemoved terms with p > 0.15 in for all 3 biomarkers:\n")
     cat(paste("-", removed_terms), sep = "\n")
   } else {
     cat("\nNo terms were removed\n")

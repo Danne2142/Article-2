@@ -1,4 +1,3 @@
-
 # load(paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
 # data<-data_with_ageDev
 
@@ -54,35 +53,101 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 #Impute survey 1 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
   path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because they are not used in analysis
-  "Tobacco.Use", "Exercise.per.week", "Drug.Alcohol.mother", "Drug.Alcohol.father", "Mother.Nicotine.Use", "Mother.Pregnancy.Complications", "Caffeine.Use", "Marital.Status", 
-  "Sexual.Frequency", "Main.Diet", "Main.Diet.Factor"),
+  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
+  "Tobacco.Use", "Exercise.per.week", "Caffeine.Use", "Marital.Status", "Sexual.Frequency", "Main.Diet", "Main.Diet.Factor"),
   surv_number = 1,
-  missing_threshold_to_remove = 50,
+  max_NA_percent_to_remove_cols_main_models = 30,
+  max_NA_percent_to_remove_cols_NON_main_models = 50,
   number_of_mice_datasets_to_impute = 2,
-  maximum_iterations_per_dataset = 1
+  maximum_iterations_per_dataset = 1,
+  cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                        "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                        "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                        "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                        "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                        "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                        "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                        "SystemsAgeAgeDev", "OMICmAge", "GrimAge.PC","Hannum.PC", "Horvath.PC",
+    "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+    "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+    "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+    "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+    "SystemsAge.MusculoSkeletal", "SystemsAge", "DunedinPACE", "OMICmAgeAgeDev_z", "GrimAge.PCAgeDev_z", "Hannum.PCAgeDev_z", "Horvath.PCAgeDev_z",
+"PhenoAge.PCAgeDev_z", "SystemsAge.BloodAgeDev_z",
+"SystemsAge.BrainAgeDev_z", "SystemsAge.InflammationAgeDev_z",
+"SystemsAge.HeartAgeDev_z", "SystemsAge.HormoneAgeDev_z",
+"SystemsAge.ImmuneAgeDev_z", "SystemsAge.KidneyAgeDev_z",
+"SystemsAge.LiverAgeDev_z", "SystemsAge.MetabolicAgeDev_z",
+"SystemsAge.LungAgeDev_z", "SystemsAge.MusculoSkeletalAgeDev_z",
+"SystemsAgeAgeDev_z", "DunedinPACE_z"),
+view_predictors_matrix=FALSE #This is to view the predictors that are used in the imputation
   )
-
 
 #Impute survey 2 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
   path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use"), #Because they are not used in analysis
+  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education",  #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
+  "Tobacco.Use", "Hours.Sedentary.Remaining.Awake", "Feel.Well.Rested.days.per.week"), 
   surv_number = 2,
-  missing_threshold_to_remove = 50,
+  max_NA_percent_to_remove_cols_main_models = 30,
+  max_NA_percent_to_remove_cols_NON_main_models = 50,
   number_of_mice_datasets_to_impute = 2,
   maximum_iterations_per_dataset = 1,
-  exclude_diabetes_subgroups=TRUE #We cant do this imputation for this survey as we have dont have these subgroups there
-
+  exclude_diabetes_subgroups=TRUE, #We cant do this imputation for this survey as we have dont have these subgroups there
+    cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                        "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                        "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                        "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                        "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                        "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                        "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                        "SystemsAgeAgeDev", "OMICmAge", "GrimAge.PC","Hannum.PC", "Horvath.PC",
+    "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+    "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+    "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+    "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+    "SystemsAge.MusculoSkeletal", "SystemsAge", "DunedinPACE", "OMICmAgeAgeDev_z", "GrimAge.PCAgeDev_z", "Hannum.PCAgeDev_z", "Horvath.PCAgeDev_z",
+"PhenoAge.PCAgeDev_z", "SystemsAge.BloodAgeDev_z",
+"SystemsAge.BrainAgeDev_z", "SystemsAge.InflammationAgeDev_z",
+"SystemsAge.HeartAgeDev_z", "SystemsAge.HormoneAgeDev_z",
+"SystemsAge.ImmuneAgeDev_z", "SystemsAge.KidneyAgeDev_z",
+"SystemsAge.LiverAgeDev_z", "SystemsAge.MetabolicAgeDev_z",
+"SystemsAge.LungAgeDev_z", "SystemsAge.MusculoSkeletalAgeDev_z",
+"SystemsAgeAgeDev_z", "DunedinPACE_z"),
+view_predictors_matrix=FALSE #This is to view the predictors that are used in the imputation
   )
 
 #Impute survey 3 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
   path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
-  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Tobacco.Use", "Hours.of.sleep.per.night"), #Because they are not used in analysis
+  cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
+  "Tobacco.Use", "Hours.Sedentary.Remaining.Awake", "Feel.Well.Rested.days.per.week"), 
   surv_number = 3,
-  missing_threshold_to_remove = 50,
+  max_NA_percent_to_remove_cols_main_models = 30,
+  max_NA_percent_to_remove_cols_NON_main_models = 50,
   number_of_mice_datasets_to_impute = 2,
   maximum_iterations_per_dataset = 1,
-  exclude_diabetes_subgroups=TRUE #We cant do this imputation for this survey as we have dont have these subgroups there
+  exclude_diabetes_subgroups=TRUE, #We cant do this imputation for this survey as we have dont have these subgroups there
+  cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
+                                                        "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
+                                                        "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
+                                                        "SystemsAge.HeartAgeDev", "SystemsAge.HormoneAgeDev",
+                                                        "SystemsAge.ImmuneAgeDev", "SystemsAge.KidneyAgeDev",
+                                                        "SystemsAge.LiverAgeDev", "SystemsAge.MetabolicAgeDev",
+                                                        "SystemsAge.LungAgeDev", "SystemsAge.MusculoSkeletalAgeDev",
+                                                        "SystemsAgeAgeDev", "OMICmAge", "GrimAge.PC","Hannum.PC", "Horvath.PC",
+    "Telomere.Values.PC", "PhenoAge.PC", "SystemsAge.Blood",
+    "SystemsAge.Brain", "SystemsAge.Inflammation", "SystemsAge.Heart",
+    "SystemsAge.Hormone", "SystemsAge.Immune", "SystemsAge.Kidney",
+    "SystemsAge.Liver", "SystemsAge.Metabolic", "SystemsAge.Lung",
+    "SystemsAge.MusculoSkeletal", "SystemsAge", "DunedinPACE", "OMICmAgeAgeDev_z", "GrimAge.PCAgeDev_z", "Hannum.PCAgeDev_z", "Horvath.PCAgeDev_z",
+"PhenoAge.PCAgeDev_z", "SystemsAge.BloodAgeDev_z",
+"SystemsAge.BrainAgeDev_z", "SystemsAge.InflammationAgeDev_z",
+"SystemsAge.HeartAgeDev_z", "SystemsAge.HormoneAgeDev_z",
+"SystemsAge.ImmuneAgeDev_z", "SystemsAge.KidneyAgeDev_z",
+"SystemsAge.LiverAgeDev_z", "SystemsAge.MetabolicAgeDev_z",
+"SystemsAge.LungAgeDev_z", "SystemsAge.MusculoSkeletalAgeDev_z",
+"SystemsAgeAgeDev_z", "DunedinPACE_z"),
+view_predictors_matrix=FALSE #This is to view the predictors that are used in the imputation
+
   )
