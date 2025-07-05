@@ -39,16 +39,16 @@ load_plot_image <- function(filepath) {
 # Define the paths to all forest plot figures
 plot_paths <- list(
   # Sex sensitivity analysis
-  men = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_males_z.png",
-  women = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_females_z.png",
+  men = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_males_z.png",
+  women = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sex_sensitivity_analysis/forest_plot_fusion_model3_only_females_z.png",
   
   # Age sensitivity analysis
-  younger = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_younger_z.png",
-  older = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_older_z.png",
+  younger = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_younger_z.png",
+  older = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/age_sensitivity_analysis/forest_plot_fusion_model3_only_older_z.png",
   
   # Ethnicity sensitivity analysis (excluding "Other")
-  european = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis/forest_plot_fusion_model3_only_european_z.png",
-  asian = "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis/forest_plot_fusion_model3_only_asian_z.png"
+  european = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis/forest_plot_fusion_model3_only_european_z.png",
+  asian = "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/ethnicity_sensitivity_analysis/forest_plot_fusion_model3_only_asian_z.png"
 )
 
 # Load all plot images
@@ -86,7 +86,7 @@ create_combined_forest_plot <- function() {
 # Function to add letter labels to each subplot
 add_labels_to_grid <- function() {
   # Create the main combined plot
-  png("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png", 
+  png("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png", 
       width = 12, height = 18, units = "in", res = 300)
   
   # Set up the layout - 3 rows, 2 columns
@@ -186,7 +186,7 @@ create_labeled_forest_plot_grid <- function() {
       )
     
     # Save the plot
-    ggsave("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_plot.png", 
+    ggsave("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_plot.png", 
            final_plot, width = 12, height = 18, dpi = 300, bg = "white")
     
     return(final_plot)
@@ -216,4 +216,4 @@ tryCatch({
 })
 
 print("Script completed. Check the output file at:")
-print("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png")
+print("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/sensitivity_analysis_combined_forest_plot_grid.png")

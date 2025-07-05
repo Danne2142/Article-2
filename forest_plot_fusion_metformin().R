@@ -18,7 +18,7 @@ forest_plot_fusion_metformin <- function(df1, df2, df3,
   fused_df$Source <- factor(fused_df$Source, levels = source_names)
   
   p <- plot_forest(fused_df, estimate_col = "estimate", conf.low_col = "2.5 %", 
-conf.high_col = "97.5 %", label_col = "group", pvalue_col = "p.value", xlab = xlab, ylab = ylab, vertical_line = vertical_line, ...)
+conf.high_col = "97.5 %", label_col = "group", pvalue_col = "p.value", xlab = xlab, ylab = ylab, vertical_line = vertical_line, show_pvalues = TRUE, ...)
   p <- p + scale_color_manual(name = "Biomarker", 
                               values = setNames(color_values, source_names),
                               guide = guide_legend(override.aes = list(label = "")))
