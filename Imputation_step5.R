@@ -1,4 +1,4 @@
-# load(paste0("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
+# load(paste0("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", "data_after_step4"))
 # data<-data_with_ageDev
 
 # # Calculate the median age
@@ -12,14 +12,14 @@
 
 library(pacman)
 p_load(dplyr)
-# source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
-source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
+# source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/set_NA_percent_and_imp_cols().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/mixed_correlation_matrix().R")
+source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/imputationFunctions.R")
 
 
 # ## Data exploration can be removed later
 # # Load data
-# # load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+# # load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 # # # Rename dataframe in this new script
 # # data<-data_with_ageDev
 # # rm(data_with_ageDev) # Remove old dataframe
@@ -52,14 +52,14 @@ source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - V
 
 #Impute survey 1 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
   cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
   "Tobacco.Use", "Exercise.per.week", "Caffeine.Use", "Marital.Status", "Sexual.Frequency", "Main.Diet", "Main.Diet.Factor"),
   surv_number = 1,
   max_NA_percent_to_remove_cols_main_models = 30,
   max_NA_percent_to_remove_cols_NON_main_models = 50,
-  number_of_mice_datasets_to_impute = 2,
-  maximum_iterations_per_dataset = 1,
+  number_of_mice_datasets_to_impute = 5,
+  maximum_iterations_per_dataset = 5,
   cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
                                                         "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
                                                         "SystemsAge.BrainAgeDev", "SystemsAge.InflammationAgeDev",
@@ -85,14 +85,14 @@ view_predictors_matrix=FALSE #This is to view the predictors that are used in th
 
 #Impute survey 2 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
   cols_to_exclude = c("Alcohol.per.week", "Level.of.Education",  #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
   "Tobacco.Use", "Hours.Sedentary.Remaining.Awake", "Feel.Well.Rested.days.per.week"), 
   surv_number = 2,
   max_NA_percent_to_remove_cols_main_models = 30,
   max_NA_percent_to_remove_cols_NON_main_models = 50,
-  number_of_mice_datasets_to_impute = 2,
-  maximum_iterations_per_dataset = 1,
+  number_of_mice_datasets_to_impute = 5,
+  maximum_iterations_per_dataset = 5,
   exclude_diabetes_subgroups=TRUE, #We cant do this imputation for this survey as we have dont have these subgroups there
     cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
                                                         "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",
@@ -119,14 +119,14 @@ view_predictors_matrix=FALSE #This is to view the predictors that are used in th
 
 #Impute survey 3 and sensitivity analysis
 impute_survey_and_sensitivity_analysis(
-  path_to_data="C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
+  path_to_data="C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/", 
   cols_to_exclude = c("Alcohol.per.week", "Level.of.Education", "Hours.of.sleep.per.night", #Because these variables have been converted to numbers, harmonized to fewer categories (like diet), or regardet as superfluous (sexual frequency) (see step3)
   "Tobacco.Use", "Hours.Sedentary.Remaining.Awake", "Feel.Well.Rested.days.per.week"), 
   surv_number = 3,
   max_NA_percent_to_remove_cols_main_models = 30,
   max_NA_percent_to_remove_cols_NON_main_models = 50,
-  number_of_mice_datasets_to_impute = 2,
-  maximum_iterations_per_dataset = 1,
+  number_of_mice_datasets_to_impute = 5,
+  maximum_iterations_per_dataset = 5,
   exclude_diabetes_subgroups=TRUE, #We cant do this imputation for this survey as we have dont have these subgroups there
   cols_to_exclude_from_predictors= c("Patient.ID", "PID", "Collection.Date", "Array", "survey_version", "OMICmAgeAgeDev", "GrimAge.PCAgeDev", "Hannum.PCAgeDev", "Horvath.PCAgeDev",
                                                         "PhenoAge.PCAgeDev", "SystemsAge.BloodAgeDev",

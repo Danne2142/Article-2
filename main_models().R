@@ -82,7 +82,7 @@ load(paste0(base_path, "Output/imputation_results/imputed_survey3_all_participan
 #rename object
 imp_data_surv3 <- imputed_data
 df1_imp_data_surv3<-complete(imputed_data, 1)
-print(colnames(df1_imp_data_surv3))
+# print(colnames(df1_imp_data_surv3))
 
 
 results_surv3<-run_models(

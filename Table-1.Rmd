@@ -9,7 +9,7 @@ date: "2024-08-09"
 ```{r}
 library(dplyr)
 
-load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
+load("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/data_after_step4")
 
 
 ```
@@ -17,12 +17,12 @@ load("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vsco
 
 ## Import functions to handle data
 ```{r}
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/format_pvalue().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_N_indivudals().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_discrete().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_continuous().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/fill_table_with_categorical().R")
-source("C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/format_pvalue().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_N_indivudals().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_discrete().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/make_table_row_continuous().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/fill_table_with_categorical().R")
+source("C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Program/remove_other().R")
 
 
 ```
@@ -327,9 +327,9 @@ if (!requireNamespace("writexl", quietly = TRUE)) {
 
 library(writexl)
 
-write_xlsx(output_df, "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1.xlsx")
+write_xlsx(output_df, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1.xlsx")
 
-# write_xlsx(df_Dunedin, "C:/Users/danie/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1_DunedinPACE_survey1.xlsx")
+# write_xlsx(df_Dunedin, "C:/Users/danwik/OneDrive - Karolinska Institutet/Documents/Project 2 - Vscode/Output/Table1_DunedinPACE_survey1.xlsx")
 
 # library(dplyr)
 
